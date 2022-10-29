@@ -1,26 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/29 11:15:19 by antoine           #+#    #+#             */
-/*   Updated: 2022/10/29 11:22:07 by antoine          ###   ########.fr       */
+/*   Created: 2022/10/29 11:43:41 by antoine           #+#    #+#             */
+/*   Updated: 2022/10/29 11:46:28 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#ifndef PARSER_H
+# define PARSER_H
 
-int	ft_isaccepted(char c)
+#include "../minishell.h"
+
+typedef struct s_parser
 {
-	if (ft_isalnum(c))
-		return (1);
-	else if (c >= 33 && c <= 47)
-		return (1);
-	else if (c >= 58 && c <= 64)
-		return (1);
-	else
-		return (0);
-	
-}
+	t_lexer	*lexer;
+	t_token	*current_token;
+}t_parser;
+
+#endif

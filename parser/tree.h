@@ -1,26 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   tree.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/29 11:15:19 by antoine           #+#    #+#             */
-/*   Updated: 2022/10/29 11:22:07 by antoine          ###   ########.fr       */
+/*   Created: 2022/10/29 11:26:27 by antoine           #+#    #+#             */
+/*   Updated: 2022/10/29 11:43:34 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#ifndef TREE_H
+# define TREE_H
 
-int	ft_isaccepted(char c)
+typedef struct s_tree
 {
-	if (ft_isalnum(c))
-		return (1);
-	else if (c >= 33 && c <= 47)
-		return (1);
-	else if (c >= 58 && c <= 64)
-		return (1);
-	else
-		return (0);
+	enum
+	{
+		TREE_VARARIABLE_DEF,
+		TREE_VARIABLE,
+		TREE_CMD_CALL,
+		TREE_STRING,
+	}type;
+
+	// TREE_VARIABLE_DEF
+	char			*variable_def_name;
+	char			*variable_def_value;
+
+	//TREE_VARIABLE
+	char			*variable_name;
+
+	//TREE_CMD_CALL
+	char			*cmd_name;
+	struct s_tree	**cmd_args;
+	int				args_size;
+
+	//TREE_STRING
+	char			*string_value;
 	
-}
+}t_tree;
+
+#endif

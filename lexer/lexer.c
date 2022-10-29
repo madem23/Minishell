@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anloisea <anloisea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 12:15:16 by anloisea          #+#    #+#             */
-/*   Updated: 2022/10/28 16:37:15 by anloisea         ###   ########.fr       */
+/*   Updated: 2022/10/29 11:23:51 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 t_lexer	*lexer_init(char *cmd_line)
 {
@@ -38,7 +38,7 @@ void	ignore_spaces(t_lexer *lexer)
 		lexer_read_next_char(lexer);
 }
 
-t_token	*lexer_get_token(t_lexer *lexer)
+t_token	*lexer_get_next_token(t_lexer *lexer)
 {
 	while (lexer->c != 0 || lexer->i < ft_strlen(lexer->cmd_line))
 	{
@@ -62,12 +62,12 @@ t_token	*lexer_get_token(t_lexer *lexer)
 		// 	return (token_init(TK_SQUOTE, lexer_get_string(lexer)));
 		else if (lexer->c == '"' )
 			return (token_init(TK_STR, lexer_get_string(lexer)));
-		else if (ft_isprint(lexer->c))
+		else if (ft_isaccepted(lexer->c))
 			return (token_init(TK_WORD, lexer_get_word(lexer)));
 		else
 			lexer_read_next_char(lexer);
 	}
-	return (NULL);
+	return (token_init(TK_EOC, "\0"));
 }
 
 char	*lexer_get_word(t_lexer *lexer)
@@ -80,7 +80,7 @@ char	*lexer_get_word(t_lexer *lexer)
 		error(1, "failed to allocate string\n");
 	i = 0;
 	str[i] = 0;
-	while (ft_isprint(lexer->c) && lexer->c != 0)
+	while (ft_isaccepted(lexer->c) && lexer->c != 0)
 	{
 		str[i] = lexer->c;
 		i++;

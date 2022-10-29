@@ -3,18 +3,19 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: anloisea <anloisea@student.42.fr>          +#+  +:+       +#+         #
+#    By: antoine <antoine@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/02 17:24:39 by anloisea          #+#    #+#              #
-#    Updated: 2022/10/28 14:22:53 by anloisea         ###   ########.fr        #
+#    Updated: 2022/10/29 11:16:01 by antoine          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		=	minishell
 SRCS		= 	main.c \
-				lexer.c \
-				token.c \
-				utils.c 
+				./lexer/lexer.c \
+				./lexer/token.c \
+				error.c \
+				utils.c
 				
 OBJS		=	${SRCS:.c=.o}
 

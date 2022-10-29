@@ -3,17 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anloisea <anloisea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 11:32:55 by anloisea          #+#    #+#             */
-/*   Updated: 2022/10/28 17:11:26 by anloisea         ###   ########.fr       */
+/*   Updated: 2022/10/29 11:25:27 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
-#include "token.h"
-#include <stdio.h>
-#include <stdlib.h>
+#include "minishell.h"
 
 int main(int argc, char *argv[], char *envp[])
 {
@@ -23,12 +20,12 @@ int main(int argc, char *argv[], char *envp[])
 	// while (1)
 	// {
 		t_lexer	*lexer = lexer_init(argv[1]);
-		t_token	*token = lexer_get_token(lexer);
-		while (token)
+		t_token	*token = lexer_get_next_token(lexer);
+		while (token->type != TK_EOC)
 		{
 			printf("TOKEN(%d, %s)\n", token->type, token->value);
 			free(token);
-			token = lexer_get_token(lexer);
+			token = lexer_get_next_token(lexer);
 		}
 	
 	free(lexer);

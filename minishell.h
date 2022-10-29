@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anloisea <anloisea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 12:56:26 by anloisea          #+#    #+#             */
-/*   Updated: 2022/10/28 17:10:50 by anloisea         ###   ########.fr       */
+/*   Updated: 2022/10/29 11:28:41 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,18 @@
 
 # include <stdlib.h>
 # include "libft/libft.h"
-# include "token.h"
+# include "lexer/token.h"
+# include "lexer/lexer.h"
+# include "parser/parser.h"
+# include "parser/tree.h"
 # include <stdio.h>
-# include "lexer.h"
-# include <readline/readline.h>
-# include <readline/history.h>
+//# include <readline.h>
+//# include <history.h>
 
 void	error(int errnum, char *msg);
+
+//Utils:
+
+int	ft_isaccepted(char c);
 
 #endif

@@ -3,23 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   token.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anloisea <anloisea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 13:08:55 by anloisea          #+#    #+#             */
-/*   Updated: 2022/10/28 16:24:17 by anloisea         ###   ########.fr       */
+/*   Updated: 2022/10/29 11:25:56 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TOKEN_H
 # define TOKEN_H
 
-# include "minishell.h"
+# include "../minishell.h"
 
 typedef struct s_token
 {
 	enum
 	{
-		TK_ID,
 		TK_STR,
 		TK_WORD,
 		TK_DQUOTE,
@@ -29,7 +28,8 @@ typedef struct s_token
 		TK_DLOWER,
 		TK_DGREATER,
 		TK_PIPE,
-		TK_DOLLAR
+		TK_DOLLAR,
+		TK_EOC // End of command (equivalent de EOF)
 	}type;
 
 	char	*value;

@@ -1,25 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token.c                                            :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anloisea <anloisea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/28 13:33:54 by anloisea          #+#    #+#             */
-/*   Updated: 2022/10/28 15:23:14 by anloisea         ###   ########.fr       */
+/*   Created: 2022/10/28 13:38:24 by anloisea          #+#    #+#             */
+/*   Updated: 2022/10/28 14:40:33 by anloisea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "libft/libft.h"
 
-t_token	*token_init(int type, char *value)
+void	error(int errnum, char *msg)
 {
-	t_token	*token;
-
-	token = malloc(sizeof(t_token));
-	if (token == NULL)
-		error(1, "failed to allocate token\n");
-	token->type = type;
-	token->value = value;
-	return (token);
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(msg, 2);
+	exit(errnum);
 }

@@ -1,26 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/29 11:15:19 by antoine           #+#    #+#             */
-/*   Updated: 2022/10/29 11:22:07 by antoine          ###   ########.fr       */
+/*   Created: 2022/10/28 13:33:54 by anloisea          #+#    #+#             */
+/*   Updated: 2022/10/29 11:12:23 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
-int	ft_isaccepted(char c)
+t_token	*token_init(int type, char *value)
 {
-	if (ft_isalnum(c))
-		return (1);
-	else if (c >= 33 && c <= 47)
-		return (1);
-	else if (c >= 58 && c <= 64)
-		return (1);
-	else
-		return (0);
-	
+	t_token	*token;
+
+	token = malloc(sizeof(t_token));
+	if (token == NULL)
+		error(1, "failed to allocate token\n");
+	token->type = type;
+	token->value = value;
+	return (token);
 }
