@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 12:15:16 by anloisea          #+#    #+#             */
-/*   Updated: 2022/10/29 11:23:51 by antoine          ###   ########.fr       */
+/*   Updated: 2022/10/31 17:24:48 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 t_lexer	*lexer_init(char *cmd_line)
 {
 	t_lexer	*lexer;
-
+	
 	lexer = malloc(sizeof(t_lexer));
 	lexer->cmd_line = cmd_line;
 	lexer->i = 0;
@@ -58,10 +58,12 @@ t_token	*lexer_get_next_token(t_lexer *lexer)
 			return (token_init(TK_GREATER, lexer_get_char(lexer)));
 		else if (lexer->c == '$')
 			return (token_init(TK_DOLLAR, lexer_get_char(lexer)));
+		else if (lexer->c == '=')
+			return (token_init(TK_EQUAL, lexer_get_char(lexer)));
 		// else if (lexer->c == '\'')
 		// 	return (token_init(TK_SQUOTE, lexer_get_string(lexer)));
 		else if (lexer->c == '"' )
-			return (token_init(TK_STR, lexer_get_string(lexer)));
+			return (token_init(TK_STRING, lexer_get_string(lexer)));
 		else if (ft_isaccepted(lexer->c))
 			return (token_init(TK_WORD, lexer_get_word(lexer)));
 		else

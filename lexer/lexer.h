@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 12:13:10 by anloisea          #+#    #+#             */
-/*   Updated: 2022/10/29 11:13:59 by antoine          ###   ########.fr       */
+/*   Updated: 2022/10/31 15:43:10 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define LEXER_H
 
 #include "../minishell.h"
+#include "token.h"
 
 typedef struct s_lexer
 {
@@ -26,9 +27,9 @@ t_lexer	*lexer_init(char *cmd_line);
 
 void	lexer_read_next_char(t_lexer *lexer);
 
-void	ignore_spaces(t_lexer *lexer);
-
 t_token	*lexer_get_next_token(t_lexer *lexer);
+
+void	ignore_spaces(t_lexer *lexer);
 
 char	*lexer_get_word(t_lexer *lexer);
 

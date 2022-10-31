@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 11:26:27 by antoine           #+#    #+#             */
-/*   Updated: 2022/10/29 11:43:34 by antoine          ###   ########.fr       */
+/*   Updated: 2022/10/31 18:12:31 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,27 +17,29 @@ typedef struct s_tree
 {
 	enum
 	{
-		TREE_VARARIABLE_DEF,
-		TREE_VARIABLE,
-		TREE_CMD_CALL,
-		TREE_STRING,
+		TREE_CMD_LINE,
+		TREE_VARIABLE_DEF,
+		TREE_EXEC_CALL,
+		TREE_NULL
 	}type;
 
-	// TREE_VARIABLE_DEF
-	char			*variable_def_name;
-	char			*variable_def_value;
+	//TREE_CMD_LINE
+	struct s_tree	**cmd_line;
+	int				cmd_line_size;
+	
+	//TREE_VARIABLE_DEF
+	char	*variable_name;
+	char	*variable_value;
+	
+	//TREE_EXEC_CALL
+	char			*exec_name;
+	struct s_tree	**exec_args;
+	char			*exec_path;
+	int				exec_args_size;
 
-	//TREE_VARIABLE
-	char			*variable_name;
-
-	//TREE_CMD_CALL
-	char			*cmd_name;
-	struct s_tree	**cmd_args;
-	int				args_size;
-
-	//TREE_STRING
-	char			*string_value;
 	
 }t_tree;
+
+t_tree	*tree_init(int type);
 
 #endif

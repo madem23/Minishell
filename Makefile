@@ -6,20 +6,23 @@
 #    By: antoine <antoine@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/02 17:24:39 by anloisea          #+#    #+#              #
-#    Updated: 2022/10/29 11:16:01 by antoine          ###   ########.fr        #
+#    Updated: 2022/10/31 18:03:54 by antoine          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		=	minishell
 SRCS		= 	main.c \
+				error.c \
+				utils.c \
+				paths.c \
 				./lexer/lexer.c \
 				./lexer/token.c \
-				error.c \
-				utils.c
+				./parser/parser.c \
+				./parser/tree.c
 				
 OBJS		=	${SRCS:.c=.o}
 
-CFLAGS		= 	-g -Wall -Wextra -Werror
+CFLAGS		= #-g -Wall -Wextra -Werror
 CC			= 	gcc			
 LIB			= 	libft/libft.a
 

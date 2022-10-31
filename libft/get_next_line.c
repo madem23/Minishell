@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anloisea <anloisea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/13 16:50:06 by anloisea          #+#    #+#             */
-/*   Updated: 2022/10/11 12:17:05 by anloisea         ###   ########.fr       */
+/*   Updated: 2022/10/31 16:38:33 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strjoin(const char *buf, const char *save)
+char	*join(const char *buf, const char *save)
 {
 	int		i;
 	char	*join;
@@ -108,7 +108,7 @@ char	*ft_read_file(int fd, char *save)
 			return (NULL);
 		}
 		buf[bytes] = '\0';
-		save = ft_strjoin(buf, save);
+		save = join(buf, save);
 	}
 	free(buf);
 	return (save);

@@ -1,26 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   tree.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/29 11:15:19 by antoine           #+#    #+#             */
-/*   Updated: 2022/10/31 17:31:13 by antoine          ###   ########.fr       */
+/*   Created: 2022/10/31 15:24:44 by antoine           #+#    #+#             */
+/*   Updated: 2022/10/31 16:09:42 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "tree.h"
+#include <stdlib.h>
+#include "../minishell.h"
 
-int	ft_isaccepted(char c)
+t_tree	*tree_init(int type)
 {
-	if (ft_isalnum(c))
-		return (1);
-	else if (c >= 33 && c <= 47)
-		return (1);
-	else if (c >= 58 && c <= 60)
-		return (1);
-	else
-		return (0);
+	t_tree	*tree;
 	
+	tree = malloc(sizeof(t_tree));
+	if (!tree)
+		error(1, "Failed to allocate tree\n");
+	tree->type = type;
+	tree->exec_name = NULL;
+	tree->exec_args = NULL;
+	tree->exec_args_size = 0;
+	tree->cmd_line = NULL;
+	tree->cmd_line_size = 0;
+	return (tree);
 }
