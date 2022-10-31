@@ -6,7 +6,7 @@
 #    By: antoine <antoine@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/02 17:24:39 by anloisea          #+#    #+#              #
-#    Updated: 2022/10/31 18:03:54 by antoine          ###   ########.fr        #
+#    Updated: 2022/10/31 18:43:31 by antoine          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ SRCS		= 	main.c \
 				
 OBJS		=	${SRCS:.c=.o}
 
-CFLAGS		= #-g -Wall -Wextra -Werror
+CFLAGS		= -Wall -Wextra -Werror
 CC			= 	gcc			
 LIB			= 	libft/libft.a
 

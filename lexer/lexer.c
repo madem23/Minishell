@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 12:15:16 by anloisea          #+#    #+#             */
-/*   Updated: 2022/10/31 17:24:48 by antoine          ###   ########.fr       */
+/*   Updated: 2022/10/31 18:52:59 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ t_token	*lexer_get_next_token(t_lexer *lexer)
 			return (token_init(TK_LOWER, lexer_get_char(lexer)));
 		else if (lexer->c == '>' && lexer->cmd_line[lexer->i + 1] != '>')
 			return (token_init(TK_GREATER, lexer_get_char(lexer)));
+		else if (lexer->c == '-')
+			return (token_init(TK_HYPHEN, lexer_get_char(lexer)));
 		else if (lexer->c == '$')
 			return (token_init(TK_DOLLAR, lexer_get_char(lexer)));
 		else if (lexer->c == '=')
@@ -67,9 +69,9 @@ t_token	*lexer_get_next_token(t_lexer *lexer)
 		else if (ft_isaccepted(lexer->c))
 			return (token_init(TK_WORD, lexer_get_word(lexer)));
 		else
-			lexer_read_next_char(lexer);
+			return (token_init(TK_EOC, NULL));
 	}
-	return (token_init(TK_EOC, "\0"));
+	return (token_init(TK_EOC, NULL));
 }
 
 char	*lexer_get_word(t_lexer *lexer)

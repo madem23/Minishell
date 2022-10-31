@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 15:10:52 by antoine           #+#    #+#             */
-/*   Updated: 2022/10/31 18:15:38 by antoine          ###   ########.fr       */
+/*   Updated: 2022/10/31 19:33:08 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,23 +29,20 @@ t_parser	*parser_init(t_lexer *lexer, char *envp[])
 	return (parser);
 }
 
-t_tree	**parser_start(t_parser *parser)
+t_tree	*parser_start(t_parser *parser)
 {
-	t_tree	**top;
-	t_tree	*cmd_line;
+	t_tree	*top;
 
-	top = malloc(3 * sizeof(t_tree *));
-	cmd_line = tree_init(TREE_CMD_LINE);
-	top[0] = cmd_line;
-	cmd_line->cmd_line_size++;
+	top = tree_init(TREE_CMD_LINE);
+	top->cmd_line = malloc(10 * sizeof(t_tree *));
 	while (parser->current_token->type != TK_EOC)
 	{
-		top[1] = parse(parser);
-		cmd_line->cmd_line_size++;
+		top->cmd_line_size++;
 		parser->previous_token = parser->current_token;
+		top->cmd_line[top->cmd_line_size -1] = parse(parser);
 		parser->current_token = lexer_get_next_token(parser->lexer);
 	}
-	top[2] = NULL;
+	top->cmd_line[top->cmd_line_size] = NULL;
 
 	return (top);
 }
@@ -61,7 +58,10 @@ t_tree	*parse(t_parser *parser)
 
 void	parser_check_token(t_parser *parser, int token_type)
 {
-	if (parser->current_token->type == token_type)
+	int	current_token_type;
+
+	current_token_type = parser->current_token->type;
+	if (current_token_type == token_type)
 	{
 		parser->previous_token = parser->current_token;
 		parser->current_token = lexer_get_next_token(parser->lexer);
@@ -84,8 +84,8 @@ t_tree	*parse_execution(t_parser *parser)
 	char	*exec_called;
 	char	*exec_full_path;
 	
-	node = NULL;
 	exec_called = parser->current_token->value;
+	parser_check_token(parser, TK_WORD);
 	exec_full_path = check_exec_paths(parser->cmd_paths, exec_called);
 	if (exec_full_path)
 	{
@@ -107,6 +107,7 @@ t_tree		*parser_variable_definition(t_parser *parser)
 	node->variable_name = parser->previous_token->value;
 	parser_check_token(parser, TK_EQUAL);
 	node->variable_value = parser->current_token->value;
+	parser_check_token(parser, TK_WORD);
 	printf("parsed a var def where %s = %s\n", node->variable_name, node->variable_value);
 	return (node);
 }

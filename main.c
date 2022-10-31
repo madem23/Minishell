@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 11:32:55 by anloisea          #+#    #+#             */
-/*   Updated: 2022/10/31 18:10:26 by antoine          ###   ########.fr       */
+/*   Updated: 2022/10/31 19:13:49 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int main(int argc, char *argv[], char *envp[])
 	
 
 	t_parser	*parser = parser_init(lexer_init(cmd_line), envp);
-	t_tree		**top = parser_start(parser);
+	t_tree		*top = parser_start(parser);
 	(void)top;
 	free(parser);
 	return (0);

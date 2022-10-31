@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 11:26:27 by antoine           #+#    #+#             */
-/*   Updated: 2022/10/31 18:12:31 by antoine          ###   ########.fr       */
+/*   Updated: 2022/10/31 18:46:45 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ typedef struct s_tree
 		TREE_CMD_LINE,
 		TREE_VARIABLE_DEF,
 		TREE_EXEC_CALL,
+		TREE_EXEC_ARGS,
 		TREE_NULL
 	}type;
 

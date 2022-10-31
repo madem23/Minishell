@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 11:43:41 by antoine           #+#    #+#             */
-/*   Updated: 2022/10/31 18:08:28 by antoine          ###   ########.fr       */
+/*   Updated: 2022/10/31 19:09:23 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ typedef struct s_parser
 
 t_parser	*parser_init(t_lexer *lexer, char *envp[]);
 
-t_tree		**parser_start(t_parser *parser);
+t_tree		*parser_start(t_parser *parser);
 
 t_tree		*parse(t_parser *parser);
 
