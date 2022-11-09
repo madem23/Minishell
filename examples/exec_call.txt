@@ -1,0 +1,1 @@
+< infile cat | grep $ t=s <> <outfile | cat cat $cat
