@@ -25,6 +25,7 @@ t_parser	*parser_init(t_lexer *lexer, char *envp[])
 	parser->current_token = lexer_get_next_token(lexer);
 	parser->current_token->next_token = NULL;
 	parser->first_token = parser->current_token;
+	parser->envp = envp;
 	parser->cmd_paths = get_paths(envp);
 	return (parser);
 }

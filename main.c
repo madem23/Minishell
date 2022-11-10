@@ -86,13 +86,7 @@ int main(int argc, char *argv[], char *envp[])
 			display_tree(top);
 			unlink("tmp_heredoc.txt");
 		}
-		while (top)
-		{
-			top->branch->exec_path = check_exec_paths(parser->cmd_paths, top->branch->exec_args[0]);
-			puts(top->branch->exec_path);
-			execve(top->branch->exec_path, top->branch->exec_args, envp);
-			top = top->subtree;
-		}
+		pipex(top);
 	}
 	return (0);
 }

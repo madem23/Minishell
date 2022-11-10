@@ -41,6 +41,7 @@ typedef struct s_tree
 	char	**exec_args;// args and options of the said cmd
 	char	*exec_path; //path to execute cmd
 	int		exec_args_size; //a voir si utile
+	char	**envp;
 	
 	//variable definition
 	t_var	*var_def;
@@ -72,6 +73,7 @@ typedef struct s_parser
 	t_token		*previous_token;
 	char		**cmd_paths;
 	t_tree		*treetop;
+	char		**envp;
 }				t_parser;
 
 t_parser	*parser_init(t_lexer *lexer, char *envp[]);

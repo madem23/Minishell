@@ -47,6 +47,7 @@ t_tree	*tree_init(t_parser *parser)
 	tree->exec_args = NULL;// args and options of the said cmd
 	tree->exec_path = NULL; //path to execute cmd
 	tree->exec_args_size = 0; //a voir si utile
+	tree->envp = parser->envp;
 
 	tree->var_def = NULL;
 	

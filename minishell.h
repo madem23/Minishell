@@ -18,6 +18,7 @@
 # include "lexer/token.h"
 # include "lexer/lexer.h"
 # include "parser/parser.h"
+# include "pipex/pipex.h"
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
