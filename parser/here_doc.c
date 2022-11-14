@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "parser.h"
+#include "../minishell.h"
 
 void	heredoc_syntax_error(char *s)
 {
@@ -18,7 +19,7 @@ void	heredoc_syntax_error(char *s)
 	exit(EXIT_FAILURE);
 }
 
-void heredoc_parsing(t_token *begin, size_t end_index)
+void heredoc_parsing(t_token *begin, unsigned int end_index)
 {
 	char	*line;
 	int		fd;
@@ -50,24 +51,3 @@ void heredoc_parsing(t_token *begin, size_t end_index)
 	free(line);
 	close(fd);
 }
-
-/*
-int	manage_heredoc(char **av, t_input *input)
-{
-	char	*str;
-	int		i;
-
-	input->heredoc = 0;
-	i = 0;
-	str = "here_doc\0";
-	while (av[1][i] == str[i] && av[1][i])
-		i++;
-	if (av[1][i] == '\0' && str[i] == '\0')
-	{
-		heredoc_parsing(input);
-		i = 3;
-	}
-	else
-		i = 2;
-	return (i);
-}*/

@@ -47,9 +47,12 @@ char	*check_exec_paths(char **paths, char *exec_called)
 	int		i;
 	char	*full_exec_path;
 
+	if (!exec_called)
+		return (NULL);
 	if (access(exec_called, F_OK) == 0)
 		return (exec_called);
 	i = 0;
+
 	while (paths[i])
 	{
 		full_exec_path = ft_strjoin(paths[i], exec_called);

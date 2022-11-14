@@ -2,9 +2,10 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdio.h>
+#include "../minishell.h"
 #include "../libft/libft.h"
 
-t_token	**filling_redir_files_tab(t_tree *branch, int size, size_t type)
+t_token	**filling_redir_files_tab(t_tree *branch, int size, unsigned int type)
 {
 	t_token	*tmp;
 	t_token	**tab;
@@ -76,16 +77,13 @@ int	count_unparsed_word(t_tree *branch)
 	return (count);
 }
 
-//tab[0] = cmd, rest is args/options
-void	parsing_cmd(t_tree *branch)
+void	filling_cmd_tab(t_tree *branch, int size)
 {
 	t_token	*tmp;
 	int		i;
-	int 	size;
 
 	i = 0;
 	tmp = branch->first_token;
-	size = count_unparsed_word(branch);
 	branch->exec_args = malloc(sizeof(char *) * (size + 1));
 	if (!branch->exec_args)
 		error(2, "Error in allocating cmd tab.\n");
@@ -106,4 +104,18 @@ void	parsing_cmd(t_tree *branch)
 		tmp = tmp->next_token;
 	}
 	branch->exec_args[i] = NULL;
+}
+
+//tab[0] = cmd, rest is args/options
+void	parsing_cmd(t_tree *branch)
+{
+	int 	size;
+
+	size = count_unparsed_word(branch);
+	filling_cmd_tab(branch, size);
+	if (!branch->exec_args[0])
+		branch->exec_name = NULL;
+	else
+		branch->exec_name = branch->exec_args[0]; //name of cmd
+	branch->exec_path = check_exec_paths(branch->treetop->paths, branch->exec_name);
 }

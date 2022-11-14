@@ -13,14 +13,13 @@
 #ifndef LEXER_H
 # define LEXER_H
 
-#include "../minishell.h"
 #include "token.h"
 
 typedef struct s_lexer
 {
 	char	c;
-	size_t	i;
-	size_t	token_index;
+	unsigned int	i;
+	unsigned int	token_index;
 	char	*cmd_line;
 }				t_lexer;
 

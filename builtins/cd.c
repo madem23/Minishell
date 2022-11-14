@@ -1,26 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_display_tab.c                                   :+:      :+:    :+:   */
+/*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/03 17:13:08 by anloisea          #+#    #+#             */
-/*   Updated: 2022/10/23 16:14:16 by antoine          ###   ########.fr       */
+/*   Created: 2022/11/14 14:24:28 by antoine           #+#    #+#             */
+/*   Updated: 2022/11/14 16:05:14 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "builtins.h"
 
-void	ft_display_tab(char **tab)
+void	cd(const char *path, char *envp[])
 {
-	int	i;
+	int		value;
+	int		i;
+	char	*home;
 
-	i = 0;
-	while (tab[i])
+	home = NULL;
+	if (!path)
 	{
-		ft_printf(tab[i]);
-		ft_printf("\n");
-		i++;
+		i = 0;
+		while (envp[i])
+		{
+			if (ft_strnstr(envp[i], "HOME=", 5))
+				home = ft_substr(envp[i], 5, ft_strlen(envp[i]));
+			i++;
+		}
+		if (!home)
+			error(1, "cd : HOME not set\n");
+		chdir(home);
+		free(home);
+	}
+	else
+	{
+		value = chdir(path);
+		if (value == -1)
+			perror(path);
 	}
 }

@@ -13,7 +13,7 @@
 #include <stdlib.h>
 #include "../minishell.h"
 
-size_t	count_token_type(t_token *first_token, size_t type)
+unsigned int	count_token_type(t_token *first_token, unsigned int type)
 {
 	size_t	nb;
 
@@ -38,7 +38,7 @@ t_tree	*tree_init(t_parser *parser)
 	tree->first_token = parser->first_token;
 	tree->branch = NULL; //fct get branch a faire
 	tree->subtree = NULL; //fct get subtree a faire
-	tree->tree_top = NULL;
+	tree->treetop = NULL;
 	tree->nb_pipes = count_token_type(parser->first_token, TK_PIPE);
 	tree->end_index = 0;
 	
@@ -46,10 +46,7 @@ t_tree	*tree_init(t_parser *parser)
 	tree->exec_name = NULL; //name of cmd
 	tree->exec_args = NULL;// args and options of the said cmd
 	tree->exec_path = NULL; //path to execute cmd
-	tree->exec_args_size = 0; //a voir si utile
 	tree->envp = parser->envp;
-
-	tree->var_def = NULL;
 	
 	//stats branch: redir
 	tree->nb_infiles = count_token_type(parser->first_token, TK_LOWER);

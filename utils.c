@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anloisea <anloisea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 11:15:19 by antoine           #+#    #+#             */
-/*   Updated: 2022/11/09 18:08:16 by anloisea         ###   ########.fr       */
+/*   Updated: 2022/11/14 16:47:50 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,4 +25,21 @@ int	ft_isaccepted(char c)
 	else
 		return (0);
 	
+}
+
+char	*get_prompt()
+{
+	char	*prompt;
+	char	*current_dir;
+	char	*color;
+	char	*tmp;
+
+	current_dir = getcwd(NULL, 0);
+	color = ft_strjoin("\033[0;34m", current_dir);
+	free(current_dir);
+	prompt = ft_strjoin("\033[0;32mminishell: ", color);
+	tmp = prompt;
+	prompt = ft_strjoin(tmp, "$ \033[0m");
+	free(tmp);
+	return (prompt);
 }

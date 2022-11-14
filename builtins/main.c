@@ -1,26 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_display_tab.c                                   :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/03 17:13:08 by anloisea          #+#    #+#             */
-/*   Updated: 2022/10/23 16:14:16 by antoine          ###   ########.fr       */
+/*   Created: 2022/11/14 11:50:05 by antoine           #+#    #+#             */
+/*   Updated: 2022/11/14 15:18:42 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "builtins.h"
+#include <sys/types.h>
+#include <sys/wait.h>
 
-void	ft_display_tab(char **tab)
+int main(int argc, char *argv[], char *envp[])
 {
-	int	i;
-
-	i = 0;
-	while (tab[i])
+	int pid = fork();
+	if (pid == 0)
 	{
-		ft_printf(tab[i]);
-		ft_printf("\n");
-		i++;
+		pwd();
+		cd(argv[1], envp);
+		sleep(2);
+		pwd();
 	}
+	waitpid(pid, NULL, 0);
+	//pwd();
+	//echo(argv);
+	return (0);
 }

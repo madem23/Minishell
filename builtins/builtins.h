@@ -1,26 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstclear_bonus.c                                :+:      :+:    :+:   */
+/*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anloisea <anloisea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/25 19:04:16 by anloisea          #+#    #+#             */
-/*   Updated: 2022/10/24 15:29:55 by anloisea         ###   ########.fr       */
+/*   Created: 2022/11/14 11:23:08 by antoine           #+#    #+#             */
+/*   Updated: 2022/11/14 15:18:53 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef BUILTINS_H
+# define BUILTINS_H
 
-void	ft_lstclear(t_list **lst)
-{
-	t_list	*tmp;
+#include "../minishell.h"
 
-	tmp = *lst;
-	while (tmp)
-	{
-		*lst = (*(lst))->next;
-		free(tmp);
-		tmp = *lst;
-	}
-}
+void	echo(char **args);
+void	pwd();
+void	cd(const char *path, char *envp[]);
+
+#endif

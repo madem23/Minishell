@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 12:56:26 by anloisea          #+#    #+#             */
-/*   Updated: 2022/10/31 16:53:34 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/14 17:03:18 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,8 @@
 
 # include <stdlib.h>
 # include "libft/libft.h"
-# include "lexer/token.h"
 # include "lexer/lexer.h"
 # include "parser/parser.h"
-# include "pipex/pipex.h"
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -29,6 +27,19 @@
 # include <sys/stat.h>
 # include <fcntl.h>
 
+#include <sys/wait.h>
+
+typedef struct s_minishell
+{
+	t_var		*var_def;
+	char		**envp;
+	char		*current_dir;
+	char		*prompt;
+	char		*cmd_line;
+	t_lexer		*lexer;
+	t_parser	*parser;
+	t_tree		*tree;
+}				t_minishell;
 
 
 void	error(int errnum, char *msg);
@@ -40,6 +51,25 @@ char	*check_exec_paths(char **paths, char *exec_called);
 
 //Utils:
 
-int	ft_isaccepted(char c);
+int		ft_isaccepted(char c);
+char	*get_prompt();
+
+//char	*test_path(char *cmd, char **all_paths);
+//void	error_exec(char *str, char **cmd, int **pipefd, t_global global);
+// void	free_parsing(t_global global);
+// void	free_pipex(t_global global, int **pipefd);
+// void	exec_parent(t_global global, int **pipefd);
+// void	exec_interim_children(t_global global, int **pipefd, int j);
+// void	exec_last_child(char ***all_cmd_args, t_global global, int **pipefd);
+void	exec_first_child(t_tree *branch, int **pipefd);
+// void	check_for_help(char	**av);
+// void	heredoc_parsing(t_input *input);
+// int		manage_heredoc(char **av, t_input *input);
+// void	error_too_many_pipes(t_global global);
+void	test_which_child_and_exec(pid_t *child_id, int j, int **pipefd, t_tree *treetop);
+//void	error_empty_cmd(char *cmd, t_global global, int x, int **pipefd);
+//void	error_cmd_not_found(char *cmd, t_global global, int x, int **pipefd);
+int		pipex(t_tree *top);
+void	exec_parent(pid_t *child_id, t_tree *treetop, int **pipefd);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anloisea <anloisea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 11:32:55 by anloisea          #+#    #+#             */
-/*   Updated: 2022/11/09 18:03:35 by anloisea         ###   ########.fr       */
+/*   Updated: 2022/11/14 17:19:30 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	display_tree(t_tree *top)
 	{
 		printf("BRANCHE %d :\n", i);
 		printf("	CMD = '%s'\n", tmp1->branch->exec_name);
-	print_tabchar("	CMD args/options = ", tmp1->branch->exec_args, 1);
+	print_tabchar("	CMD args/options = ", tmp1->branch->exec_args, 0);
 		print_tab("	Infiles = ", tmp1->branch->infiles, 0);
 		print_tab("	Outfiles = ", tmp1->branch->outfiles, 0);
 		print_tab("	Outfiles append-mode = ", tmp1-> branch->outfiles_append, 0);
@@ -57,36 +57,65 @@ void	display_tree(t_tree *top)
 	}
 }
 
+void	print_var(t_minishell *minishell)
+{
+	t_var *tmp;
+
+	tmp = minishell->var_def;
+	while (tmp)
+	{
+		printf("Var_def enregistre: '%s' -> '%s'.\n", tmp->name, tmp->value);
+		tmp = tmp->next;
+	}
+}
+
+t_minishell	*init_minishell(char *envp[])
+{
+	t_minishell	*minishell;
+
+	minishell = malloc(sizeof(t_minishell));
+	minishell->envp = envp;
+	minishell->var_def = NULL;
+	minishell->prompt = get_prompt();
+	minishell->cmd_line = readline(minishell->prompt);
+	minishell->lexer = NULL;
+	minishell->parser = NULL;
+	minishell->tree = NULL;
+	return (minishell);
+}
+
 int main(int argc, char *argv[], char *envp[])
 {
-	t_parser	*parser;
-	t_tree		*top;
-	char		*cmd_line;
+	t_minishell	*minishell;
 
 	(void)argc;
 	(void)argv;
-	cmd_line = "coucou";
-	while (cmd_line)
+	minishell = init_minishell(envp);
+	while (minishell->cmd_line)
 	{
-		cmd_line = readline("Enter a command: ");
-		if (cmd_line[0] != '\0')
+		
+		if (!ft_strncmp(minishell->cmd_line, "exit", 4))
+			exit(0);
+		if (minishell->cmd_line[0] != '\0')
 		{
-			parser = parser_init(lexer_init(cmd_line), envp);
-			top = parser_start(parser);
-
-			//DISPLAY LEXER:
-			t_parser *tmp = parser;
-			while (tmp->first_token)
-			{
-				printf("Created token = '%s', type: %d, index: %ld.\n", tmp->first_token->value, tmp->first_token->type, tmp->first_token->index);
-				printf("Parsed? %d\n", tmp->first_token->parsed);
-				tmp->first_token = tmp->first_token->next_token;		
-			}
-			//DISPLAY TREE:
-			display_tree(top);
-			unlink("tmp_heredoc.txt");
+			minishell->lexer = lexer_init(minishell->cmd_line);
+			minishell->parser = parser_init(minishell->lexer, envp);
+			minishell->tree = parser_start(minishell->parser, minishell);
+			// //DISPLAY LEXER:
+			// t_parser *tmp = minishell->parser;
+			// while (tmp->first_token)
+			// {
+			// 	printf("Created token = '%s', type: %d, index: %d.\n", tmp->first_token->value, tmp->first_token->type, tmp->first_token->index);
+			// 	printf("Parsed? %d\n", tmp->first_token->parsed);
+			// 	tmp->first_token = tmp->first_token->next_token;		
+			// }
+			// //DISPLAY TREE:
+			// display_tree(minishell->tree);
 		}
-		pipex(top);
+		pipex(minishell->tree);
+		free(minishell->cmd_line);
+		unlink("tmp_heredoc.txt");
+		minishell->cmd_line = readline(minishell->prompt);
 	}
 	return (0);
 }

@@ -1,26 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstclear_bonus.c                                :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anloisea <anloisea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/25 19:04:16 by anloisea          #+#    #+#             */
-/*   Updated: 2022/10/24 15:29:55 by anloisea         ###   ########.fr       */
+/*   Created: 2022/11/14 12:10:57 by antoine           #+#    #+#             */
+/*   Updated: 2022/11/14 16:05:06 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "builtins.h"
+#include "../minishell.h"
 
-void	ft_lstclear(t_list **lst)
+void	pwd()
 {
-	t_list	*tmp;
+	char	*buf;
 
-	tmp = *lst;
-	while (tmp)
-	{
-		*lst = (*(lst))->next;
-		free(tmp);
-		tmp = *lst;
-	}
+	buf = getcwd(NULL, 0);
+	printf("%s\n", buf);
 }

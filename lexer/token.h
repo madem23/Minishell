@@ -13,7 +13,6 @@
 #ifndef TOKEN_H
 # define TOKEN_H
 
-# include "../minishell.h"
 #include <stdbool.h>
 
 typedef struct s_token
@@ -37,7 +36,7 @@ typedef struct s_token
 
 	bool			redir_token;
 	char			*value;
-	size_t			index;
+	unsigned int	index;
 	struct s_token	*next_token;
 	bool			parsed;
 }			t_token;

@@ -20,9 +20,13 @@ SRCS		= 	main.c \
 				./parser/parser.c \
 				./parser/tree.c \
 				./parser/parsing_utils.c \
+				./parser/parsing_utils2.c \
+				./parser/var_def.c \
 				./parser/here_doc.c \
-				./pipex/pipex.c \
-				./pipex/processes.c \
+				pipex.c \
+				processes.c \
+
+		
 			
 				
 OBJS		=	${SRCS:.c=.o}

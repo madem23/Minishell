@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "minishell.h"
 
 //Distributes all processes to their dedicated program
 void	test_which_child_and_exec(pid_t *child_id, int j, int **pipefd, t_tree *treetop)
@@ -20,7 +20,7 @@ void	test_which_child_and_exec(pid_t *child_id, int j, int **pipefd, t_tree *tre
 		exec_first_child(treetop->branch, pipefd);
 		//free(global.cmd_withpath1);
 	}
-	if (child_id[j] == 0 && j == )
+	/*if (child_id[j] == 0 && j == )
 	{
 		exec_last_child(global.cmd->all_cmd_args, global, pipefd);
 		//free(global.cmd_withpath2);
@@ -29,10 +29,10 @@ void	test_which_child_and_exec(pid_t *child_id, int j, int **pipefd, t_tree *tre
 	{
 		exec_interim_children(global, pipefd, j);
 		//free(global.cmd_withpath3);
-	}
+	}*/
 }
 
-int	*check_redir(t_tree *branch)
+int	*check_redir_open_files(t_tree *branch)
 {
 	int	i;
 	int	*fd;
@@ -53,7 +53,7 @@ int	*check_redir(t_tree *branch)
 	}
 	i = 0;
 	while (branch->outfiles[i] && ((fd[0] == -1 && branch->outfiles[i]->index < branch->infiles[i]->index) 
-		|| (fd[0] > 0))
+		|| (fd[0] > 0)))
 	{
 		fd[1] = open(branch->outfiles[i]->value, O_CREAT | O_RDWR | O_TRUNC, 0644);
 		if (fd[1] == -1)
@@ -65,7 +65,7 @@ int	*check_redir(t_tree *branch)
 	}
 	i = 0;
 	while (branch->outfiles_append[i] && ((fd[0] == -1 && branch->outfiles_append[i]->index < branch->infiles[i]->index) 
-		|| (fd[0] > 0))
+		|| (fd[0] > 0)))
 	{
 		fd[1] = open(branch->outfiles_append[i]->value, O_CREAT | O_RDWR | O_APPEND, 0644);
 		if (fd[1] == -1)
@@ -82,27 +82,32 @@ int	*check_redir(t_tree *branch)
 //and the first pipe's writing end as stdout
 void	exec_first_child(t_tree *branch, int **pipefd)
 {
-	int	i;
+	unsigned int	i;
 	int	*fd;
 
 	i = 0;
-	fd = check_redir(branch);
+	fd = check_redir_open_files(branch);
 	if (fd[0] < 0 || fd[1] < 0)
 		exit(EXIT_FAILURE);
-	if (fd[0] > 0)
+/*	if (fd[0] > 0)
 	{
 		if (dup2(fd[0], 0) == -1)
 			error_cmd_not_found(all_cmd_args[0][0], global, 1, pipefd);
-	}
+	}*/
 	if (fd[1] > 0)
 		dup2(fd[1], 1);
-	else
+	else if (branch->piped_output == true)
 		dup2(pipefd[0][1], 1);
-	while (i < branch->nb_pipes + 1)
+	while (i < branch->nb_pipes + 1 && pipefd)
 	{
 		ft_putnbr_fd(close(pipefd[i][0]), 2);
 		ft_putnbr_fd(close(pipefd[i][1]), 2);
 		i++;
+	}
+	if (!branch->exec_path)
+	{	
+		perror("Command not found");
+		exit(EXIT_FAILURE);
 	}
 	execve(branch->exec_path, branch->exec_args, branch->treetop->envp);
 	//error_exec(strerror(errno), all_cmd_args[0], pipefd, global);
@@ -111,7 +116,7 @@ void	exec_first_child(t_tree *branch, int **pipefd)
 //Program for last child process: execute the last cmd
 //with the last pipe's reading end as stdin
 //amd the outfile_fd as stdout
-void	exec_last_child(char ***all_cmd_args, t_global global, int **pipefd)
+/*void	exec_last_child(char ***all_cmd_args, t_global global, int **pipefd)
 {
 	int		i;
 	char	**s;
@@ -164,29 +169,29 @@ void	exec_interim_children(t_global global, int **pipefd, int j)
 			0, pipefd);
 	execve(global.cmd_withpath3, global.cmd->all_cmd_args[j],
 		global.env);
-}
+}*/
 
 //Program for the parent process (supervises the exec of cmds by the children)
-void	exec_parent(t_global global, int **pipefd)
+void	exec_parent(pid_t *child_id, t_tree *treetop, int **pipefd)
 {
-	int	i;
+	unsigned int	i;
 	int	status;
 
 	i = 0;
-	while (i < global.cmd->nb_cmds)
+	while (i < treetop->nb_pipes + 1 && pipefd)
 	{
 		close(pipefd[i][0]);
 		close(pipefd[i][1]);
 		i++;
 	}
 	i = 0;
-	while (i < global.cmd->nb_cmds)
+	while (i < treetop->nb_pipes + 1)
 	{
-		waitpid(global.child_id[i], &status, 0);
+		waitpid(child_id[i], &status, 0);
 		i++;
 	}
-	close(global.input->fd_infile);
-	close(global.input->fd_outfile);
-	free_parsing(global);
-	free_pipex(global, pipefd);
+	//close(input->fd_infile);
+	///close(input->fd_outfile);
+	//free_parsing(global);
+	//free_pipex(global, pipefd);
 }
