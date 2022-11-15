@@ -6,17 +6,22 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 12:10:57 by antoine           #+#    #+#             */
-/*   Updated: 2022/11/14 16:05:06 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/15 11:37:50 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
-#include "../minishell.h"
 
-void	pwd()
+int	main(void)
 {
 	char	*buf;
 
 	buf = getcwd(NULL, 0);
+	if (!buf)
+	{
+		perror("pwd:");
+		return (1);
+	}
 	printf("%s\n", buf);
+	return (0);
 }

@@ -5,27 +5,18 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/14 11:50:05 by antoine           #+#    #+#             */
-/*   Updated: 2022/11/14 15:18:42 by antoine          ###   ########.fr       */
+/*   Created: 2022/11/15 13:00:17 by antoine           #+#    #+#             */
+/*   Updated: 2022/11/15 13:03:54 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtins.h"
-#include <sys/types.h>
-#include <sys/wait.h>
+#include "../minishell.h"
 
-int main(int argc, char *argv[], char *envp[])
+int	main(int argc, char *argv[])
 {
-	int pid = fork();
-	if (pid == 0)
-	{
-		pwd();
-		cd(argv[1], envp);
-		sleep(2);
-		pwd();
-	}
-	waitpid(pid, NULL, 0);
-	//pwd();
-	//echo(argv);
-	return (0);
+	(void)argc;
+	int value = execve("/home/antoine/42cursus/v6/builtins/echo", argv + 1, NULL);
+	if (value == -1)
+		perror("main:");
+	return (1);
 }

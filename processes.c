@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   processes.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdemma <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 12:50:08 by mdemma            #+#    #+#             */
-/*   Updated: 2022/10/07 12:50:12 by mdemma           ###   ########.fr       */
+/*   Updated: 2022/11/15 10:19:55 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,10 +94,10 @@ void	exec_first_child(t_tree *branch, int **pipefd)
 		if (dup2(fd[0], 0) == -1)
 			error_cmd_not_found(all_cmd_args[0][0], global, 1, pipefd);
 	}*/
-	if (fd[1] > 0)
-		dup2(fd[1], 1);
+	if (fd[0] > 0)
+		dup2(fd[0], STDIN_FILENO);
 	else if (branch->piped_output == true)
-		dup2(pipefd[0][1], 1);
+		dup2(pipefd[0][1], STDOUT_FILENO);
 	while (i < branch->nb_pipes + 1 && pipefd)
 	{
 		ft_putnbr_fd(close(pipefd[i][0]), 2);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdemma <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 12:54:11 by mdemma            #+#    #+#             */
-/*   Updated: 2022/10/07 12:54:14 by mdemma           ###   ########.fr       */
+/*   Updated: 2022/11/15 14:03:07 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,10 @@ int	pipex(t_tree *treetop)
 	child_id = create_all_children(treetop);
 	j = 0;
 	while (j <= treetop->nb_pipes)
-		test_which_child_and_exec(child_id, j++, pipefd, treetop);
+	{
+		test_which_child_and_exec(child_id, j, pipefd, treetop);
+		j++;
+	}
 	if (child_id[0] > 0)
 		exec_parent(child_id, treetop, pipefd);
 	return (0);

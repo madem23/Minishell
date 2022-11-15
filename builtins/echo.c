@@ -6,35 +6,33 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 11:21:51 by antoine           #+#    #+#             */
-/*   Updated: 2022/11/14 12:09:16 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/15 13:08:35 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
-//args[0] = cmd
-//args[1] = option
-
-void	echo(char **args)
+int	main(int argc, char *argv[])
 {
 	int	i;
-	
-	if (!args[1])
+
+	if (argc == 1)
 	{
 		printf("\n");
-		return ;
+		return (0);
 	}
-	if (!ft_strncmp(args[1], "-n", 2))
-		i = 2;		// we start to print after -n
+	if (!ft_strncmp(argv[1], "-n", 2))
+		i = 2;
 	else
-		i = 1;		// we print all after "echo"
-	while(args[i])
+		i = 1;
+	while (argv[i])
 	{
-		printf("%s", args[i]);
-		if (args[i + 1])
+		printf("%s", argv[i]);
+		if (argv[i + 1])
 			printf(" ");
 		i++;
 	}
-	if (ft_strncmp(args[1], "-n", 2))
+	if (ft_strncmp(argv[1], "-n", 2))
 		printf("\n");
+	return (0);
 }
