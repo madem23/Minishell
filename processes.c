@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 12:50:08 by mdemma            #+#    #+#             */
-/*   Updated: 2022/11/15 10:19:55 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/15 16:58:37 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,17 +105,10 @@ void	exec_first_child(t_tree *branch, int **pipefd)
 
 	i = 0;
 	fd = check_redir_open_files(branch);
-	if (fd[0] < 0 || fd[1] < 0)
+	if (fd[0] < 0 || fd[1] < 0 || !branch->exec_name)
 		exit(EXIT_FAILURE);
-/*	if (fd[0] > 0)
-	{
-		if (dup2(fd[0], 0) == -1)
-			error_cmd_not_found(all_cmd_args[0][0], global, 1, pipefd);
-	}*/
 	if (fd[0] > 0)
 		dup2(fd[0], STDIN_FILENO);
-	//else if (branch->piped_input == true)
-	//	dup2(pipefd[0][0], STDIN_FILENO);
 	if (fd[1] > 0)
 		dup2(fd[1], STDOUT_FILENO);
 	else if (branch->piped_output == true)
@@ -132,7 +125,6 @@ void	exec_first_child(t_tree *branch, int **pipefd)
 		exit(EXIT_FAILURE);
 	}
 	execve(branch->exec_path, branch->exec_args, branch->treetop->envp);
-	//error_exec(strerror(errno), all_cmd_args[0], pipefd, global);
 }
 
 //Program for last child process: execute the last cmd
@@ -148,7 +140,7 @@ void	exec_last_child(t_tree *branch, int **pipefd)
 	i = 0;
 	fd = check_redir_open_files(branch);
 	dprintf(2, "branch->piped_input = %d\n", branch->piped_input);
-	if (fd[0] < 0 || fd[1] < 0)
+	if (fd[0] < 0 || fd[1] < 0 || !branch->exec_name)
 		exit(EXIT_FAILURE);
 	if (fd[0] > 0)
 		dup2(fd[0], STDIN_FILENO);
@@ -181,7 +173,7 @@ void	exec_interim_children(t_tree *branch, int **pipefd, int j)
 
 	i = 0;
 	fd = check_redir_open_files(branch);
-	if (fd[0] < 0 || fd[1] < 0)
+	if (fd[0] < 0 || fd[1] < 0 || !branch->exec_name)
 		exit(EXIT_FAILURE);
 	if (fd[0] > 0)
 		dup2(fd[0], STDIN_FILENO);

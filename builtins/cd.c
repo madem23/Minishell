@@ -6,13 +6,13 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 14:24:28 by antoine           #+#    #+#             */
-/*   Updated: 2022/11/15 13:58:45 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/15 17:18:49 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
-int	main(int argc, char *argv[], char *envp[])
+int	main(int argc, char *argv[])
 {
 	int		value;
 	char	*path;
@@ -27,7 +27,7 @@ int	main(int argc, char *argv[], char *envp[])
 		}
 	}
 	else
-		path = argv[1];
+		path = ft_strjoin(ft_strjoin(getcwd(NULL, 0), "/"), argv[1]);
 	value = chdir(path);
 	if (value == -1)
 	{

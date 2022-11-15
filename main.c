@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 11:32:55 by anloisea          #+#    #+#             */
-/*   Updated: 2022/11/15 13:48:06 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/15 16:12:35 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ t_minishell	*init_minishell(char *envp[])
 	minishell->envp = envp;
 	minishell->var_def = NULL;
 	minishell->prompt = get_prompt();
+	minishell->cmd_line = NULL;
 	get_line(minishell);
 	minishell->lexer = NULL;
 	minishell->parser = NULL;
@@ -115,19 +116,19 @@ int main(int argc, char *argv[], char *envp[])
 			minishell->lexer = lexer_init(minishell->cmd_line);
 			minishell->parser = parser_init(minishell->lexer, envp);
 			minishell->tree = parser_start(minishell->parser, minishell);
-			// //DISPLAY LEXER:
-			// t_parser *tmp = minishell->parser;
-			// while (tmp->first_token)
-			// {
-			// 	printf("Created token = '%s', type: %d, index: %d.\n", tmp->first_token->value, tmp->first_token->type, tmp->first_token->index);
-			// 	printf("Parsed? %d\n", tmp->first_token->parsed);
-			// 	tmp->first_token = tmp->first_token->next_token;		
-			// }
+			//DISPLAY LEXER:
+			t_parser *tmp = minishell->parser;
+			while (tmp->first_token)
+			{
+				printf("Created token = '%s', type: %d, index: %d.\n", tmp->first_token->value, tmp->first_token->type, tmp->first_token->index);
+				printf("Parsed? %d\n", tmp->first_token->parsed);
+				tmp->first_token = tmp->first_token->next_token;		
+			}
 			// //DISPLAY TREE:
 			// display_tree(minishell->tree);
+			pipex(minishell->tree);
+			unlink("tmp_heredoc.txt");
 		}
-		pipex(minishell->tree);
-		unlink("tmp_heredoc.txt");
 		get_line(minishell);
 	}
 	return (0);
