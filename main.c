@@ -52,6 +52,8 @@ void	display_tree(t_tree *top)
 		print_tab("	Outfiles = ", tmp1->branch->outfiles, 0);
 		print_tab("	Outfiles append-mode = ", tmp1-> branch->outfiles_append, 0);
 		print_tab("	Diamonds = ", tmp1-> branch->diamonds, 0);
+		printf(" piped input = %d\n", tmp1->branch->piped_input);
+		printf(" piped output = %d\n", tmp1->branch->piped_output);
 		tmp1 = tmp1->subtree;
 		i++;
 	}
@@ -69,6 +71,18 @@ void	print_var(t_minishell *minishell)
 	}
 }
 
+void	get_line(t_minishell *minishell)
+{
+	if (minishell->cmd_line)
+	{
+		free (minishell->cmd_line);
+		minishell->cmd_line = (char *)NULL;
+    }
+	minishell->cmd_line = readline(minishell->prompt);
+	if (minishell->cmd_line && *(minishell->cmd_line))
+		add_history(minishell->cmd_line);
+}
+
 t_minishell	*init_minishell(char *envp[])
 {
 	t_minishell	*minishell;
@@ -77,7 +91,7 @@ t_minishell	*init_minishell(char *envp[])
 	minishell->envp = envp;
 	minishell->var_def = NULL;
 	minishell->prompt = get_prompt();
-	minishell->cmd_line = readline(minishell->prompt);
+	get_line(minishell);
 	minishell->lexer = NULL;
 	minishell->parser = NULL;
 	minishell->tree = NULL;
@@ -113,9 +127,8 @@ int main(int argc, char *argv[], char *envp[])
 			// display_tree(minishell->tree);
 		}
 		pipex(minishell->tree);
-		free(minishell->cmd_line);
 		unlink("tmp_heredoc.txt");
-		minishell->cmd_line = readline(minishell->prompt);
+		get_line(minishell);
 	}
 	return (0);
 }

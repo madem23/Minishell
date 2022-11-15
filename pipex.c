@@ -26,12 +26,16 @@ pid_t	*create_all_children(t_tree *treetop)
 	if (!child_id)
 		exit(EXIT_FAILURE);
 	child_id[j] = fork();
+	//printf("fork 1 fait, process = %d\n", child_id[j]);
 	//i = 1;
-	nb = treetop->nb_pipes + 1;
+	nb = treetop->nb_pipes;
 	while (nb > 0)
 	{
 		if (child_id[j] != 0)
+		{
 			child_id[++j] = fork();
+		//	printf("fork 2 fait, process = %d\n", child_id[j]);
+		}
 		nb--;
 	}
 	return (child_id);
