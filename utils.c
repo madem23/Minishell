@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 11:15:19 by antoine           #+#    #+#             */
-/*   Updated: 2022/11/15 16:09:02 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/16 11:27:43 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,16 @@ int	ft_isaccepted(char c)
 	
 }
 
+int tab_len(char **tab)
+{
+	int	i;
+
+	i = 0;
+	while (tab[i])
+		i++;
+	return (i);
+}
+
 char	*get_prompt()
 {
 	char	*prompt;
@@ -40,7 +50,7 @@ char	*get_prompt()
 	prompt = ft_strjoin("\033[0;32mminishell: ", color);
 	free(color);
 	tmp = prompt;
-	prompt = ft_strjoin(tmp, "$ \033[0m");
+	prompt = ft_strjoin(tmp, "\033[0m$ ");
 	free(tmp);
 	return (prompt);
 }

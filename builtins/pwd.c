@@ -6,22 +6,18 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 12:10:57 by antoine           #+#    #+#             */
-/*   Updated: 2022/11/15 11:37:50 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/16 10:52:32 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
-int	main(void)
+void	pwd(void)
 {
 	char	*buf;
 
 	buf = getcwd(NULL, 0);
 	if (!buf)
-	{
 		perror("pwd:");
-		return (1);
-	}
 	printf("%s\n", buf);
-	return (0);
 }

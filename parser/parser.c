@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anloisea <anloisea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 15:10:52 by antoine           #+#    #+#             */
-/*   Updated: 2022/11/09 18:13:41 by anloisea         ###   ########.fr       */
+/*   Updated: 2022/11/16 11:50:11 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ t_tree	*create_branch(t_token *begin, t_token *end, t_tree *treetop, t_minishell
 	branch->minishell = minishell;
 	branch->first_token = begin;
 	branch->treetop = treetop;
+	branch->envp = treetop->envp;
 	branch->branch = NULL; //pas de branche pour les branches
 	branch->subtree = NULL; //pas de subtree pour les branches
 	branch->nb_pipes = 0; //car dans branche

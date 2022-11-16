@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 12:56:26 by anloisea          #+#    #+#             */
-/*   Updated: 2022/11/14 17:03:18 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/16 12:34:03 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,13 @@
 # include "libft/libft.h"
 # include "lexer/lexer.h"
 # include "parser/parser.h"
+# include "builtins/builtins.h"
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <stdbool.h>
+# include <signal.h>
+
 
 //open
 # include <sys/types.h>
@@ -46,12 +49,13 @@ void	error(int errnum, char *msg);
 
 //PATHS:
 
-char	**get_paths(char *envp[]);
+char	**get_paths();
 char	*check_exec_paths(char **paths, char *exec_called);
 
 //Utils:
 
 int		ft_isaccepted(char c);
+int 	tab_len(char **tab);
 char	*get_prompt();
 
 //char	*test_path(char *cmd, char **all_paths);

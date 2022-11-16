@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 12:50:08 by mdemma            #+#    #+#             */
-/*   Updated: 2022/11/15 16:58:37 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/16 12:50:18 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,8 @@ void	exec_first_child(t_tree *branch, int **pipefd)
 		close(pipefd[i][1]);
 		i++;
 	}
+	if (check_for_builtins(branch))
+		exit(EXIT_SUCCESS);
 	if (!branch->exec_path)
 	{	
 		perror("Command not found");
@@ -132,14 +134,13 @@ void	exec_first_child(t_tree *branch, int **pipefd)
 //amd the outfile_fd as stdout"
 void	exec_last_child(t_tree *branch, int **pipefd)
 {
-	unsigned int		i;
-	char	**cmd;
-	int		*fd;
+	unsigned int	i;
+	char			**cmd;
+	int				*fd;
 
 	cmd = branch->exec_args;
 	i = 0;
 	fd = check_redir_open_files(branch);
-	dprintf(2, "branch->piped_input = %d\n", branch->piped_input);
 	if (fd[0] < 0 || fd[1] < 0 || !branch->exec_name)
 		exit(EXIT_FAILURE);
 	if (fd[0] > 0)
@@ -153,8 +154,8 @@ void	exec_last_child(t_tree *branch, int **pipefd)
 		close(pipefd[i][0]);
 		close(pipefd[i++][1]);
 	}
-	//if (!s[0])
-		//error_empty_cmd(s[0], global, 0, pipefd);
+	if (check_for_builtins(branch))
+		exit(EXIT_SUCCESS);
 	if (!branch->exec_path)
 	{	
 		perror("Command not found");
@@ -188,6 +189,11 @@ void	exec_interim_children(t_tree *branch, int **pipefd, int j)
 		close(pipefd[i][0]);
 		close(pipefd[i][1]);
 		i++;
+	}
+	if (check_for_builtins(branch))
+	{
+		puts(branch->exec_name);
+		exit(EXIT_SUCCESS);
 	}
 	if (!branch->exec_path)
 	{	

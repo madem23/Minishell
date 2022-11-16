@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 11:32:55 by anloisea          #+#    #+#             */
-/*   Updated: 2022/11/15 16:12:35 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/16 12:55:26 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,10 @@ void	get_line(t_minishell *minishell)
 	if (minishell->cmd_line)
 	{
 		free (minishell->cmd_line);
+		free (minishell->prompt);
 		minishell->cmd_line = (char *)NULL;
     }
+	minishell->prompt = get_prompt();
 	minishell->cmd_line = readline(minishell->prompt);
 	if (minishell->cmd_line && *(minishell->cmd_line))
 		add_history(minishell->cmd_line);
@@ -110,20 +112,25 @@ int main(int argc, char *argv[], char *envp[])
 	{
 		
 		if (!ft_strncmp(minishell->cmd_line, "exit", 4))
+		{
+			rl_clear_history();
+			free(minishell->cmd_line);
+			free(minishell->prompt);
 			exit(0);
+		}
 		if (minishell->cmd_line[0] != '\0')
 		{
 			minishell->lexer = lexer_init(minishell->cmd_line);
 			minishell->parser = parser_init(minishell->lexer, envp);
 			minishell->tree = parser_start(minishell->parser, minishell);
 			//DISPLAY LEXER:
-			t_parser *tmp = minishell->parser;
-			while (tmp->first_token)
-			{
-				printf("Created token = '%s', type: %d, index: %d.\n", tmp->first_token->value, tmp->first_token->type, tmp->first_token->index);
-				printf("Parsed? %d\n", tmp->first_token->parsed);
-				tmp->first_token = tmp->first_token->next_token;		
-			}
+			// t_parser *tmp = minishell->parser;
+			// while (tmp->first_token)
+			// {
+			// 	printf("Created token = '%s', type: %d, index: %d.\n", tmp->first_token->value, tmp->first_token->type, tmp->first_token->index);
+			// 	printf("Parsed? %d\n", tmp->first_token->parsed);
+			// 	tmp->first_token = tmp->first_token->next_token;		
+			// }
 			// //DISPLAY TREE:
 			// display_tree(minishell->tree);
 			pipex(minishell->tree);

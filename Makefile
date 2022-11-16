@@ -6,7 +6,7 @@
 #    By: antoine <antoine@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/02 17:24:39 by anloisea          #+#    #+#              #
-#    Updated: 2022/10/31 18:43:31 by antoine          ###   ########.fr        #
+#    Updated: 2022/11/16 11:20:43 by antoine          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,11 @@ SRCS		= 	main.c \
 				./parser/here_doc.c \
 				pipex.c \
 				processes.c \
+				./builtins/echo.c \
+				./builtins/env.c \
+				./builtins/pwd.c \
+				./builtins/cd.c \
+				./builtins/check_for_builtins.c
 
 		
 			
@@ -36,7 +41,7 @@ CC			= 	gcc
 LIB			= 	libft/libft.a
 
 .c.o:
-	${CC} ${CFLAGS} -c $< -o ${<:.c=.o} -g
+	${CC} ${CFLAGS} -c $< -o ${<:.c=.o}
 
 all:		${LIB} ${NAME}
 

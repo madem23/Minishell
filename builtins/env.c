@@ -1,34 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/14 11:21:51 by antoine           #+#    #+#             */
-/*   Updated: 2022/11/16 10:55:11 by antoine          ###   ########.fr       */
+/*   Created: 2022/11/16 10:12:36 by antoine           #+#    #+#             */
+/*   Updated: 2022/11/16 10:57:57 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
-void	echo(char **args)
+void	env(char **envp, char **args)
 {
 	int	i;
 
-	if (tab_len(args) == 1)
-		printf("\n");
-	if (!ft_strncmp(args[1], "-n", 2))
-		i = 2;
-	else
-		i = 1;
-	while (args[i])
+	if (tab_len(args) > 1)
 	{
-		printf("%s", args[i]);
-		if (args[i + 1])
-			printf(" ");
+		i = 1;
+		while (args[i])
+		{
+			ft_putstr_fd("env: invalid option -- \"", 2);
+			ft_putstr_fd(args[i], 2);
+			ft_putstr_fd("\"\n", 2);
+			i++;
+		}
+		ft_putstr_fd("usage: env\n", 2);
+		return ;
+	}
+	i = 0;
+	while(envp[i])
+	{
+		printf("%s\n", envp[i]);
 		i++;
 	}
-	if (ft_strncmp(args[1], "-n", 2))
-		printf("\n");
 }
