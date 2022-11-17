@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anloisea <anloisea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 15:10:52 by antoine           #+#    #+#             */
-/*   Updated: 2022/11/09 18:13:41 by anloisea         ###   ########.fr       */
+/*   Updated: 2022/11/17 13:23:12 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_parser	*parser_init(t_lexer *lexer, char *envp[])
 	parser->current_token = lexer_get_next_token(lexer);
 	parser->current_token->next_token = NULL;
 	parser->first_token = parser->current_token;
-	parser->envp = envp;
+	parser->envp = t_strcpy(envp);
 	parser->cmd_paths = get_paths(envp);
 	return (parser);
 }
@@ -70,6 +70,7 @@ t_tree	*create_branch(t_token *begin, t_token *end, t_tree *treetop, t_minishell
 	branch->branch = NULL; //pas de branche pour les branches
 	branch->subtree = NULL; //pas de subtree pour les branches
 	branch->nb_pipes = 0; //car dans branche
+	branch->envp = NULL;
 	if (begin->index == 0)
 		branch->piped_input = false;
 	else

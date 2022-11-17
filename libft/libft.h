@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anloisea <anloisea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/21 09:44:30 by anloisea          #+#    #+#             */
-/*   Updated: 2022/10/28 14:39:17 by anloisea         ###   ########.fr       */
+/*   Updated: 2022/11/17 12:01:05 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,5 +102,6 @@ char	*ft_strrnstr(const char *haystack, const char *needle, size_t len);
 int		tab_len(char **tab);
 char	**cut_endl(char **strings);
 int		ft_isspace(char c);
+int		ft_strcmp(const char *s1, const char *s2);
 
 #endif

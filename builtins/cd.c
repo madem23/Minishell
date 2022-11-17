@@ -6,18 +6,19 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 14:24:28 by antoine           #+#    #+#             */
-/*   Updated: 2022/11/16 12:59:02 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/17 13:27:47 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
+
+//join to fix
 
 void	cd(char **args)
 {
 	int		value;
 	char	*path;
 
-	puts(args[1]);
 	if (tab_len(args) == 1)
 	{
 		path = getenv("HOME");
@@ -31,7 +32,6 @@ void	cd(char **args)
 		path = args[1];
 	else
 		path = ft_strjoin(ft_strjoin(getcwd(NULL, 0), "/"), args[1]);
-	printf("path = %s\n", path);
 	value = chdir(path);
 	if (value == -1)
 	{
@@ -39,5 +39,4 @@ void	cd(char **args)
 		perror(path);
 		return ;
 	}
-	//pwd();
 }

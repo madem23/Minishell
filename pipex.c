@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 12:54:11 by mdemma            #+#    #+#             */
-/*   Updated: 2022/11/15 14:03:07 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/17 14:43:17 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	pipex(t_minishell *minishell)
 	j = 0;
 	while (j <= minishell->tree->nb_pipes)
 	{
-		test_which_child_and_exec(minishell->p_id, j, pipefd, minishell->tree);
+		test_which_child_and_exec(minishell, j, pipefd);
 		j++;
 	}
 	if (minishell->p_id[0] > 0)

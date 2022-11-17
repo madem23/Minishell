@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 12:50:08 by mdemma            #+#    #+#             */
-/*   Updated: 2022/11/15 16:58:37 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/17 14:37:02 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,25 +26,25 @@ t_tree	*get_branch(t_tree *treetop, unsigned int j)
 }
 
 //Distributes all processes to their dedicated program
-void	test_which_child_and_exec(pid_t *child_id, unsigned int j, int **pipefd, t_tree *treetop)
+void	test_which_child_and_exec(t_minishell *minishell, unsigned int j, int **pipefd)
 {
 	t_tree	*tmp;
-	if (child_id[j] == 0 && j == 0)
+	if (minishell->p_id[j] == 0 && j == 0)
 	{
-		exec_first_child(treetop->branch, pipefd);
+		exec_first_child(minishell, minishell->tree->branch, pipefd);
 		//free(global.cmd_withpath1);
 	}
-	if (child_id[j] == 0 && j == treetop->nb_pipes)
+	if (minishell->p_id[j] == 0 && j == minishell->tree->nb_pipes)
 	{
-		tmp = treetop;
+		tmp = minishell->tree;
 		while (tmp->subtree)
 			tmp = tmp->subtree;
-		exec_last_child(tmp->branch, pipefd);
+		exec_last_child(minishell, tmp->branch, pipefd);
 		//free(global.cmd_withpath2);
 	}
-	if (child_id[j] == 0 && j > 0 && j < treetop->nb_pipes)
+	if (minishell->p_id[j] == 0 && j > 0 && j < minishell->tree->nb_pipes)
 	{
-		exec_interim_children(get_branch(treetop, j), pipefd, j);
+		exec_interim_children(minishell, get_branch(minishell->tree, j), pipefd, j);
 		//free(global.cmd_withpath3);
 	}
 }
@@ -97,7 +97,7 @@ int	*check_redir_open_files(t_tree *branch)
 
 //Program for first child process: execute the first cmd with infile_fd as stdin
 //and the first pipe's writing end as stdout
-void	exec_first_child(t_tree *branch, int **pipefd)
+void	exec_first_child(t_minishell *minishell, t_tree *branch, int **pipefd)
 {
 	unsigned int	i;
 	int	*fd;
@@ -118,8 +118,7 @@ void	exec_first_child(t_tree *branch, int **pipefd)
 		close(pipefd[i][1]);
 		i++;
 	}
-	//if (check_for_builtins(branch))
-	if (!ft_strncmp(branch->exec_name, "cd", ft_strlen(branch->exec_name)))
+	if (check_for_builtins(branch, minishell))
 		exit(EXIT_SUCCESS);
 	if (!branch->exec_path)
 	{	
@@ -132,7 +131,7 @@ void	exec_first_child(t_tree *branch, int **pipefd)
 //Program for last child process: execute the last cmd
 //with the last pipe's reading end as stdin
 //amd the outfile_fd as stdout"
-void	exec_last_child(t_tree *branch, int **pipefd)
+void	exec_last_child(t_minishell *minishell, t_tree *branch, int **pipefd)
 {
 	unsigned int		i;
 	char	**cmd;
@@ -141,7 +140,6 @@ void	exec_last_child(t_tree *branch, int **pipefd)
 	cmd = branch->exec_args;
 	i = 0;
 	fd = check_redir_open_files(branch);
-	dprintf(2, "branch->piped_input = %d\n", branch->piped_input);
 	if (fd[0] < 0 || fd[1] < 0 || !branch->exec_name)
 		exit(EXIT_FAILURE);
 	if (fd[0] > 0)
@@ -155,7 +153,7 @@ void	exec_last_child(t_tree *branch, int **pipefd)
 		close(pipefd[i][0]);
 		close(pipefd[i++][1]);
 	}
-	if (check_for_builtins(branch))
+	if (check_for_builtins(branch, minishell))
 		exit(EXIT_SUCCESS);
 	if (!branch->exec_path)
 	{	
@@ -168,7 +166,7 @@ void	exec_last_child(t_tree *branch, int **pipefd)
 }
 
 //Program for all intermediary children processes
-void	exec_interim_children(t_tree *branch, int **pipefd, int j)
+void	exec_interim_children(t_minishell *minishell, t_tree *branch, int **pipefd, int j)
 {
 	unsigned int	i;
 	int	*fd;
@@ -191,7 +189,7 @@ void	exec_interim_children(t_tree *branch, int **pipefd, int j)
 		close(pipefd[i][1]);
 		i++;
 	}
-	if (check_for_builtins(branch))
+	if (check_for_builtins(branch, minishell))
 	{
 		puts(branch->exec_name);
 		exit(EXIT_SUCCESS);
@@ -211,11 +209,8 @@ void	exec_parent(pid_t *child_id, t_tree *treetop, int **pipefd)
 	int	status;
 
 	i = 0;
-	if (!ft_strncmp(treetop->branch->exec_name, "cd", ft_strlen(treetop->branch->exec_name)))
-	{	
-		printf("COUCOU\n");
+	if (treetop->branch->exec_name && !ft_strcmp(treetop->branch->exec_name, "cd"))
 		cd(treetop->branch->exec_args);
-	}
 	while (i < treetop->nb_pipes + 1 && pipefd)
 	{
 		close(pipefd[i][0]);

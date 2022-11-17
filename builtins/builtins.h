@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 11:23:08 by antoine           #+#    #+#             */
-/*   Updated: 2022/11/16 11:33:15 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/17 14:42:13 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	pwd(void);
 void	env(char **envp, char **args);
 void	echo(char **args);
 void	cd(char **args);
-int		check_for_builtins(t_tree *branch);
+void	export(char **args, char **envp, struct s_minishell *minishell);
+int		check_for_builtins(t_tree *branch, struct s_minishell *minishell);
 
 #endif

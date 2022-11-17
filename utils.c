@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 11:15:19 by antoine           #+#    #+#             */
-/*   Updated: 2022/11/15 16:09:02 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/17 14:05:10 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,39 @@ char	*get_prompt()
 	prompt = ft_strjoin(tmp, "$ \033[0m");
 	free(tmp);
 	return (prompt);
+}
+
+char	**t_strcpy(char **t_str)
+{
+	char	**copy;
+	int		i;
+
+	copy = malloc((tab_len(t_str) + 1) * sizeof(char *));
+	i = 0;
+	while (t_str[i])
+	{
+		copy[i] = ft_strdup(t_str[i]);
+		i++;
+	}
+	copy[i] = NULL;
+	return (copy);
+}
+
+char	**add_str_to_tab(char **tab, const char *str)
+{
+	char	**result;
+	int		i;
+	
+	i = 0;
+	result = malloc((tab_len(tab) + 2) * sizeof(char *));
+	while (tab[i])
+	{
+		result[i] = ft_strdup(tab[i]);
+		free(tab[i]);
+		i++;
+	}
+	result[i] = ft_strdup(str);
+	result[i + 1] = NULL;
+	free(tab);
+	return (result);
 }

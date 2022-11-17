@@ -17,7 +17,7 @@ char *interpreting_dollar_token(char *value, t_minishell *minishell)
 	var_tmp = minishell->var_def;
 	while (var_tmp)
 	{
-		if (strcmp(value, var_tmp->name) == 0)
+		if (ft_strcmp(value, var_tmp->name) == 0)
 		{
 			new_value = ft_strdup(var_tmp->value);
 			convertion = true;

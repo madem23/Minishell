@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 12:56:26 by anloisea          #+#    #+#             */
-/*   Updated: 2022/11/14 17:03:18 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/17 14:41:08 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ char	*check_exec_paths(char **paths, char *exec_called);
 int		ft_isaccepted(char c);
 int		ft_isaccepted_var_name(char c);
 char	*get_prompt();
+char	**t_strcpy(char **t_str);
+char	**add_str_to_tab(char **tab, const char *str);
 
 //free:
  void	free_parser(t_parser *parser);
@@ -67,10 +69,10 @@ char	*get_prompt();
  void	error_too_many_pipes(t_minishell *minishell);
 
  //processes:
-void	exec_interim_children(t_tree *branch, int **pipefd, int j);
-void	exec_last_child(t_tree *branch, int **pipefd);
-void	exec_first_child(t_tree *branch, int **pipefd);
-void	test_which_child_and_exec(pid_t *child_id, unsigned int j, int **pipefd, t_tree *treetop);
+void	exec_interim_children(t_minishell *minishell, t_tree *branch, int **pipefd, int j);
+void	exec_last_child(t_minishell *minishell, t_tree *branch, int **pipefd);
+void	exec_first_child(t_minishell *minishell, t_tree *branch, int **pipefd);
+void	test_which_child_and_exec(t_minishell *minishell, unsigned int j, int **pipefd);
 int		pipex(t_minishell *minishell);
 void	exec_parent(pid_t *child_id, t_tree *treetop, int **pipefd);
 
