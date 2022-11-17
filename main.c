@@ -6,80 +6,19 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 11:32:55 by anloisea          #+#    #+#             */
-/*   Updated: 2022/11/16 12:55:26 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/15 16:12:35 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	print_tab(char *s,	t_token **tab, int i)
-{
-	if (!tab[i])
-	{
-		printf("%s NULL\n", s);
-		return ;
-	}
-	printf("%s", s);
-	while (tab[i])
-		printf("%s, ", tab[i++]->value);
-	printf("\n");
-}
-
-void	print_tabchar(char *s,	char **tab, int i)
-{
-	if (!tab[i])
-	{
-		printf("%s NULL\n", s);
-		return ;
-	}
-	printf("%s", s);
-	while (tab[i])
-		printf("%s, ", tab[i++]);
-	printf("\n");
-}
-
-void	display_tree(t_tree *top)
-{
-	t_tree *tmp1 = top;
-	int	i = 1;
-
-	while (tmp1)
-	{
-		printf("BRANCHE %d :\n", i);
-		printf("	CMD = '%s'\n", tmp1->branch->exec_name);
-	print_tabchar("	CMD args/options = ", tmp1->branch->exec_args, 0);
-		print_tab("	Infiles = ", tmp1->branch->infiles, 0);
-		print_tab("	Outfiles = ", tmp1->branch->outfiles, 0);
-		print_tab("	Outfiles append-mode = ", tmp1-> branch->outfiles_append, 0);
-		print_tab("	Diamonds = ", tmp1-> branch->diamonds, 0);
-		printf(" piped input = %d\n", tmp1->branch->piped_input);
-		printf(" piped output = %d\n", tmp1->branch->piped_output);
-		tmp1 = tmp1->subtree;
-		i++;
-	}
-}
-
-void	print_var(t_minishell *minishell)
-{
-	t_var *tmp;
-
-	tmp = minishell->var_def;
-	while (tmp)
-	{
-		printf("Var_def enregistre: '%s' -> '%s'.\n", tmp->name, tmp->value);
-		tmp = tmp->next;
-	}
-}
 
 void	get_line(t_minishell *minishell)
 {
 	if (minishell->cmd_line)
 	{
 		free (minishell->cmd_line);
-		free (minishell->prompt);
 		minishell->cmd_line = (char *)NULL;
     }
-	minishell->prompt = get_prompt();
 	minishell->cmd_line = readline(minishell->prompt);
 	if (minishell->cmd_line && *(minishell->cmd_line))
 		add_history(minishell->cmd_line);
@@ -91,6 +30,7 @@ t_minishell	*init_minishell(char *envp[])
 
 	minishell = malloc(sizeof(t_minishell));
 	minishell->envp = envp;
+	minishell->p_id = NULL;
 	minishell->var_def = NULL;
 	minishell->prompt = get_prompt();
 	minishell->cmd_line = NULL;
@@ -104,6 +44,7 @@ t_minishell	*init_minishell(char *envp[])
 int main(int argc, char *argv[], char *envp[])
 {
 	t_minishell	*minishell;
+	t_parser	*parser;
 
 	(void)argc;
 	(void)argv;
@@ -112,18 +53,14 @@ int main(int argc, char *argv[], char *envp[])
 	{
 		
 		if (!ft_strncmp(minishell->cmd_line, "exit", 4))
-		{
-			rl_clear_history();
-			free(minishell->cmd_line);
-			free(minishell->prompt);
-			exit(0);
-		}
+			free_exit_final(minishell);
 		if (minishell->cmd_line[0] != '\0')
 		{
 			minishell->lexer = lexer_init(minishell->cmd_line);
-			minishell->parser = parser_init(minishell->lexer, envp);
+			parser = parser_init(minishell->lexer, envp);
+			minishell->parser = lexing_start(parser);
 			minishell->tree = parser_start(minishell->parser, minishell);
-			//DISPLAY LEXER:
+			// //DISPLAY LEXER:
 			// t_parser *tmp = minishell->parser;
 			// while (tmp->first_token)
 			// {
@@ -131,12 +68,14 @@ int main(int argc, char *argv[], char *envp[])
 			// 	printf("Parsed? %d\n", tmp->first_token->parsed);
 			// 	tmp->first_token = tmp->first_token->next_token;		
 			// }
-			// //DISPLAY TREE:
-			// display_tree(minishell->tree);
-			pipex(minishell->tree);
+			// // //DISPLAY TREE:
+			// // display_tree(minishell->tree);
+			pipex(minishell);
 			unlink("tmp_heredoc.txt");
 		}
+		minishell->prompt = get_prompt();
 		get_line(minishell);
 	}
+	//print_var(minishell);
 	return (0);
 }

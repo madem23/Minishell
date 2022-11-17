@@ -17,11 +17,11 @@ int	is_a_variable_declaration(char *value)
 	int	i;
 
 	i = 0;
-	while (ft_isaccepted(value[i]) && value[i] != '=')
+	while (ft_isaccepted_var_name(value[i]) && value[i] != '=')
 		i++;
 	if (i == 0)
 		return (0);
-	if (value[i] == '=' && ft_isaccepted(value[++i]))
+	if (value[i] == '=' && (ft_isaccepted(value[++i]) || value[i] == 123 || value[i] == 125))
 		return (1);
 	else
 		return(0);	

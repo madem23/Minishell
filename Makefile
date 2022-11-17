@@ -6,7 +6,7 @@
 #    By: antoine <antoine@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/02 17:24:39 by anloisea          #+#    #+#              #
-#    Updated: 2022/11/16 11:20:43 by antoine          ###   ########.fr        #
+#    Updated: 2022/10/31 18:43:31 by antoine          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,19 +20,20 @@ SRCS		= 	main.c \
 				./parser/parser.c \
 				./parser/tree.c \
 				./parser/parsing_utils.c \
-				./parser/parsing_utils2.c \
+				./parser/parsing_closed_quotes.c \
 				./parser/var_def.c \
 				./parser/here_doc.c \
+				./parser/parsing_dollar_token.c \
 				pipex.c \
 				processes.c \
+				free.c\
+				display_tmp.c\
 				./builtins/echo.c \
 				./builtins/env.c \
 				./builtins/pwd.c \
 				./builtins/cd.c \
 				./builtins/check_for_builtins.c
 
-		
-			
 				
 OBJS		=	${SRCS:.c=.o}
 
@@ -41,7 +42,7 @@ CC			= 	gcc
 LIB			= 	libft/libft.a
 
 .c.o:
-	${CC} ${CFLAGS} -c $< -o ${<:.c=.o}
+	${CC} ${CFLAGS} -c $< -o ${<:.c=.o} -g
 
 all:		${LIB} ${NAME}
 

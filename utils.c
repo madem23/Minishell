@@ -6,11 +6,21 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 11:15:19 by antoine           #+#    #+#             */
-/*   Updated: 2022/11/16 11:27:43 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/15 16:09:02 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	ft_isaccepted_var_name(char c)
+{
+	if (ft_isalnum(c))
+		return (1);
+	else if (c == '_')
+		return (1);
+	else
+		return (0);
+}
 
 int	ft_isaccepted(char c)
 {
@@ -22,19 +32,10 @@ int	ft_isaccepted(char c)
 		return (1);
 	else if (c >= 58 && c <= 61)
 		return (1);
+	else if (c == 123 || c == 125)
+		return (1);
 	else
 		return (0);
-	
-}
-
-int tab_len(char **tab)
-{
-	int	i;
-
-	i = 0;
-	while (tab[i])
-		i++;
-	return (i);
 }
 
 char	*get_prompt()
@@ -50,7 +51,7 @@ char	*get_prompt()
 	prompt = ft_strjoin("\033[0;32mminishell: ", color);
 	free(color);
 	tmp = prompt;
-	prompt = ft_strjoin(tmp, "\033[0m$ ");
+	prompt = ft_strjoin(tmp, "$ \033[0m");
 	free(tmp);
 	return (prompt);
 }

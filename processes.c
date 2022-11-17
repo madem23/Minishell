@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 12:50:08 by mdemma            #+#    #+#             */
-/*   Updated: 2022/11/16 12:50:18 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/15 16:58:37 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_tree	*get_branch(t_tree *treetop, unsigned int j)
 	i = 0;
 	while (tmp->subtree && i++ < j)
 		tmp = tmp->subtree;
-	dprintf(2, "Pour process : %d, BRANCHE = %s\n", j, tmp->branch->exec_name);
+	//dprintf(2, "Pour process : %d, BRANCHE = %s\n", j, tmp->branch->exec_name);
 	return (tmp->branch);
 }
 
@@ -29,7 +29,6 @@ t_tree	*get_branch(t_tree *treetop, unsigned int j)
 void	test_which_child_and_exec(pid_t *child_id, unsigned int j, int **pipefd, t_tree *treetop)
 {
 	t_tree	*tmp;
-
 	if (child_id[j] == 0 && j == 0)
 	{
 		exec_first_child(treetop->branch, pipefd);
@@ -119,7 +118,8 @@ void	exec_first_child(t_tree *branch, int **pipefd)
 		close(pipefd[i][1]);
 		i++;
 	}
-	if (check_for_builtins(branch))
+	//if (check_for_builtins(branch))
+	if (!ft_strncmp(branch->exec_name, "cd", ft_strlen(branch->exec_name)))
 		exit(EXIT_SUCCESS);
 	if (!branch->exec_path)
 	{	
@@ -134,13 +134,14 @@ void	exec_first_child(t_tree *branch, int **pipefd)
 //amd the outfile_fd as stdout"
 void	exec_last_child(t_tree *branch, int **pipefd)
 {
-	unsigned int	i;
-	char			**cmd;
-	int				*fd;
+	unsigned int		i;
+	char	**cmd;
+	int		*fd;
 
 	cmd = branch->exec_args;
 	i = 0;
 	fd = check_redir_open_files(branch);
+	dprintf(2, "branch->piped_input = %d\n", branch->piped_input);
 	if (fd[0] < 0 || fd[1] < 0 || !branch->exec_name)
 		exit(EXIT_FAILURE);
 	if (fd[0] > 0)
@@ -210,6 +211,11 @@ void	exec_parent(pid_t *child_id, t_tree *treetop, int **pipefd)
 	int	status;
 
 	i = 0;
+	if (!ft_strncmp(treetop->branch->exec_name, "cd", ft_strlen(treetop->branch->exec_name)))
+	{	
+		printf("COUCOU\n");
+		cd(treetop->branch->exec_args);
+	}
 	while (i < treetop->nb_pipes + 1 && pipefd)
 	{
 		close(pipefd[i][0]);

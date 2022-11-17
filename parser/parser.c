@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: anloisea <anloisea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 15:10:52 by antoine           #+#    #+#             */
-/*   Updated: 2022/11/16 11:50:11 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/09 18:13:41 by anloisea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,17 +32,23 @@ t_parser	*parser_init(t_lexer *lexer, char *envp[])
 	return (parser);
 }
 
-t_tree	*parser_start(t_parser *parser, t_minishell *minishell)
+t_parser	*lexing_start(t_parser *parser)
 {
-	t_tree	*top;
-
 	while (parser->current_token->type != TK_EOC)
 	{
 		parser->current_token->next_token = lexer_get_next_token(parser->lexer);
 		parser->current_token = parser->current_token->next_token;
 		parser->current_token->next_token = NULL;
 	}
+	return (parser);
+}
+
+t_tree	*parser_start(t_parser *parser, t_minishell *minishell)
+{
+	t_tree	*top;
+
 	lexing_word_incl_dquotes(parser);
+	lexing_dollar_token(parser, minishell);
 	top = tree_init(parser);
 	parser->treetop = top;
 	parser->treetop->paths = parser->cmd_paths;
@@ -61,11 +67,10 @@ t_tree	*create_branch(t_token *begin, t_token *end, t_tree *treetop, t_minishell
 	branch->minishell = minishell;
 	branch->first_token = begin;
 	branch->treetop = treetop;
-	branch->envp = treetop->envp;
 	branch->branch = NULL; //pas de branche pour les branches
 	branch->subtree = NULL; //pas de subtree pour les branches
 	branch->nb_pipes = 0; //car dans branche
-		if (begin->index == 0)
+	if (begin->index == 0)
 		branch->piped_input = false;
 	else
 		branch->piped_input = true;

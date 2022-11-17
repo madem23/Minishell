@@ -19,16 +19,14 @@ void	error(int errnum, char *msg)
 	ft_putstr_fd(msg, 2);
 	exit(errnum);
 }
-/*
-void	error_too_many_pipes(t_global global)
+
+void	error_too_many_pipes(t_minishell *minishell)
 {
-	perror("Too many commands");
-	close(global.input->fd_infile);
-	close(global.input->fd_outfile);
-	free_parsing(global);
+	perror("Too many pipes");
+	free_parser(minishell->parser);
 	exit(EXIT_FAILURE);
 }
-
+/*
 void	error_cmd_not_found(char *cmd, t_global global, int x, int **pipefd)
 {
 	if (x != 1 || global.input->fd_infile != -1)

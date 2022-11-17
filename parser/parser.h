@@ -73,6 +73,7 @@ typedef struct s_parser
 
 t_parser		*parser_init(t_lexer *lexer, char *envp[]);
 t_tree			*parser_start(t_parser *parser, struct s_minishell *minishell);
+t_parser		*lexing_start(t_parser *parser);
 t_tree			*parsing(t_parser *parser, struct s_minishell *minishell);
 t_tree			*tree_init(t_parser *parser);
 unsigned int	count_token_type(t_token *first_token, unsigned int type);
@@ -88,5 +89,6 @@ char			*check_and_manage_closed_quotes(char *token_value, int *save, int *i, cha
 t_var			*variable_init(char	*name, char *value);
 void			var_add_back(t_var **var, t_var *new);
 void			parsing_var_def(t_tree *branch);
+void			lexing_dollar_token(t_parser *parser, struct s_minishell *minishell);
 
 #endif

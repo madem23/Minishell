@@ -31,6 +31,7 @@ void	cd(char **args)
 		path = args[1];
 	else
 		path = ft_strjoin(ft_strjoin(getcwd(NULL, 0), "/"), args[1]);
+	printf("path = %s\n", path);
 	value = chdir(path);
 	if (value == -1)
 	{
@@ -38,5 +39,5 @@ void	cd(char **args)
 		perror(path);
 		return ;
 	}
-	pwd();
+	//pwd();
 }
