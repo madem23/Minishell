@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 12:56:26 by anloisea          #+#    #+#             */
-/*   Updated: 2022/11/17 14:41:08 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/17 16:30:20 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,5 +81,8 @@ void	print_var(t_minishell *minishell);
 void	display_tree(t_tree *top);
 void	print_tabchar(char *s,	char **tab, int i);
 void	print_tab(char *s,	t_token **tab, int i);
+
+//Variables
+t_var	*var_list_init(char **envp);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 11:32:55 by anloisea          #+#    #+#             */
-/*   Updated: 2022/11/15 16:12:35 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/17 16:30:49 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_minishell	*init_minishell(char *envp[])
 	minishell = malloc(sizeof(t_minishell));
 	minishell->envp = t_strcpy(envp);
 	minishell->p_id = NULL;
-	minishell->var_def = NULL;
+	minishell->var_def = var_list_init(minishell->envp);
 	minishell->prompt = get_prompt();
 	minishell->cmd_line = NULL;
 	get_line(minishell);

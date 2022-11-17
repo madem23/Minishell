@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 11:43:41 by antoine           #+#    #+#             */
-/*   Updated: 2022/11/14 13:33:56 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/17 16:10:53 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ typedef struct s_var
 	char			*name;
 	char			*value;
 	struct s_var	*next;
+	bool			env;
 }				t_var;
 
 typedef struct s_tree

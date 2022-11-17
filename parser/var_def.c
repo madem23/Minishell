@@ -6,6 +6,51 @@
 #include <stdio.h>
 #include "../libft/libft.h"
 
+char **separate_name_value(char *var, char c)
+{
+	int		begin;
+	int 	end;
+	char	**result;
+
+	begin = 0;
+	end = 0;
+	result = malloc(3 * sizeof(char *));
+	while (var[end] && var[end] != c)
+		end++;
+	result[0] = ft_substr(var, begin, end);
+	begin = end + 1;
+	while (var[end])
+		end++;
+	result[1] = ft_substr(var, begin, end - begin);
+	result[2] = NULL;
+	return (result);
+}
+
+t_var	*var_list_init(char **envp)
+{
+	t_var	*list;
+	int		i;
+	char	**trim;
+
+	i = 0;
+	list = NULL;
+	while (envp[i])
+	{
+		trim = separate_name_value(envp[i], '=');
+		var_add_back(&list, variable_init(trim[0], trim[1]));
+		free(trim[0]);
+		free(trim[1]);
+		free(trim);
+		i++;
+	}
+	// while (list)
+	// {
+	// 	printf("var = %s\tvalue = %s\tenv = %d\n", list->name, list->value, list->env);
+	// 	list = list->next;
+	// }
+	return (list);
+}
+
 void	var_add_back(t_var **var, t_var *new)
 {
 	t_var	*tmp;
