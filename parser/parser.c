@@ -18,7 +18,7 @@
 #include <stdio.h>
 #include "../libft/libft.h"
 
-t_parser	*parser_init(t_lexer *lexer, char *envp[])
+t_parser	*parser_init(t_lexer *lexer, t_minishell *minishell)
 {
 	t_parser	*parser;
 
@@ -27,8 +27,8 @@ t_parser	*parser_init(t_lexer *lexer, char *envp[])
 	parser->current_token = lexer_get_next_token(lexer);
 	parser->current_token->next_token = NULL;
 	parser->first_token = parser->current_token;
-	parser->envp = t_strcpy(envp);
-	parser->cmd_paths = get_paths(envp);
+	parser->envp = minishell->envp;
+	parser->cmd_paths = get_paths(parser->envp);
 	return (parser);
 }
 

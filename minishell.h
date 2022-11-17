@@ -74,7 +74,7 @@ void	exec_last_child(t_minishell *minishell, t_tree *branch, int **pipefd);
 void	exec_first_child(t_minishell *minishell, t_tree *branch, int **pipefd);
 void	test_which_child_and_exec(t_minishell *minishell, unsigned int j, int **pipefd);
 int		pipex(t_minishell *minishell);
-void	exec_parent(pid_t *child_id, t_tree *treetop, int **pipefd);
+void	exec_parent(t_minishell *minishell, int **pipefd);
 
 //Display:
 void	print_var(t_minishell *minishell);

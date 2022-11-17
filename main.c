@@ -29,7 +29,7 @@ t_minishell	*init_minishell(char *envp[])
 	t_minishell	*minishell;
 
 	minishell = malloc(sizeof(t_minishell));
-	minishell->envp = envp;
+	minishell->envp = t_strcpy(envp);
 	minishell->p_id = NULL;
 	minishell->var_def = NULL;
 	minishell->prompt = get_prompt();
@@ -57,7 +57,7 @@ int main(int argc, char *argv[], char *envp[])
 		if (minishell->cmd_line[0] != '\0')
 		{
 			minishell->lexer = lexer_init(minishell->cmd_line);
-			parser = parser_init(minishell->lexer, envp);
+			parser = parser_init(minishell->lexer, minishell);
 			minishell->parser = lexing_start(parser);
 			minishell->tree = parser_start(minishell->parser, minishell);
 			// //DISPLAY LEXER:

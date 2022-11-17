@@ -12,7 +12,7 @@
 
 #include "builtins.h"
 
-void	export(char **args, char **envp, t_minishell *minishell)
+void	export(char **args, t_minishell *minishell)
 {
 	int		i;
 	t_var	*tmp;
@@ -22,12 +22,13 @@ void	export(char **args, char **envp, t_minishell *minishell)
 	if (tab_len(args) == 1)
 	{
 		i = 0;
-		while (envp[i])
+		while (minishell->envp[i])
 		{
 			printf("declare -x ");
-			printf("%s\n", envp[i]);
+			printf("%s\n", minishell->envp[i]);
 			i++;
 		}
+		return ;
 	}
 	tmp = minishell->var_def;
 	while (tmp)
@@ -37,7 +38,7 @@ void	export(char **args, char **envp, t_minishell *minishell)
 		tmp = tmp->next;
 	}
 	if (new_value)
-		envp = add_str_to_tab(envp, new_value);
+		minishell->envp = add_str_to_tab(minishell->envp, new_value);
 	free(new_value);
 } 
 	

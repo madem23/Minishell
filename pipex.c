@@ -66,6 +66,6 @@ int	pipex(t_minishell *minishell)
 		j++;
 	}
 	if (minishell->p_id[0] > 0)
-		exec_parent(minishell->p_id, minishell->tree, pipefd);
+		exec_parent(minishell, pipefd);
 	return (0);
 }

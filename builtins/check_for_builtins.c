@@ -28,12 +28,12 @@ int	check_for_builtins(t_tree *branch, t_minishell *minishell)
 		return (1);
 	else if (!ft_strcmp(branch->exec_name, "env"))
 	{
-		env(branch->treetop->envp, branch->exec_args);
+		env(minishell->envp, branch->exec_args);
 		return (1);
 	}
 	else if (!ft_strcmp(branch->exec_name, "export"))
 	{
-		export(branch->exec_args, branch->treetop->envp, minishell);
+	//	export(branch->exec_args, minishell);
 		return (1);	
 	}
 	// else if (!ft_strcmp(branch->exec_name, "unset"))

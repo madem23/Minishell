@@ -203,24 +203,26 @@ void	exec_interim_children(t_minishell *minishell, t_tree *branch, int **pipefd,
 }
 
 //Program for the parent process (supervises the exec of cmds by the children)
-void	exec_parent(pid_t *child_id, t_tree *treetop, int **pipefd)
+void	exec_parent(t_minishell *minishell, int **pipefd)
 {
 	unsigned int	i;
 	int	status;
 
 	i = 0;
-	if (treetop->branch->exec_name && !ft_strcmp(treetop->branch->exec_name, "cd"))
-		cd(treetop->branch->exec_args);
-	while (i < treetop->nb_pipes + 1 && pipefd)
+	if (minishell->tree->branch->exec_name && !ft_strcmp(minishell->tree->branch->exec_name, "cd"))
+		cd(minishell->tree->branch->exec_args);
+	if (minishell->tree->branch->exec_name && !ft_strcmp(minishell->tree->branch->exec_name, "export"))
+		export(minishell->tree->branch->exec_args, minishell);
+	while (i < minishell->tree->nb_pipes + 1 && pipefd)
 	{
 		close(pipefd[i][0]);
 		close(pipefd[i][1]);
 		i++;
 	}
 	i = 0;
-	while (i < treetop->nb_pipes + 1)
+	while (i < minishell->tree->nb_pipes + 1)
 	{
-		waitpid(child_id[i], &status, 0);
+		waitpid(minishell->p_id[i], &status, 0);
 		i++;
 	}
 	//close(input->fd_infile);

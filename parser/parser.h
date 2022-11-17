@@ -71,7 +71,7 @@ typedef struct s_parser
 	char		**envp;
 }				t_parser;
 
-t_parser		*parser_init(t_lexer *lexer, char *envp[]);
+t_parser		*parser_init(t_lexer *lexer, struct s_minishell *minishell);
 t_tree			*parser_start(t_parser *parser, struct s_minishell *minishell);
 t_parser		*lexing_start(t_parser *parser);
 t_tree			*parsing(t_parser *parser, struct s_minishell *minishell);

@@ -19,7 +19,7 @@ void	pwd(void);
 void	env(char **envp, char **args);
 void	echo(char **args);
 void	cd(char **args);
-void	export(char **args, char **envp, struct s_minishell *minishell);
+void	export(char **args, struct s_minishell *minishell);
 int		check_for_builtins(t_tree *branch, struct s_minishell *minishell);
 
 #endif

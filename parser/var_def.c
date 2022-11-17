@@ -35,15 +35,11 @@ t_var	*variable_init(char	*name, char *value)
 int	check_var_envp(char **envp, char *var_name)
 {
 	int	i;
-	int j;
 
 	i = 0;
 	while (envp[i])
 	{
-		j = 0;
-		while (envp[i][j] != '=' && envp[i][j])
-			j++;
-		if (!ft_strncmp(var_name, envp[i], j - 1))
+		if (!ft_strncmp(envp[i], var_name, ft_strlen(var_name)))
 			return (1);
 		i++;
 	}
@@ -66,7 +62,10 @@ void	parsing_var_def(t_tree *branch)
 				while (tmp->value[i] && tmp->value[i] != '=')
 					i++;
 				if (check_var_envp(branch->treetop->envp, tmp->value))
+				{
+					printf("TEST RETURN ENV\n");
 					return ;
+				}
 				if (!branch->minishell->var_def)
 					branch->minishell->var_def = variable_init(ft_substr(tmp->value, 0, i), ft_strdup(tmp->value + i + 1));
 				else
