@@ -52,7 +52,7 @@ int main(int argc, char *argv[], char *envp[])
 	while (minishell->cmd_line)
 	{
 		
-		if (!ft_strncmp(minishell->cmd_line, "exit", 4))
+		if (!ft_strcmp(minishell->cmd_line, "exit"))
 			free_exit_final(minishell);
 		if (minishell->cmd_line[0] != '\0')
 		{
