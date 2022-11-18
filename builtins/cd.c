@@ -6,22 +6,37 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 14:24:28 by antoine           #+#    #+#             */
-/*   Updated: 2022/11/17 13:27:47 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/18 13:15:39 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
 //join to fix
+char	*get_home_var(char **envp)
+{
+	int		i;
+	char	*home;
 
-void	cd(char **args)
+	i = 0;
+	home = NULL;
+	while (envp[i])
+	{
+		if (ft_strnstr(envp[i], "HOME=", 5))
+			home = ft_substr(envp[i], 5, ft_strlen(envp[i]));
+		i++;
+	}
+	return (home);
+}
+
+void	cd(char **args, char **envp)
 {
 	int		value;
 	char	*path;
 
 	if (tab_len(args) == 1)
 	{
-		path = getenv("HOME");
+		path = get_home_var(envp);
 		if (path == NULL)
 		{
 			ft_putstr_fd("cd: HOME not set\n", 2);
@@ -39,4 +54,5 @@ void	cd(char **args)
 		perror(path);
 		return ;
 	}
+	free(path);
 }

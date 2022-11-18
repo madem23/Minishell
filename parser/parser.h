@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 11:43:41 by antoine           #+#    #+#             */
-/*   Updated: 2022/11/17 16:10:53 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/18 12:01:40 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,7 @@ void			interpreting_closed_quotes(t_token *token);
 char			*remove_closed_quotes(char *token_value, int *save, int *i, char *s);
 char			*check_and_manage_closed_quotes(char *token_value, int *save, int *i, char *s);
 t_var			*variable_init(char	*name, char *value);
-void			var_add_back(t_var **var, t_var *new);
-void			parsing_var_def(t_tree *branch);
+int				parsing_var_def(t_tree *branch);
 void			lexing_dollar_token(t_parser *parser, struct s_minishell *minishell);
 
 #endif

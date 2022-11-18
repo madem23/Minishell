@@ -1,10 +1,17 @@
-#include "parser.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   var_def.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/11/18 11:01:37 by antoine           #+#    #+#             */
+/*   Updated: 2022/11/18 12:14:54 by antoine          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 
 #include "../minishell.h"
-#include <stdlib.h>
-#include <unistd.h>
-#include <stdio.h>
-#include "../libft/libft.h"
 
 char **separate_name_value(char *var, char c)
 {
@@ -24,29 +31,6 @@ char **separate_name_value(char *var, char c)
 	result[1] = ft_substr(var, begin, end - begin);
 	result[2] = NULL;
 	return (result);
-}
-
-t_var	*var_list_init(char **envp)
-{
-	t_var	*list;
-	int		i;
-	char	**trim;
-
-	i = 0;
-	list = NULL;
-	while (envp[i])
-	{
-		trim = separate_name_value(envp[i], '=');
-		var_add_back(&list, variable_init(trim[0], trim[1]));
-		free(trim);
-		i++;
-	}
-	// while (list)
-	// {
-	// 	printf("var = %s\tvalue = %s\tenv = %d\n", list->name, list->value, list->env);
-	// 	list = list->next;
-	// }
-	return (list);
 }
 
 void	var_add_back(t_var **var, t_var *new)
@@ -75,6 +59,31 @@ t_var	*variable_init(char	*name, char *value)
 	return (var);
 }
 
+t_var	*var_list_init(char **envp)
+{
+	t_var	*list;
+	int		i;
+	char	**trim;
+	t_var	*tmp;
+
+	i = 0;
+	list = NULL;
+	while (envp[i])
+	{
+		trim = separate_name_value(envp[i], '=');
+		var_add_back(&list, variable_init(trim[0], trim[1]));
+		free(trim);
+		i++;
+	}
+	tmp = list;
+	while (tmp)
+	{
+		tmp->env = true;
+		tmp = tmp->next;
+	}
+	return (list);
+}
+
 //Checks if declared var already exists in env or in local list, if yes, modifies it
 //nb: j = location of '=' in token_value
 int	modify_existing_var(t_tree *branch, char *token_value, int j)
@@ -83,12 +92,22 @@ int	modify_existing_var(t_tree *branch, char *token_value, int j)
 	t_var	*tmp;
 
 	i = 0;
+	tmp = branch->minishell->var_def;
 	while (branch->treetop->envp[i])
 	{
 		if (!ft_strncmp(branch->treetop->envp[i], token_value, j))
 		{
 			free(branch->treetop->envp[i]);
 			branch->treetop->envp[i] = ft_strdup(token_value);
+			while (tmp)
+			{
+				if (!ft_strncmp(tmp->name, token_value, j))
+				{
+					free(tmp->value);
+					tmp->value = ft_strdup(token_value + ++j);
+				}
+				tmp = tmp->next;
+			}
 			return (1);
 		}
 		i++;
@@ -108,7 +127,7 @@ int	modify_existing_var(t_tree *branch, char *token_value, int j)
 	return (0);
 }
 
-void	parsing_var_def(t_tree *branch)
+int	parsing_var_def(t_tree *branch)
 {	
 	t_token	*tmp;
 	int		i;
@@ -124,10 +143,7 @@ void	parsing_var_def(t_tree *branch)
 				while (tmp->value[i] && tmp->value[i] != '=')
 					i++;
 				if (modify_existing_var(branch, tmp->value, i))
-				{
-					printf("TEST RETURN ENV\n");
-					return ;
-				}
+					return (1);
 				else
 				{
 					var_add_back(&branch->minishell->var_def,
@@ -138,4 +154,5 @@ void	parsing_var_def(t_tree *branch)
 			tmp = tmp->next_token;
 		}
 	}
+	return (0);
 }
