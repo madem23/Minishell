@@ -6,7 +6,7 @@
 #    By: antoine <antoine@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/02 17:24:39 by anloisea          #+#    #+#              #
-#    Updated: 2022/11/17 13:01:49 by antoine          ###   ########.fr        #
+#    Updated: 2022/11/18 14:26:19 by antoine          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,7 @@ SRCS		= 	main.c \
 				./builtins/pwd.c \
 				./builtins/cd.c \
 				./builtins/export.c \
+				./builtins/unset.c \
 				./builtins/check_for_builtins.c
 
 				

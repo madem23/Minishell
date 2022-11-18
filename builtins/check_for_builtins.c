@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 11:07:53 by antoine           #+#    #+#             */
-/*   Updated: 2022/11/17 14:38:17 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/18 14:28:13 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,9 @@ int	check_for_builtins(t_tree *branch, t_minishell *minishell)
 		return (1);
 	}
 	else if (!ft_strcmp(branch->exec_name, "export"))
-	{
-	//	export(branch->exec_args, minishell);
 		return (1);	
-	}
-	// else if (!ft_strcmp(branch->exec_name, "unset"))
-	// 	return(1);
+	else if (!ft_strcmp(branch->exec_name, "unset"))
+		return(1);
 	else
 		return (0);
 }
