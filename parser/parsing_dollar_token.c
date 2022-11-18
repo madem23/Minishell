@@ -77,7 +77,7 @@ void	lexing_dollar_token(t_parser *parser, t_minishell *minishell)
 					tmp->value = tmp_s;
 				}
 			}
-			else if ( i_occur >= 2)
+			else if (i_occur >= 2)
 			{
 				tmp_s = ft_strjoin(interpreting_dollar_token(ft_substr(tmp->value, 1, i_occur - 1), minishell), tmp->value + i_occur);
 				free(tmp->value);

@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 12:33:01 by antoine           #+#    #+#             */
-/*   Updated: 2022/11/18 15:30:41 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/18 15:38:30 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,15 +62,15 @@ void	unset(char **args, t_minishell *minishell)
 	t_var	*tmp;
 	int		j;
 
-	i = 1;
-	while (args[i])
+	i = 0;
+	while (args[++i])
 	{
-		j = 0;
-		while (minishell->envp[j])
+		j = -1;
+		while (minishell->envp[++j])
 		{
 			if (!ft_strncmp(args[i], minishell->envp[j], ft_strlen(args[i])))
-				minishell->envp = rmv_str_from_tab(minishell->envp, minishell->envp[jq]);
-			j++;
+				minishell->envp = rmv_str_from_tab \
+				(minishell->envp, minishell->envp[j]);
 		}
 		tmp = minishell->var_def;
 		while (tmp)
@@ -82,6 +82,5 @@ void	unset(char **args, t_minishell *minishell)
 			}
 			tmp = tmp->next;
 		}
-		i++;
 	}
 }
