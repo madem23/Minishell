@@ -70,7 +70,7 @@ int	count_unparsed_word(t_tree *branch)
 	tmp = branch->first_token;
 	while (tmp && tmp->index <= branch->end_index)
 	{
-		if (tmp->type == TK_WORD && tmp->parsed == false)
+		if ((tmp->type == TK_WORD || tmp->type == TK_DOLLAR || tmp->type == TK_EQUAL) && tmp->parsed == false)
 			count++;
 		tmp = tmp->next_token;
 	}

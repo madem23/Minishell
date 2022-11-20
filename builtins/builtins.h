@@ -21,5 +21,6 @@ void	echo(char **args);
 void	cd(char **args, char **envp);
 void	export(t_tree *branch, struct s_minishell *minishell);
 int		check_for_builtins(t_tree *branch, struct s_minishell *minishell);
+int		modify_existing_var(t_tree *branch, char *token_value, int j);
 
 #endif

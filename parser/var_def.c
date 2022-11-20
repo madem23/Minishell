@@ -48,7 +48,7 @@ void	var_add_back(t_var **var, t_var *new)
 	tmp->next = new;
 }
 
-t_var	*variable_init(char	*name, char *value)
+t_var	*variable_init(char	*name, char *value, bool env)
 {
 	t_var	*var;
 
@@ -56,6 +56,7 @@ t_var	*variable_init(char	*name, char *value)
 	var->name = name;
 	var->value = value;
 	var->next = NULL;
+	var->env = env;
 	return (var);
 }
 
@@ -71,7 +72,7 @@ t_var	*var_list_init(char **envp)
 	while (envp[i])
 	{
 		trim = separate_name_value(envp[i], '=');
-		var_add_back(&list, variable_init(trim[0], trim[1]));
+		var_add_back(&list, variable_init(trim[0], trim[1], false));
 		free(trim);
 		i++;
 	}
@@ -108,7 +109,7 @@ int	modify_existing_var(t_tree *branch, char *token_value, int j)
 				}
 				tmp = tmp->next;
 			}
-			return (1);
+			return (2);
 		}
 		i++;
 	}
@@ -134,8 +135,10 @@ int	parsing_var_def(t_tree *branch)
 
 	i = 0;
 	tmp = branch->first_token;
+	printf("ENTREE FONCTION PARSING VAR DEF\n");
 	if (!branch->exec_name && branch->piped_input == false && branch->piped_output == false)
 	{
+		printf("DECLARATION VARIABLE DETECTEE DANS PARSING VAR DEF\n");
 		while (tmp && tmp->index <= branch->end_index)
 		{
 			if (tmp->type == TK_EQUAL)
@@ -147,7 +150,7 @@ int	parsing_var_def(t_tree *branch)
 				else
 				{
 					var_add_back(&branch->minishell->var_def,
-						variable_init(ft_substr(tmp->value, 0, i), ft_strdup(tmp->value + i + 1)));
+						variable_init(ft_substr(tmp->value, 0, i), ft_strdup(tmp->value + i + 1), false));
 				}
 				i = 0;
 			}

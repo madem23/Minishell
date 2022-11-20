@@ -87,8 +87,9 @@ void			lexing_word_incl_dquotes(t_parser *parser);
 void			interpreting_closed_quotes(t_token *token);
 char			*remove_closed_quotes(char *token_value, int *save, int *i, char *s);
 char			*check_and_manage_closed_quotes(char *token_value, int *save, int *i, char *s);
-t_var			*variable_init(char	*name, char *value);
 int				parsing_var_def(t_tree *branch);
 void			lexing_dollar_token(t_parser *parser, struct s_minishell *minishell);
+void			var_add_back(t_var **var, t_var *new);
+t_var			*variable_init(char	*name, char *value, bool env);
 
 #endif
