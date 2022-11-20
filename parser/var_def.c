@@ -135,10 +135,8 @@ int	parsing_var_def(t_tree *branch)
 
 	i = 0;
 	tmp = branch->first_token;
-	printf("ENTREE FONCTION PARSING VAR DEF\n");
 	if (!branch->exec_name && branch->piped_input == false && branch->piped_output == false)
 	{
-		printf("DECLARATION VARIABLE DETECTEE DANS PARSING VAR DEF\n");
 		while (tmp && tmp->index <= branch->end_index)
 		{
 			if (tmp->type == TK_EQUAL)

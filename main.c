@@ -61,16 +61,16 @@ int main(int argc, char *argv[], char *envp[])
 			parser = parser_init(minishell->lexer, minishell);
 			minishell->parser = lexing_start(parser);
 			minishell->tree = parser_start(minishell->parser, minishell);
-			//DISPLAY LEXER:
-			t_parser *tmp = minishell->parser;
-			while (tmp->first_token)
-			{
-				printf("Created token = '%s', type: %d, index: %d.\n", tmp->first_token->value, tmp->first_token->type, tmp->first_token->index);
-				printf("Parsed? %d\n", tmp->first_token->parsed);
-				tmp->first_token = tmp->first_token->next_token;		
-			}
-			// //DISPLAY TREE:
-			// display_tree(minishell->tree);
+			// //DISPLAY LEXER:
+			// t_parser *tmp = minishell->parser;
+			// while (tmp->first_token)
+			// {
+			// 	printf("Created token = '%s', type: %d, index: %d.\n", tmp->first_token->value, tmp->first_token->type, tmp->first_token->index);
+			// 	printf("Parsed? %d\n", tmp->first_token->parsed);
+			// 	tmp->first_token = tmp->first_token->next_token;		
+			// }
+			// // //DISPLAY TREE:
+			//  display_tree(minishell->tree);
 			pipex(minishell);
 			unlink("tmp_heredoc.txt");
 		}

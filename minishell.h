@@ -59,6 +59,9 @@ int		ft_isaccepted_var_name(char c);
 char	*get_prompt();
 char	**t_strcpy(char **t_str);
 char	**add_str_to_tab(char **tab, const char *str);
+int		locate_char(char *s, char c);
+void	close_pipes(unsigned int nb_pipes, int **pipefd);
+t_tree	*get_branch(t_tree *treetop, unsigned int j);
 
 //free:
  void	free_parser(t_parser *parser);
@@ -67,6 +70,7 @@ char	**add_str_to_tab(char **tab, const char *str);
  
  //error:
  void	error_too_many_pipes(t_minishell *minishell);
+ void	error_cmd_not_found(t_minishell *minishell, t_tree *branch, int **pipefd);
 
  //processes:
 void	exec_interim_children(t_minishell *minishell, t_tree *branch, int **pipefd, int j);

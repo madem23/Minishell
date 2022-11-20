@@ -39,7 +39,7 @@ void	free_tree(t_tree *treetop)
 void	free_parser(t_parser *parser)
 {
 	t_token	*tmp;
-
+	
 	while (parser->first_token)
 	{
 		tmp = parser->first_token;
@@ -56,5 +56,6 @@ void	free_exit_final(t_minishell *minishell)
 {
 	free_tree(minishell->tree);
 	free_parser(minishell->parser);
+	free(minishell);
 	exit(EXIT_SUCCESS);
 }

@@ -34,7 +34,8 @@ SRCS		= 	main.c \
 				./builtins/cd.c \
 				./builtins/export.c \
 				./builtins/unset.c \
-				./builtins/check_for_builtins.c
+				./builtins/check_for_builtins.c\
+				processes_utils.c\
 
 				
 OBJS		=	${SRCS:.c=.o}

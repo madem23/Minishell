@@ -26,20 +26,18 @@ void	error_too_many_pipes(t_minishell *minishell)
 	free_parser(minishell->parser);
 	exit(EXIT_FAILURE);
 }
-/*
-void	error_cmd_not_found(char *cmd, t_global global, int x, int **pipefd)
+
+void	error_cmd_not_found(t_minishell *minishell, t_tree *branch, int **pipefd)
 {
-	if (x != 1 || global.input->fd_infile != -1)
-	{
-		write(2, "Command not found: ", 19);
-		ft_putstr_fd(cmd, 2);
-		write(2, "\n", 1);
-	}
-	free_parsing(global);
-	free_pipex(global, pipefd);
+	ft_putstr_fd(branch->exec_name, 2);
+	write(2, ": command not found\n", 20);
+	free_tree(minishell->tree);
+	free_parser(minishell->parser);
+	free(minishell->p_id);
+	free(pipefd);
 	exit(EXIT_FAILURE);
 }
-
+/*
 void	error_empty_cmd(char *cmd, t_global global, int x, int **pipefd)
 {
 	if (x != 1 || global.input->fd_infile != -1)

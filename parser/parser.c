@@ -110,7 +110,6 @@ t_tree	*create_subtree(t_token *begin, t_tree *treetop)
 	subtree->exec_name = NULL; //name of cmd
 	subtree->exec_args = NULL;// args and options of the said cmd
 	subtree->exec_path = NULL; //path to execute cmd
-	parsing_redir(subtree);
 	if (count_token_type(begin, TK_DLOWER) > 0)
 		subtree->here_doc = true;
 	else

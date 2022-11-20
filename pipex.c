@@ -44,6 +44,7 @@ int	pipex(t_minishell *minishell)
 	int		tmp_secu;
 
 	i = 0;
+
 	if (minishell->tree->nb_pipes > 0)
 	{
 		pipefd = malloc(sizeof(pipefd) * (minishell->tree->nb_pipes + 1));

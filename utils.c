@@ -12,6 +12,20 @@
 
 #include "minishell.h"
 
+//returns the index of the first occurence of a char
+int	locate_char(char *s, char c)
+{
+	int	i;
+
+	i = 0;
+	while (s[i] && s[i] != c)
+		i++;
+	if (!s[i])
+		return (-1);
+	else
+		return (i);	
+}
+
 int	ft_isaccepted_var_name(char c)
 {
 	if (ft_isalnum(c))
