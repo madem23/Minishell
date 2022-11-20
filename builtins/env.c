@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 10:12:36 by antoine           #+#    #+#             */
-/*   Updated: 2022/11/17 12:12:02 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/18 15:58:13 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	env(char **envp, char **args)
 		return ;
 	}
 	i = 0;
-	while(envp[i])
+	while (envp[i])
 	{
 		printf("%s\n", envp[i]);
 		i++;

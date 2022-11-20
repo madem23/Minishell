@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 12:50:08 by mdemma            #+#    #+#             */
-/*   Updated: 2022/11/18 13:01:32 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/18 16:00:54 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,6 +213,8 @@ void	exec_parent(t_minishell *minishell, int **pipefd)
 		cd(minishell->tree->branch->exec_args, minishell->envp);
 	if (minishell->tree->branch->exec_name && !ft_strcmp(minishell->tree->branch->exec_name, "export"))
 		export(minishell->tree->branch, minishell);
+	if (minishell->tree->branch->exec_name && !ft_strcmp(minishell->tree->branch->exec_name, "unset"))
+		unset(minishell->tree->branch->exec_args, minishell);
 	while (i < minishell->tree->nb_pipes + 1 && pipefd)
 	{
 		close(pipefd[i][0]);
