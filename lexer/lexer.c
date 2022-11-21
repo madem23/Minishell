@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anloisea <anloisea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 12:15:16 by anloisea          #+#    #+#             */
-/*   Updated: 2022/11/09 18:12:39 by anloisea         ###   ########.fr       */
+/*   Updated: 2022/11/21 17:11:23 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,6 @@ t_token	*lexer_get_next_token(t_lexer *lexer)
 	{
 		if (ft_isspace(lexer->c))
 			ignore_spaces(lexer);
-		if (lexer->c == '\\')
-			lexer_read_next_char(lexer);
 		if (lexer->c == '|')
 			return (token_init(TK_PIPE, lexer_get_char(lexer), lexer));
 		else if (lexer->c == '>' && lexer->cmd_line[lexer->i + 1] == '>')
@@ -64,7 +62,9 @@ t_token	*lexer_get_next_token(t_lexer *lexer)
 		else if (lexer->c == '$' && !ft_isspace(lexer->cmd_line[lexer->i + 1]))
 			return (token_init(TK_DOLLAR, lexer_get_word(lexer), lexer));
 		else if (lexer->c == '"' )
-			return (token_init(TK_STRING, lexer_get_string(lexer), lexer));
+			return (token_init(TK_DQUOTE, lexer_get_string(lexer, '"'), lexer));
+		else if (lexer->c == '\'' )
+			return (token_init(TK_SQUOTE, lexer_get_string(lexer, '\''), lexer));
 		else if (ft_isaccepted(lexer->c))
 			return (token_init(TK_WORD, lexer_get_word(lexer), lexer));
 		else
@@ -80,7 +80,7 @@ char	*lexer_get_word(t_lexer *lexer)
 	
 	str = malloc(1024 * sizeof(char));
 	if (str == NULL)
-		error(1, "failed to allocate string\n");
+		error(1, "failed to allocate word\n");
 	i = 0;
 	str[i] = 0;
 	while (ft_isaccepted(lexer->c) && lexer->c != 0)
@@ -117,7 +117,7 @@ char *lexer_get_char(t_lexer *lexer)
 	return (c);
 }
 
-char	*lexer_get_string(t_lexer *lexer)
+char	*lexer_get_string(t_lexer *lexer, char quote)
 {
 	char	*str;
 	int		i;
@@ -128,7 +128,7 @@ char	*lexer_get_string(t_lexer *lexer)
 		error(1, "failed to allocate string\n");
 	i = 0;
 	str[i] = 0;
-	while (lexer->c != '"')
+	while (lexer->c != quote)
 	{
 		str[i] = lexer->c;
 		i++;

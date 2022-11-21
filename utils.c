@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 11:15:19 by antoine           #+#    #+#             */
-/*   Updated: 2022/11/17 14:05:10 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/21 15:41:19 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,11 @@ int	ft_isaccepted(char c)
 {
 	if (ft_isalnum(c))
 		return (1);
-	else if (c >= 33 && c <= 45)
+	else if (c == 33)
 		return (1);
-	else if (c >= 46 && c <= 47)
+	else if (c >= 35 && c <= 38)
+		return (1);
+	else if (c >= 40 && c <= 47)
 		return (1);
 	else if (c >= 58 && c <= 61)
 		return (1);

@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 13:33:54 by anloisea          #+#    #+#             */
-/*   Updated: 2022/10/29 11:12:23 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/21 15:53:26 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	is_a_variable_declaration(char *value)
 		i++;
 	if (i == 0)
 		return (0);
-	if (value[i] == '=' && (ft_isaccepted(value[++i]) || value[i] == 123 || value[i] == 125))
+	if (value[i] == '=' && (ft_isaccepted(value[++i]) || value[i] == 123 || value[i] == 125 || value[i] == 0))
 		return (1);
 	else
 		return(0);	
