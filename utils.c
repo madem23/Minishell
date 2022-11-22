@@ -40,11 +40,7 @@ int	ft_isaccepted(char c)
 {
 	if (ft_isalnum(c))
 		return (1);
-	else if (c == 33)
-		return (1);
-	else if (c >= 35 && c <= 38)
-		return (1);
-	else if (c >= 40 && c <= 47)
+	else if (c >= 33 && c <= 47)
 		return (1);
 	else if (c >= 58 && c <= 61)
 		return (1);

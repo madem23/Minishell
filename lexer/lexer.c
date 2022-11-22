@@ -76,18 +76,30 @@ t_token	*lexer_get_next_token(t_lexer *lexer)
 char	*lexer_get_word(t_lexer *lexer)
 {
 	char	*str;
+	char	*tmp;
 	int		i;
 	
 	str = malloc(1024 * sizeof(char));
+	tmp = NULL;
 	if (str == NULL)
 		error(1, "failed to allocate word\n");
 	i = 0;
 	str[i] = 0;
 	while (ft_isaccepted(lexer->c) && lexer->c != 0)
 	{
-		str[i] = lexer->c;
-		i++;
-		lexer_read_next_char(lexer);
+		if (lexer->c == '"' || lexer->c == '\'')
+		{
+			tmp = ft_strjoin(str, lexer_get_string(lexer, lexer->c));
+			free(str);
+			str = tmp;
+			i = ft_strlen(str);
+		}
+		else
+		{
+			str[i] = lexer->c;
+			i++;
+			lexer_read_next_char(lexer);
+		}
 	}
 	str[i] = 0;
 	

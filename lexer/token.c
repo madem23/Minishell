@@ -21,7 +21,7 @@ int	is_a_variable_declaration(char *value)
 		i++;
 	if (i == 0)
 		return (0);
-	if (value[i] == '=' && (ft_isaccepted(value[++i]) || value[i] == 123 || value[i] == 125 || value[i] == 0))
+	if (value[i] == '=' && (ft_isaccepted(value[++i])))
 		return (1);
 	else
 		return(0);	

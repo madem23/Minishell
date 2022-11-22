@@ -65,12 +65,16 @@ void	unset(char **args, t_minishell *minishell)
 	i = 0;
 	while (args[++i])
 	{
-		j = -1;
-		while (minishell->envp[++j])
+		j = 0;
+		while (minishell->envp[j])
 		{
 			if (!ft_strncmp(args[i], minishell->envp[j], ft_strlen(args[i])))
-				minishell->envp = rmv_str_from_tab \
-				(minishell->envp, minishell->envp[j]);
+			{
+				minishell->envp = rmv_str_from_tab(minishell->envp,
+					minishell->envp[j]);
+				break ;
+			}
+			j++;
 		}
 		tmp = minishell->var_def;
 		while (tmp)
