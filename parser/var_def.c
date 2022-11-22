@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 11:01:37 by antoine           #+#    #+#             */
-/*   Updated: 2022/11/21 18:16:58 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/22 16:44:49 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,7 +177,10 @@ int	parsing_var_def(t_tree *branch)
 			if (tmp->type == TK_EQUAL && tmp->next_token->type != TK_DQUOTE)
 			{
 				if (modify_existing_string_var(branch, var_def[0], var_def[1]))
+				{
+					free_tab(var_def);
 					return (1);
+				}
 				else
 					var_add_back(&branch->minishell->var_def,
 						variable_init(ft_strdup(var_def[0]), ft_strdup(var_def[1]), false));
@@ -185,7 +188,10 @@ int	parsing_var_def(t_tree *branch)
 			else if (tmp->type == TK_EQUAL && tmp->next_token->type == TK_DQUOTE)
 			{
 				if (modify_existing_string_var(branch, var_def[0], tmp->next_token->value))
+				{
+					free_tab(var_def);
 					return (1);
+				}
 				else
 					var_add_back(&branch->minishell->var_def,
 						variable_init(ft_strdup(var_def[0]), ft_strdup(tmp->next_token->value), false));
@@ -193,5 +199,6 @@ int	parsing_var_def(t_tree *branch)
 			tmp = tmp->next_token;
 		}
 	}
+	free_tab(var_def);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 14:24:28 by antoine           #+#    #+#             */
-/*   Updated: 2022/11/22 16:20:30 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/22 16:40:39 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,12 @@ int	cd(char **args, t_minishell *minishell)
 	value = chdir(path);
 	if (value == -1)
 	{
-		ft_putstr_fd("cd: ", 2);
+		ft_putstr_fd("minishell: cd: ", 2);
 		perror(path);
+		free(path);
 		return (1);
 	}
+	puts("here");
 	free(path);
 	return (0);
 }

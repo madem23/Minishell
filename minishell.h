@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 12:56:26 by anloisea          #+#    #+#             */
-/*   Updated: 2022/11/18 11:02:41 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/22 17:09:21 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,13 @@ char	*check_exec_paths(char **paths, char *exec_called);
 
 int		ft_isaccepted(char c);
 int		ft_isaccepted_var_name(char c);
-char	*get_prompt();
+void	get_prompt(t_minishell *minishell);
 char	**t_strcpy(char **t_str);
 char	**add_str_to_tab(char **tab, const char *str);
 int		locate_char(char *s, char c);
 void	close_pipes(unsigned int nb_pipes, int **pipefd);
 t_tree	*get_branch(t_tree *treetop, unsigned int j);
+void	free_tab(char **tab);
 
 //free:
  void	free_parser(t_parser *parser);

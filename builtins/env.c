@@ -6,13 +6,13 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 10:12:36 by antoine           #+#    #+#             */
-/*   Updated: 2022/11/18 15:58:13 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/22 16:33:04 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
-void	env(char **envp, char **args)
+int	env(char **envp, char **args)
 {
 	int	i;
 
@@ -27,7 +27,7 @@ void	env(char **envp, char **args)
 			i++;
 		}
 		ft_putstr_fd("usage: env\n", 2);
-		return ;
+		return (125);
 	}
 	i = 0;
 	while (envp[i])
@@ -35,4 +35,5 @@ void	env(char **envp, char **args)
 		printf("%s\n", envp[i]);
 		i++;
 	}
+	return (0);
 }

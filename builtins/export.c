@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 10:25:12 by antoine           #+#    #+#             */
-/*   Updated: 2022/11/21 18:28:31 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/22 17:16:25 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	create_var_entry_in_env(char *var_name, t_minishell *minishell)
 	}
 }
 
-void	export(t_tree *branch, t_minishell *minishell)
+int	export(t_tree *branch, t_minishell *minishell)
 {
 	int		i;
 	int		modif_status;
@@ -49,7 +49,7 @@ void	export(t_tree *branch, t_minishell *minishell)
 		i = 0;
 		while (minishell->envp[i])
 			printf("declare -x %s\n", minishell->envp[i++]);
-		return ;
+		return (0);
 	}
 	i = 1;
 	while (branch->exec_args[i])
@@ -66,5 +66,6 @@ void	export(t_tree *branch, t_minishell *minishell)
 		create_var_entry_in_env(var_def[0], minishell);
 		i++;
 	}
+	return (0);
 }
 	

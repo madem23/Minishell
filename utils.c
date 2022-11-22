@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 11:15:19 by antoine           #+#    #+#             */
-/*   Updated: 2022/11/22 15:26:53 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/22 17:08:54 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,15 @@ int	ft_isaccepted(char c)
 		return (0);
 }
 
-char	*get_prompt()
+void	get_prompt(t_minishell *minishell)
 {
 	char	*prompt;
 	char	*current_dir;
 	char	*color;
 	char	*tmp;
 
+	if (minishell->prompt)
+		free(minishell->prompt);
 	current_dir = getcwd(NULL, 0);
 	color = ft_strjoin("\033[0;34m", current_dir);
 	free(current_dir);
@@ -67,7 +69,7 @@ char	*get_prompt()
 	tmp = prompt;
 	prompt = ft_strjoin(tmp, "$ \033[0m");
 	free(tmp);
-	return (prompt);
+	minishell->prompt = prompt;
 }
 
 char	**t_strcpy(char **t_str)
@@ -104,3 +106,4 @@ char	**add_str_to_tab(char **tab, const char *str)
 	free(tab);
 	return (result);
 }
+

@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 12:33:01 by antoine           #+#    #+#             */
-/*   Updated: 2022/11/18 15:38:30 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/22 17:16:53 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	rmv_var_from_list(t_var	**list, t_var *var)
 	}
 }
 
-void	unset(char **args, t_minishell *minishell)
+int unset(char **args, t_minishell *minishell)
 {
 	int		i;
 	t_var	*tmp;
@@ -87,4 +87,5 @@ void	unset(char **args, t_minishell *minishell)
 			tmp = tmp->next;
 		}
 	}
+	return (0);
 }
