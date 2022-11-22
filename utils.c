@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 11:15:19 by antoine           #+#    #+#             */
-/*   Updated: 2022/11/21 15:41:19 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/22 15:26:53 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,9 @@ int	ft_isaccepted(char c)
 		return (1);
 	else if (c >= 58 && c <= 61)
 		return (1);
-	else if (c == 123 || c == 125)
+	else if (c == 123 || c == 126)
+		return (1);
+	else if (c == 95)
 		return (1);
 	else
 		return (0);

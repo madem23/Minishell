@@ -6,53 +6,60 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 14:24:28 by antoine           #+#    #+#             */
-/*   Updated: 2022/11/18 13:15:39 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/22 16:20:30 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
 //join to fix
-char	*get_home_var(char **envp)
+// cd /
+char	*get_home_var(t_var *var_list)
 {
-	int		i;
+	t_var	*tmp;
 	char	*home;
 
-	i = 0;
+	tmp = var_list;
 	home = NULL;
-	while (envp[i])
+	while (tmp)
 	{
-		if (ft_strnstr(envp[i], "HOME=", 5))
-			home = ft_substr(envp[i], 5, ft_strlen(envp[i]));
-		i++;
+		if (!ft_strcmp(tmp->name, "HOME"))
+			home = ft_strdup(tmp->value);
+		tmp = tmp->next;
 	}
 	return (home);
 }
 
-void	cd(char **args, char **envp)
+int	cd(char **args, t_minishell *minishell)
 {
 	int		value;
 	char	*path;
+	char	*home;
 
 	if (tab_len(args) == 1)
 	{
-		path = get_home_var(envp);
+		path = get_home_var(minishell->var_def);
 		if (path == NULL)
 		{
 			ft_putstr_fd("cd: HOME not set\n", 2);
-			return ;
+			return (1);
 		}
 	}
-	else if (args[1][0] == '/')
-		path = args[1];
+	else if (args[1][0] == '~')
+	{
+		home = get_home_var(minishell->var_def);
+		path = ft_strjoin(home, args[1] + 1);
+		free(home);
+	}
 	else
-		path = ft_strjoin(ft_strjoin(getcwd(NULL, 0), "/"), args[1]);
+		path = ft_strdup(args[1]);
 	value = chdir(path);
 	if (value == -1)
 	{
 		ft_putstr_fd("cd: ", 2);
 		perror(path);
-		return ;
+		return (1);
 	}
 	free(path);
+	return (0);
 }
