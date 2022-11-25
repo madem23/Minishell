@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   paths.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anloisea <anloisea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 16:23:17 by antoine           #+#    #+#             */
-/*   Updated: 2022/11/09 17:46:08 by anloisea         ###   ########.fr       */
+/*   Updated: 2022/11/25 13:46:39 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,8 @@ char	*check_exec_paths(char **paths, char *exec_called)
 	if (!exec_called)
 		return (NULL);
 	if (access(exec_called, F_OK) == 0)
-		return (exec_called);
+		return (ft_strdup(exec_called));
 	i = 0;
-
 	while (paths[i])
 	{
 		full_exec_path = ft_strjoin(paths[i], exec_called);
