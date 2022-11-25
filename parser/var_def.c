@@ -133,6 +133,7 @@ int	parsing_var_def(t_tree *branch)
 			if (tmp->type == TK_EQUAL)
 			{
 				var_def = ft_split(tmp->value, '=');
+				var_def[1] = parsing_quotes_dollar(var_def[1], branch->minishell, creating_word_parsing_tree(var_def[1], branch->minishell)); 
 				if (modify_existing_string_var(branch, var_def[0], var_def[1]))
 					return (1);
 				else

@@ -14,7 +14,7 @@ char	*get_var(unsigned int *i, char *value)
 	if (value[*i] && value[*i] >= '0' && value[*i] <= '9')
 	{
 		*i += 1;
-		return (ft_substr(value, save, 3));
+		return (ft_substr(value, save, 2));
 	}
 	else if (value[*i] && !ft_isaccepted_var_name(value[*i]))
 	{
@@ -64,7 +64,7 @@ char	*get_prev_word(unsigned int last_end, unsigned int *i, char *value)
 	if (last_end != 0)
 		last_end++;
 	s = malloc(sizeof(char) * (*i - last_end + 1));
-	while (value[last_end] && last_end < *i)
+	while (value[last_end] && last_end <= *i)
 	{
 		s[j++] = value[last_end];
 		last_end++;

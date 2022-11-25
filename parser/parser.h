@@ -119,6 +119,7 @@ char 			*convert_dollar_token(char *value, struct s_minishell *minishell);
 
 //parsing tree
 void				lexing_quotes_and_dollar(t_parser *parser, struct s_minishell *minishell);
+char				*parsing_quotes_dollar(char *value, struct s_minishell *minishell, t_word_parser_tree *tree);
 char				*get_var(unsigned int *i, char *value);
 char				*get_word(unsigned int *i, char *value);
 char				*get_prev_word(unsigned int last_end, unsigned int *i, char *value);
