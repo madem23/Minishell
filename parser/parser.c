@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 15:10:52 by antoine           #+#    #+#             */
-/*   Updated: 2022/11/17 13:23:12 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/25 15:26:45 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_parser	*parser_init(t_lexer *lexer, t_minishell *minishell)
 	parser->current_token->next_token = NULL;
 	parser->first_token = parser->current_token;
 	parser->envp = minishell->envp;
-	parser->cmd_paths = get_paths(parser->envp);
+	parser->cmd_paths = get_paths(minishell->var_def);
 	return (parser);
 }
 

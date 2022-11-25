@@ -6,29 +6,30 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 16:23:17 by antoine           #+#    #+#             */
-/*   Updated: 2022/11/25 13:46:39 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/25 15:36:03 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**get_paths(char *envp[])
+char	**get_paths(t_var *var_list)
 {
 	char	*env_path;
 	char	**paths;
 	char	*tmp;
+	t_var	*tmp_list;
 	int		i;
 
-	i = 0;
 	env_path = NULL;
-	while (envp[i])
+	tmp_list = var_list;
+	while (tmp_list)
 	{
-		if (ft_strnstr(envp[i], "PATH=", 5))
-			env_path = ft_substr(envp[i], 5, ft_strlen(envp[i]));
-		i++;
+		if (ft_strnstr(tmp_list->name, "PATH", 4))
+			env_path = ft_strdup(tmp_list->value);
+		tmp_list = tmp_list->next;
 	}
 	if (!env_path)
-		error(1, "could find env PATH\n");
+		return (NULL);
 	paths = ft_split(env_path, ':');
 	free (env_path);
 	i = 0;
@@ -52,6 +53,8 @@ char	*check_exec_paths(char **paths, char *exec_called)
 	if (access(exec_called, F_OK) == 0)
 		return (ft_strdup(exec_called));
 	i = 0;
+	if (!paths)
+		return (NULL);
 	while (paths[i])
 	{
 		full_exec_path = ft_strjoin(paths[i], exec_called);

@@ -117,6 +117,6 @@ void	parsing_cmd(t_tree *branch)
 	if (!branch->exec_args[0])
 		branch->exec_name = NULL;
 	else
-		branch->exec_name = branch->exec_args[0]; //name of cmd
+		branch->exec_name = ft_strdup(branch->exec_args[0]); //name of cmd
 	branch->exec_path = check_exec_paths(branch->treetop->paths, branch->exec_name);
 }

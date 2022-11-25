@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 12:56:26 by anloisea          #+#    #+#             */
-/*   Updated: 2022/11/18 11:02:41 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/25 15:30:22 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	error(int errnum, char *msg);
 
 //PATHS:
 
-char	**get_paths(char *envp[]);
+char	**get_paths(t_var * var_list);
 char	*check_exec_paths(char **paths, char *exec_called);
 
 //Utils:
