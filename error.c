@@ -29,7 +29,6 @@ void	error_too_many_pipes(t_minishell *minishell)
 
 void	error_cmd_not_found(t_minishell *minishell, t_tree *branch, int **pipefd)
 {
-	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(branch->exec_name, 2);
 	write(2, ": command not found\n", 20);
 	free_tree(minishell->tree);

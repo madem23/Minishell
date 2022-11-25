@@ -103,6 +103,8 @@ void	exec_first_child(t_minishell *minishell, t_tree *branch, int **pipefd)
 	{
 		exit(EXIT_SUCCESS);
 	}
+	if (!branch->exec_path && !branch->treetop->paths)
+		error_cmd_path(minishell, branch, pipefd);
 	if (!branch->exec_path)
 		error_cmd_not_found(minishell, branch, pipefd);
 	execve(branch->exec_path, branch->exec_args, branch->treetop->envp);

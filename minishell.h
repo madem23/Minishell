@@ -71,6 +71,7 @@ int		ft_strchrset(const char *s, char *charset);
  
  //error:
  void	error_too_many_pipes(t_minishell *minishell);
+ void	error_cmd_path(t_minishell *minishell, t_tree *branch, int **pipefd);
  void	error_cmd_not_found(t_minishell *minishell, t_tree *branch, int **pipefd);
 
  //processes:
