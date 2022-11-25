@@ -131,6 +131,8 @@ void	exec_last_child(t_minishell *minishell, t_tree *branch, int **pipefd)
 	close_pipes(branch->treetop->nb_pipes, pipefd);
 	if (check_for_builtins(branch, minishell))
 		exit(EXIT_SUCCESS);
+	if (!branch->exec_path && !branch->treetop->paths)
+		error_cmd_path(minishell, branch, pipefd);
 	if (!branch->exec_path)
 		error_cmd_not_found(minishell, branch, pipefd);
 	execve(branch->exec_path, cmd, branch->treetop->envp);
@@ -158,6 +160,8 @@ void	exec_interim_children(t_minishell *minishell, t_tree *branch, int **pipefd,
 		puts(branch->exec_name);
 		exit(EXIT_SUCCESS);
 	}
+	if (!branch->exec_path && !branch->treetop->paths)
+		error_cmd_path(minishell, branch, pipefd);
 	if (!branch->exec_path)
 		error_cmd_not_found(minishell, branch, pipefd);
 	execve(branch->exec_path, branch->exec_args, branch->treetop->envp);
