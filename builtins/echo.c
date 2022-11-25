@@ -6,13 +6,13 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 11:21:51 by antoine           #+#    #+#             */
-/*   Updated: 2022/11/17 11:54:40 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/22 17:16:59 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
-void	echo(char **args)
+int	echo(char **args)
 {
 	int	i;
 
@@ -31,4 +31,5 @@ void	echo(char **args)
 	}
 	if (ft_strncmp(args[1], "-n", 2))
 		printf("\n");
+	return (0);
 }
