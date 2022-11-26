@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 12:56:26 by anloisea          #+#    #+#             */
-/*   Updated: 2022/11/26 15:19:33 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/26 20:11:08 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ int		ft_strchrset(const char *s, char *charset);
  void	free_parser(t_parser *parser);
  void	free_exit_final(t_minishell *minishell);
  void	free_tree(t_tree *treetop);
+ void	free_tab(char **tab);
  
  //error:
  void	error_too_many_pipes(t_minishell *minishell);
@@ -90,6 +91,8 @@ void	print_tab(char *s,	t_token **tab, int i);
 
 //Variables
 t_var	*var_list_init(char **envp);
-void	change_variable_value(t_var *list, char *name, char *value);
+int		change_variable_value(t_var *list, char *name, char *value);
+void	update_envp(t_minishell *minishell);
+char	*get_variable_value(t_var *var_list, char *name);
 
 #endif

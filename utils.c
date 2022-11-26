@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 11:15:19 by antoine           #+#    #+#             */
-/*   Updated: 2022/11/26 16:36:43 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/26 20:09:41 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,4 +131,54 @@ char	**add_str_to_tab(char **tab, const char *str)
 	result[i + 1] = NULL;
 	free(tab);
 	return (result);
+}
+
+void	update_envp(t_minishell *minishell)
+{
+	int		len;
+	t_var	*tmp;
+	int		i;
+	char	*join_equal;
+
+	if (minishell->envp)
+		free_tab(minishell->envp);
+	tmp = minishell->var_def;
+	len = 0;
+	while (tmp)
+	{
+		if (tmp->env == true)
+			len++;
+		tmp = tmp->next;
+	}
+	minishell->envp = malloc((len + 1) * sizeof(char*));
+	i = 0;
+	tmp = minishell->var_def;
+	while (tmp)
+	{
+		if (tmp->env == true)
+		{
+			join_equal = ft_strjoin(tmp->name, "=");
+			minishell->envp[i] = ft_strjoin(join_equal, tmp->value);
+			free(join_equal);
+			i++;
+		}
+		tmp = tmp->next;
+	}
+	minishell->envp[i] = NULL;
+}
+
+char	*get_variable_value(t_var *var_list, char *name)
+{
+	t_var	*tmp;
+	char	*value;
+
+	tmp = var_list;
+	value = NULL;
+	while (tmp)
+	{
+		if (!ft_strcmp(tmp->name, name))
+			value = ft_strdup(tmp->value);
+		tmp = tmp->next;
+	}
+	return (value);
 }

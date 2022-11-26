@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 11:32:55 by anloisea          #+#    #+#             */
-/*   Updated: 2022/11/26 18:40:26 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/26 19:54:39 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ t_minishell	*init_minishell(char *envp[])
 	t_minishell	*minishell;
 
 	minishell = malloc(sizeof(t_minishell));
-	minishell->envp = t_strcpy(envp);
+	minishell->envp = NULL;
 	minishell->p_id = NULL;
-	minishell->var_def = var_list_init(minishell->envp);
+	minishell->var_def = var_list_init(envp);
 	minishell->prompt = get_prompt();
 	minishell->cmd_line = NULL;
 	get_line(minishell);
@@ -51,6 +51,7 @@ int main(int argc, char *argv[], char *envp[])
 	minishell = init_minishell(envp);
 	while (minishell->cmd_line)
 	{
+		update_envp(minishell);
 		if (minishell->cmd_line[0] != '\0')
 		{
 			minishell->lexer = lexer_init(minishell->cmd_line);
@@ -70,7 +71,6 @@ int main(int argc, char *argv[], char *envp[])
 			pipex(minishell);
 			unlink("tmp_heredoc.txt");
 		}
-		//ft_display_tab(minishell->envp);
 		minishell->prompt = get_prompt();
 		get_line(minishell);
 	}

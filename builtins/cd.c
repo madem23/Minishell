@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 14:24:28 by antoine           #+#    #+#             */
-/*   Updated: 2022/11/26 18:48:15 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/26 20:17:12 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,6 @@
 
 //join to fix
 // cd /
-char	*get_variable_value(t_var *var_list, char *name)
-{
-	t_var	*tmp;
-	char	*value;
-
-	tmp = var_list;
-	value = NULL;
-	while (tmp)
-	{
-		if (!ft_strcmp(tmp->name, name))
-			value = ft_strdup(tmp->value);
-		tmp = tmp->next;
-	}
-	return (value);
-}
 
 int	cd(char **args, t_minishell *minishell)
 {
@@ -38,6 +23,8 @@ int	cd(char **args, t_minishell *minishell)
 	char	*newpwd;
 
 	oldpwd = get_variable_value(minishell->var_def, "OLDPWD");
+	if (!oldpwd)
+		var_add_back(&minishell->var_def, variable_init(ft_strdup("OLDPWD"), getcwd(NULL, 0), true));
 	if (tab_len(args) == 1)
 	{
 		path = get_variable_value(minishell->var_def, "HOME");

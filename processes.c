@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 12:50:08 by mdemma            #+#    #+#             */
-/*   Updated: 2022/11/26 15:46:25 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/26 18:54:17 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ void	exec_first_child(t_minishell *minishell, t_tree *branch, int **pipefd)
 		error_cmd_path(minishell, branch, pipefd);
 	if (!branch->exec_path)
 		error_cmd_not_found(minishell, branch, pipefd);
-	execve(branch->exec_path, branch->exec_args, branch->treetop->envp);
+	execve(branch->exec_path, branch->exec_args, minishell->envp);
 }
 
 //Program for last child process: execute the last cmd
@@ -133,7 +133,7 @@ void	exec_last_child(t_minishell *minishell, t_tree *branch, int **pipefd)
 		error_cmd_path(minishell, branch, pipefd);
 	if (!branch->exec_path)
 		error_cmd_not_found(minishell, branch, pipefd);
-	execve(branch->exec_path, cmd, branch->treetop->envp);
+	execve(branch->exec_path, cmd, minishell->envp);
 }
 
 //Program for all intermediary children processes
@@ -162,7 +162,7 @@ void	exec_interim_children(t_minishell *minishell, t_tree *branch, int **pipefd,
 		error_cmd_path(minishell, branch, pipefd);
 	if (!branch->exec_path)
 		error_cmd_not_found(minishell, branch, pipefd);
-	execve(branch->exec_path, branch->exec_args, branch->treetop->envp);
+	execve(branch->exec_path, branch->exec_args, minishell->envp);
 }
 
 //Program for the parent process (supervises the exec of cmds by the children)
