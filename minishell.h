@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 12:56:26 by anloisea          #+#    #+#             */
-/*   Updated: 2022/11/25 15:30:22 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/26 15:19:33 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,5 +90,6 @@ void	print_tab(char *s,	t_token **tab, int i);
 
 //Variables
 t_var	*var_list_init(char **envp);
+void	change_variable_value(t_var *list, char *name, char *value);
 
 #endif

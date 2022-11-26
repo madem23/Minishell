@@ -6,16 +6,18 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 10:12:36 by antoine           #+#    #+#             */
-/*   Updated: 2022/11/22 16:33:04 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/26 16:35:51 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
-int	env(char **envp, char **args)
+int	env(t_var *list, char **args)
 {
-	int	i;
+	int		i;
+	t_var	*tmp;
 
+	tmp = list;
 	if (tab_len(args) > 1)
 	{
 		i = 1;
@@ -30,10 +32,11 @@ int	env(char **envp, char **args)
 		return (125);
 	}
 	i = 0;
-	while (envp[i])
+	while (tmp)
 	{
-		printf("%s\n", envp[i]);
-		i++;
+		if (tmp->env == true)
+			printf("%s=%s\n", tmp->name, tmp->value);
+		tmp = tmp->next;
 	}
 	return (0);
 }

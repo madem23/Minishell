@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 11:07:53 by antoine           #+#    #+#             */
-/*   Updated: 2022/11/26 14:35:07 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/26 16:36:52 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	check_for_builtins(t_tree *branch, t_minishell *minishell)
 		return (1);
 	else if (!ft_strcmp(branch->exec_name, "env"))
 	{
-		env(minishell->envp, branch->exec_args);
+		env(minishell->var_def, branch->exec_args);
 		return (1);
 	}
 	else if (!ft_strcmp(branch->exec_name, "export"))

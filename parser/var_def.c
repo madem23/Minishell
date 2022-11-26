@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 11:01:37 by antoine           #+#    #+#             */
-/*   Updated: 2022/11/21 18:16:58 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/26 16:26:33 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,23 +65,18 @@ t_var	*var_list_init(char **envp)
 	t_var	*list;
 	int		i;
 	char	**trim;
-	t_var	*tmp;
 
 	i = 0;
 	list = NULL;
+	var_add_back(&list, variable_init(ft_strdup("?"), ft_itoa(0), false));
 	while (envp[i])
 	{
 		trim = separate_name_value(envp[i], '=');
-		var_add_back(&list, variable_init(trim[0], trim[1], false));
+		var_add_back(&list, variable_init(trim[0], trim[1], true));
 		free(trim);
 		i++;
 	}
-	tmp = list;
-	while (tmp)
-	{
-		tmp->env = true;
-		tmp = tmp->next;
-	}
+	change_variable_value(list, "SHELL", ft_strdup("./minishell"));
 	return (list);
 }
 
@@ -144,4 +139,18 @@ int	parsing_var_def(t_tree *branch)
 		}
 	}
 	return (0);
+}
+
+void	change_variable_value(t_var *list, char *name, char *value)
+{
+	t_var	*tmp;
+	
+	tmp = list;
+	while (tmp && ft_strcmp(tmp->name, name))
+		tmp = tmp->next;
+	if (tmp)
+	{
+		free(tmp->value);
+		tmp->value = ft_strdup(value);
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 11:15:19 by antoine           #+#    #+#             */
-/*   Updated: 2022/11/25 13:35:41 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/26 16:36:43 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	ft_isaccepted_var_name(char c)
 {
 	if (ft_isalnum(c))
 		return (1);
-	else if (c == '_')
+	else if (c == '_' || c == '?')
 		return (1);
 	else
 		return (0);
@@ -67,6 +67,8 @@ int	ft_isaccepted(char c)
 	else if (c >= 33 && c <= 47)
 		return (1);
 	else if (c >= 58 && c <= 61)
+		return (1);
+	else if (c == 63)
 		return (1);
 	else if (c == 123 || c == 125)
 		return (1);

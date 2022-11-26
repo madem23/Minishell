@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 12:50:08 by mdemma            #+#    #+#             */
-/*   Updated: 2022/11/26 14:22:26 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/26 15:46:25 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,9 +100,7 @@ void	exec_first_child(t_minishell *minishell, t_tree *branch, int **pipefd)
 		dup2(pipefd[0][1], STDOUT_FILENO);
 	close_pipes(branch->treetop->nb_pipes, pipefd);
 	if (check_for_builtins(branch, minishell))
-	{
-		exit(EXIT_SUCCESS);
-	}
+		exit(255);
 	if (!branch->exec_path && !branch->treetop->paths)
 		error_cmd_path(minishell, branch, pipefd);
 	if (!branch->exec_path)
@@ -175,13 +173,14 @@ void	exec_parent(t_minishell *minishell, int **pipefd)
 
 	i = 0;
 	if (minishell->tree->branch->exec_name && !ft_strcmp(minishell->tree->branch->exec_name, "cd"))
-		cd(minishell->tree->branch->exec_args, minishell);
+		status = cd(minishell->tree->branch->exec_args, minishell);
 	if (minishell->tree->branch->exec_name && !ft_strcmp(minishell->tree->branch->exec_name, "export"))
-		export(minishell->tree->branch, minishell);
+		status = export(minishell->tree->branch, minishell);
 	if (minishell->tree->branch->exec_name && !ft_strcmp(minishell->tree->branch->exec_name, "unset"))
-		unset(minishell->tree->branch->exec_args, minishell);
+		status = unset(minishell->tree->branch->exec_args, minishell);
 	if (minishell->tree->branch->exec_name && !ft_strcmp(minishell->tree->branch->exec_name, "exit"))
 		ft_exit(minishell->tree->branch->exec_args);
+	change_variable_value(minishell->var_def, "?", ft_itoa(status));
 	while (i < minishell->tree->nb_pipes + 1 && pipefd)
 	{
 		close(pipefd[i][0]);
@@ -193,6 +192,11 @@ void	exec_parent(t_minishell *minishell, int **pipefd)
 	{
 		waitpid(minishell->p_id[i], &status, 0);
 		i++;
+	}
+	if (WEXITSTATUS(status) != 255)
+	{
+		printf("WIFEXITED = %d, status = %d\n", WIFEXITED(status), status);
+		change_variable_value(minishell->var_def, "?", ft_itoa(WEXITSTATUS(status)));
 	}
 	free_tree(minishell->tree);
 	free_parser(minishell->parser);

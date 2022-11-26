@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 14:24:28 by antoine           #+#    #+#             */
-/*   Updated: 2022/11/25 13:02:29 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/26 16:34:59 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,31 +14,30 @@
 
 //join to fix
 // cd /
-char	*get_home_var(t_var *var_list)
+char	*get_variable_value(t_var *var_list, char *name)
 {
 	t_var	*tmp;
-	char	*home;
+	char	*value;
 
 	tmp = var_list;
-	home = NULL;
+	value = NULL;
 	while (tmp)
 	{
-		if (!ft_strcmp(tmp->name, "HOME"))
-			home = ft_strdup(tmp->value);
+		if (!ft_strcmp(tmp->name, name))
+			value = ft_strdup(tmp->value);
 		tmp = tmp->next;
 	}
-	return (home);
+	return (value);
 }
 
 int	cd(char **args, t_minishell *minishell)
 {
-	int		value;
 	char	*path;
 	char	*home;
 
 	if (tab_len(args) == 1)
 	{
-		path = get_home_var(minishell->var_def);
+		path = get_variable_value(minishell->var_def, "HOME");
 		if (path == NULL)
 		{
 			ft_putstr_fd("cd: HOME not set\n", 2);
@@ -47,14 +46,23 @@ int	cd(char **args, t_minishell *minishell)
 	}
 	else if (args[1][0] == '~')
 	{
-		home = get_home_var(minishell->var_def);
+		home = get_variable_value(minishell->var_def, "HOME");
 		path = ft_strjoin(home, args[1] + 1);
 		free(home);
 	}
+	else if (args[1][0] == '-' && !args[1][1])
+	{
+		path = get_variable_value(minishell->var_def, "OLDPWD");
+		if (!path)
+		{
+			ft_putstr_fd("minishell: cd: OLDPWD not set\n", 2);
+			return (1);
+		}
+		printf("%s\n", path);
+	}
 	else
 		path = ft_strdup(args[1]);
-	value = chdir(path);
-	if (value == -1)
+	if (chdir(path) == -1)
 	{
 		ft_putstr_fd("minishell: cd: ", 2);
 		perror(path);
