@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 11:32:55 by anloisea          #+#    #+#             */
-/*   Updated: 2022/11/26 15:30:13 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/26 18:40:26 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ int main(int argc, char *argv[], char *envp[])
 			pipex(minishell);
 			unlink("tmp_heredoc.txt");
 		}
+		//ft_display_tab(minishell->envp);
 		minishell->prompt = get_prompt();
 		get_line(minishell);
 	}
