@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 11:32:55 by anloisea          #+#    #+#             */
-/*   Updated: 2022/11/21 18:33:21 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/26 14:22:01 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,6 @@ int main(int argc, char *argv[], char *envp[])
 	minishell = init_minishell(envp);
 	while (minishell->cmd_line)
 	{
-		
-		if (!ft_strcmp(minishell->cmd_line, "exit"))
-			break ;
-			//free_exit_final(minishell);
 		if (minishell->cmd_line[0] != '\0')
 		{
 			minishell->lexer = lexer_init(minishell->cmd_line);
