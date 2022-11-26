@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 14:24:28 by antoine           #+#    #+#             */
-/*   Updated: 2022/11/26 16:34:59 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/26 18:03:11 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,10 @@ int	cd(char **args, t_minishell *minishell)
 {
 	char	*path;
 	char	*home;
+	char	*oldpwd;
+	char	*newpwd;
 
+	oldpwd = get_variable_value(minishell->var_def, "OLDPWD");
 	if (tab_len(args) == 1)
 	{
 		path = get_variable_value(minishell->var_def, "HOME");
@@ -52,7 +55,7 @@ int	cd(char **args, t_minishell *minishell)
 	}
 	else if (args[1][0] == '-' && !args[1][1])
 	{
-		path = get_variable_value(minishell->var_def, "OLDPWD");
+		path = oldpwd;
 		if (!path)
 		{
 			ft_putstr_fd("minishell: cd: OLDPWD not set\n", 2);
@@ -62,8 +65,13 @@ int	cd(char **args, t_minishell *minishell)
 	}
 	else
 		path = ft_strdup(args[1]);
+	newpwd = getcwd(NULL, 0);
+	change_variable_value(minishell->var_def, "OLDPWD", newpwd);
+	free(newpwd);
 	if (chdir(path) == -1)
 	{
+		change_variable_value(minishell->var_def, "OLDPWD", oldpwd);
+		free(oldpwd);
 		ft_putstr_fd("minishell: cd: ", 2);
 		perror(path);
 		free(path);
