@@ -81,16 +81,10 @@ t_tree	*create_branch(t_token *begin, t_token *end, t_tree *treetop, t_minishell
 		branch->piped_output = false;
 	branch->end_index = end->index;
 	parsing_redir(branch);
+	branch->here_doc = heredoc_parsing(begin, end->index, count_token_type(begin, end->index, TK_DLOWER));
 	parsing_cmd(branch);
 	parsing_var_def(branch);
-	if (count_token_type(begin, TK_DLOWER) > 0)
-	{
-		branch->here_doc = true;
-		heredoc_parsing(begin, end->index);
-	}
-	else
-		branch->here_doc = false;
-
+	
 	return (branch);
 }
 
@@ -105,15 +99,12 @@ t_tree	*create_subtree(t_token *begin, t_tree *treetop)
 	subtree->treetop = treetop;
 	subtree->branch = NULL; //pour le moment
 	subtree->subtree = NULL; //pour le moment
-	subtree->nb_pipes = count_token_type(begin, TK_PIPE);
+	subtree->nb_pipes = count_token_type(begin, -1, TK_PIPE);
 	subtree->end_index = 0;
 	subtree->exec_name = NULL; //name of cmd
 	subtree->exec_args = NULL;// args and options of the said cmd
 	subtree->exec_path = NULL; //path to execute cmd
-	if (count_token_type(begin, TK_DLOWER) > 0)
-		subtree->here_doc = true;
-	else
-		subtree->here_doc = false;
+	subtree->here_doc = -1;
 	subtree->piped_input = true; //toujours vrai sinon pas de subtree
 	subtree->piped_output = false;
 	return (subtree);

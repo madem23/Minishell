@@ -59,12 +59,15 @@ void	converting_all_branches(t_word_parser_tree *tree, t_minishell *minishell)
 
 char	*parsing_quotes_dollar(char *value, t_minishell *minishell, t_word_parser_tree *tree)
 {
-	char	*new_value;
-	char	*buf;
+	char				*new_value;
+	char				*buf;
+	t_word_parser_tree *tmp;
 
 	new_value = NULL;
 	converting_all_branches(tree, minishell);
-	tree = tree->next_subtree;
+	tmp = tree->next_subtree;
+	free(tree);
+	tree = tmp;
 	while (tree)
 	{
 		while (tree->next_branch)
@@ -78,11 +81,16 @@ char	*parsing_quotes_dollar(char *value, t_minishell *minishell, t_word_parser_t
 				new_value = buf;
 				buf = new_value;
 			}
-			tree->next_branch = tree->next_branch->next_branch;
+			tmp = tree->next_branch->next_branch;
+			free(tree->next_branch);
+			tree->next_branch = tmp;
 		}
-		tree = tree->next_subtree;
+		tmp = tree->next_subtree;
+		free(tree);
+		tree = tmp;
 	}
 	free(value);
+	//free_parsing_tree(begin);
 	return (new_value);
 }
 

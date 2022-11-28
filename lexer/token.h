@@ -35,7 +35,7 @@ typedef struct s_token
 
 	bool			redir_token;
 	char			*value;
-	unsigned int	index;
+	int				index;
 	struct s_token	*next_token;
 	bool			parsed;
 }			t_token;

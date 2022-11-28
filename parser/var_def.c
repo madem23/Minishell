@@ -151,7 +151,7 @@ int	change_variable_value(t_var *list, char *name, char *value)
 	if (tmp)
 	{
 		free(tmp->value);
-		tmp->value = ft_strdup(value);
+		tmp->value = value;
 		return (1);
 	}
 	return (0);

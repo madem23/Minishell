@@ -55,6 +55,13 @@ int	*check_redir_open_files(t_tree *branch)
 		}
 		i++;
 	}
+	if (fd[0] != -1 && ((i == 0 && branch->here_doc >= 0 ) || (i >= 1 && branch->here_doc >= 0 && branch->infiles[i - 1]->index < branch->here_doc))) 
+	{
+		if (count_token_type(branch->first_token, branch->end_index, TK_DLOWER) > 1)
+			fd[0] = open("tmp_empty_heredoc.txt", O_CREAT | O_RDWR | O_TRUNC, 777);
+		else
+			fd[0] = open("tmp_heredoc.txt", O_RDONLY);
+	}
 	i = 0;
 	while (branch->outfiles[i] && ((fd[0] == -1 && branch->outfiles[i]->index < branch->infiles[i]->index) 
 		|| (fd[0] >= 0)))
@@ -169,9 +176,10 @@ void	exec_interim_children(t_minishell *minishell, t_tree *branch, int **pipefd,
 void	exec_parent(t_minishell *minishell, int **pipefd)
 {
 	unsigned int	i;
-	int	status;
+	int				status;
 
 	i = 0;
+	status = 0;
 	if (minishell->tree->branch->exec_name && !ft_strcmp(minishell->tree->branch->exec_name, "cd"))
 		status = cd(minishell->tree->branch->exec_args, minishell);
 	if (minishell->tree->branch->exec_name && !ft_strcmp(minishell->tree->branch->exec_name, "export"))
@@ -198,6 +206,7 @@ void	exec_parent(t_minishell *minishell, int **pipefd)
 		printf("WIFEXITED = %d, status = %d\n", WIFEXITED(status), status);
 		change_variable_value(minishell->var_def, "?", ft_itoa(WEXITSTATUS(status)));
 	}
+	free_end_pipex(minishell, pipefd);
 	free_tree(minishell->tree);
 	free_parser(minishell->parser);
 }

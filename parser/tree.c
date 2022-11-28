@@ -13,16 +13,28 @@
 #include <stdlib.h>
 #include "../minishell.h"
 
-unsigned int	count_token_type(t_token *first_token, unsigned int type)
+unsigned int	count_token_type(t_token *first_token, int end_index, unsigned int type)
 {
 	size_t	nb;
 
 	nb = 0;
-	while (first_token)
+	if (end_index >= 0)
 	{
-		if (first_token->type == type)
-			nb++;
-		first_token = first_token->next_token;
+		while (first_token && first_token->index < end_index)
+		{
+			if (first_token->type == type)
+				nb++;
+			first_token = first_token->next_token;
+		}
+	}
+	else
+	{
+		while (first_token)
+		{
+			if (first_token->type == type)
+				nb++;
+			first_token = first_token->next_token;
+		}
 	}
 	return (nb);
 }
@@ -39,7 +51,7 @@ t_tree	*tree_init(t_parser *parser)
 	tree->branch = NULL; //fct get branch a faire
 	tree->subtree = NULL; //fct get subtree a faire
 	tree->treetop = NULL;
-	tree->nb_pipes = count_token_type(parser->first_token, TK_PIPE);
+	tree->nb_pipes = count_token_type(parser->first_token, -1, TK_PIPE);
 	tree->end_index = 0;
 	
 	//branch exec
@@ -49,15 +61,11 @@ t_tree	*tree_init(t_parser *parser)
 	tree->envp = parser->envp;
 	
 	//stats branch: redir
-	tree->nb_infiles = count_token_type(parser->first_token, TK_LOWER);
-	tree->nb_outfiles = count_token_type(parser->first_token, TK_GREATER);
+	tree->nb_infiles = count_token_type(parser->first_token, -1, TK_LOWER);
+	tree->nb_outfiles = count_token_type(parser->first_token, -1, TK_GREATER);
 	tree->infiles = NULL; //fonction commune pour recup tous les token
 	tree->outfiles = NULL;
-	if (count_token_type(parser->first_token, TK_DLOWER) > 0)
-		tree->here_doc = true;
-	else
-		tree->here_doc = false;
-	//char	*content_here_doc; //content of heredoc; A FAIRE !!
+	tree->here_doc = -1;
 
 	//stats branch: pipes
 	tree->piped_input = false;

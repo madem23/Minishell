@@ -66,10 +66,12 @@ int main(int argc, char *argv[], char *envp[])
 			// 	printf("Parsed? %d\n", tmp->first_token->parsed);
 			// 	tmp->first_token = tmp->first_token->next_token;		
 			// }
-			// // // //DISPLAY TREE:
-			// //display_tree(minishell->tree);
+			// //DISPLAY TREE:
+			// display_tree(minishell->tree);
 			pipex(minishell);
 			unlink("tmp_heredoc.txt");
+			unlink("tmp_empty_heredoc.txt");
+			free(minishell->prompt);
 		}
 		minishell->prompt = get_prompt();
 		get_line(minishell);

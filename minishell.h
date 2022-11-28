@@ -42,6 +42,7 @@ typedef struct s_minishell
 	t_lexer		*lexer;
 	t_parser	*parser;
 	t_tree		*tree;
+	int			**pipefd;
 }				t_minishell;
 
 
@@ -68,7 +69,8 @@ int		ft_strchrset(const char *s, char *charset);
  void	free_parser(t_parser *parser);
  void	free_exit_final(t_minishell *minishell);
  void	free_tree(t_tree *treetop);
- void	free_tab(char **tab);
+void	free_tab(void **tab);
+void	free_end_pipex(t_minishell *minishell, int **pipefd);
  
  //error:
  void	error_too_many_pipes(t_minishell *minishell);

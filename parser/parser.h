@@ -33,7 +33,7 @@ typedef struct s_tree
 	struct s_tree	*branch; //branche 1, section de l'arbre entre 2 pipes
 	struct s_tree	*subtree; //branche 2, section de l'arbre a subdiviser encore (pipes), equivalent de list->next
 	struct s_tree	*treetop; //pointeur sur la cime de l'arbre, if tree_top = NULL, on est sur tree_top;
-	unsigned int	end_index; //0 if on toptree or subtrees
+	int	end_index; //0 if on toptree or subtrees
 	char			**paths;
 
 	//stats global tree
@@ -54,7 +54,7 @@ typedef struct s_tree
 	t_token	**outfiles;
 	t_token	**outfiles_append;
 	t_token	**diamonds;
-	bool	here_doc;
+	int		here_doc; //-1 if no heredoc; otherwise, last heredoc's index
 
 	//stats branch: pipes
 	bool	piped_input;
@@ -101,12 +101,12 @@ t_tree			*parser_start(t_parser *parser, struct s_minishell *minishell);
 t_parser		*lexing_start(t_parser *parser);
 t_tree			*parsing(t_parser *parser, struct s_minishell *minishell);
 t_tree			*tree_init(t_parser *parser);
-unsigned int	count_token_type(t_token *first_token, unsigned int type);
+unsigned int	count_token_type(t_token *first_token, int end_index, unsigned int type);
 void			parsing_cmd(t_tree *branch);
 int				count_unparsed_word(t_tree *branch);
 void			parsing_redir(t_tree *branch);
 t_token			**filling_redir_files_tab(t_tree *branch, int size, unsigned int type);
-void			heredoc_parsing(t_token *begin, unsigned int end_index);
+int				heredoc_parsing(t_token *begin, int end_index, unsigned int nb);
 char			*remove_closed_quotes(char **token_value, int *save, int *i, char *s);
 char			*check_and_manage_closed_quotes(char **token_value, int *save, int *i, char *s);
 int				parsing_var_def(t_tree *branch);

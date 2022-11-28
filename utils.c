@@ -141,7 +141,7 @@ void	update_envp(t_minishell *minishell)
 	char	*join_equal;
 
 	if (minishell->envp)
-		free_tab(minishell->envp);
+		free_tab((void **)minishell->envp);
 	tmp = minishell->var_def;
 	len = 0;
 	while (tmp)

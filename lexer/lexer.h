@@ -17,10 +17,10 @@
 
 typedef struct s_lexer
 {
-	char	c;
+	char			c;
 	unsigned int	i;
-	unsigned int	token_index;
-	char	*cmd_line;
+	int				token_index;
+	char			*cmd_line;
 }				t_lexer;
 
 t_lexer	*lexer_init(char *cmd_line);

@@ -50,12 +50,14 @@ int	pipex(t_minishell *minishell)
 		pipefd = malloc(sizeof(pipefd) * (minishell->tree->nb_pipes + 1));
 		while (i < minishell->tree->nb_pipes + 1)
 		{
+			ft_putendl_fd("++++++++++TEST MALLOC ", 2);
 			pipefd[i] = malloc(sizeof(int) * 2);
 			tmp_secu = pipe(pipefd[i]);
 			if (tmp_secu == -1)
 				error_too_many_pipes(minishell);
 			i++;
 		}
+		minishell->pipefd = pipefd;
 	}
 	else
 		pipefd = NULL;

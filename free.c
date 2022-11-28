@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void	free_tab(char **tab)
+void	free_tab(void **tab)
 {
 	int	i;
 
@@ -15,12 +15,33 @@ void	free_tab(char **tab)
 	free(tab);
 }
 
+void	free_end_pipex(t_minishell *minishell, int **pipefd)
+{
+	int	nb;
+	int	i;
+
+	i = 0;
+	nb = minishell->tree->nb_pipes + 1;
+	if (pipefd)
+	{
+		while (nb-- > 0)
+		{
+			free(pipefd[i]);
+			i++;
+		}
+		free(pipefd);
+	}
+	free(minishell->p_id);
+}
+
 void	free_branch(t_tree *branch)
 {
 	if (branch->exec_args)
-		free_tab(branch->exec_args);
+		free_tab((void **)branch->exec_args);
 	if (branch->exec_path)
 		free(branch->exec_path);
+	if (branch->exec_name)
+		free(branch->exec_name);
 	free(branch->infiles);
 	free(branch->outfiles);
 	free(branch->outfiles_append);
@@ -53,7 +74,7 @@ void	free_parser(t_parser *parser)
 		free(tmp);
 	}
 	free(parser->lexer);
-	free_tab(parser->cmd_paths);
+	free_tab((void **)parser->cmd_paths);
 	free(parser);
 }
 

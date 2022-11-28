@@ -31,10 +31,9 @@ void	error_cmd_not_found(t_minishell *minishell, t_tree *branch, int **pipefd)
 {
 	ft_putstr_fd(branch->exec_name, 2);
 	write(2, ": command not found\n", 20);
+	free_end_pipex(minishell, pipefd);
 	free_tree(minishell->tree);
 	free_parser(minishell->parser);
-	free(minishell->p_id);
-	free(pipefd);
 	exit(EXIT_FAILURE);
 }
 
@@ -43,10 +42,9 @@ void	error_cmd_path(t_minishell *minishell, t_tree *branch, int **pipefd)
 	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(branch->exec_name, 2);
 	ft_putstr_fd(": no such file or directory\n", 2);
+	free_end_pipex(minishell, pipefd);
 	free_tree(minishell->tree);
 	free_parser(minishell->parser);
-	free(minishell->p_id);
-	free(pipefd);
 	exit(EXIT_FAILURE);
 }
 /*

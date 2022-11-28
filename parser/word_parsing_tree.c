@@ -109,6 +109,7 @@ t_word_parser_tree	*creating_word_parsing_tree(char *value, t_minishell *minishe
 	t_word_parser_tree	*current_node;
 	int		i;
 	int		i_end;
+	char	*s_tmp;
 
 	i = 0;
 	i_end = - 1;
@@ -163,7 +164,9 @@ t_word_parser_tree	*creating_word_parsing_tree(char *value, t_minishell *minishe
 	{
 		if (i_end == -1)
 			i_end = 0;
-		current_node->next_subtree = create_parsing_subtree(WORD, tree->treetop, ft_substr(value, i_end, i - i_end));
+		s_tmp = ft_substr(value, i_end, i - i_end);
+		current_node->next_subtree = create_parsing_subtree(WORD, tree->treetop, s_tmp);
+		free(s_tmp);
 		current_node = current_node->next_subtree;
 	}
 	return (tree);
