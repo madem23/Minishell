@@ -10,6 +10,7 @@ void	converting_dollar_tk(t_minishell *minishell, t_word_parser_tree *branch)
 	char	*tmp_s;
 	int		i_occur;
 
+	tmp_s = NULL;
 	i_occur = ft_strchrset(branch->value + 1, "\"\'!@#^%&*$()- +=[]{}:;.,");
 	if (branch->value[1] == '{')
 		tmp_s = managing_curly_brakets(branch->value, 0, minishell);
@@ -26,6 +27,7 @@ void	removing_op_clos_quotes(t_word_parser_tree *branch, int type)
 {
 	char	*new_value;
 
+	new_value = NULL;
 	if (type == OPENING_TK)
 		new_value = ft_strdup(branch->value + 1);
 	else if (type == CLOSING_TK)

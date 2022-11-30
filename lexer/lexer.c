@@ -89,7 +89,7 @@ char	*lexer_get_word(t_lexer *lexer)
 	
 	size = count_char(lexer->cmd_line + lexer->i, ft_strlen(lexer->cmd_line) - 1);
 	str = malloc((size + 1) * sizeof(char));
-	str = memset(str, 0, size + 1);
+	str = ft_memset(str, 0, size + 1);
 	if (str == NULL)
 		error(1, "failed to allocate word\n");
 	i = 0;

@@ -34,13 +34,11 @@ char	*managing_curly_brakets(char *value, int i, t_minishell *minishell)
 {
 	char	*tmp_s;
 
+	tmp_s = NULL; 
 	while (value[i] && value[i] != '}')
 		i++;
 	if (value[i])
-	{
 		tmp_s = ft_strjoin(convert_dollar_token(ft_substr(value, 2, i - 2), minishell), ft_strchr(value, '}') + 1);
-
-	}
 	return (tmp_s);
 }
 /*
