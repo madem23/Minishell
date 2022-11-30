@@ -18,18 +18,13 @@ SRCS		= 	main.c \
 				./lexer/lexer.c \
 				./lexer/token.c \
 				./parser/parser.c \
-				./parser/tree.c \
-				./parser/parsing_utils.c \
-				./parser/var_def.c \
-				./parser/here_doc.c \
-				./parser/parsing_dollar_token.c \
-				./parser/parsing_quotes_and_dollar.c \
-				./parser/word_parsing_tree.c \
-				./parser/word_parsing_tree_utils.c \
-				pipex.c \
-				processes.c \
-				free.c\
-				display_tmp.c\
+				./parser/parser_tree.c \
+				./parser/parser_utils.c \
+				./parser/parser_here_doc.c \
+				./parser/expander_conversion_utils.c \
+				./parser/expander_tree.c \
+				./parser/expander_tree_utils.c \
+				./parser/expander.c \
 				./builtins/echo.c \
 				./builtins/env.c \
 				./builtins/pwd.c \
@@ -38,7 +33,13 @@ SRCS		= 	main.c \
 				./builtins/unset.c \
 				./builtins/check_for_builtins.c\
 				./builtins/ft_exit.c \
-				processes_utils.c\
+				executor_processes_utils.c\
+				var_declaration.c \
+				var_declaration_utils.c \
+				executor.c \
+				executor_processes.c \
+				free.c\
+				display_tmp.c\
 
 				
 OBJS		=	${SRCS:.c=.o}

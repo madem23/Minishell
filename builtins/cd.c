@@ -22,12 +22,12 @@ int	cd(char **args, t_minishell *minishell)
 	char	*oldpwd;
 	char	*newpwd;
 
-	oldpwd = get_variable_value(minishell->var_def, "OLDPWD");
+	oldpwd = get_var_value(minishell->var_def, "OLDPWD");
 	if (!oldpwd)
-		var_add_back(&minishell->var_def, variable_init(ft_strdup("OLDPWD"), getcwd(NULL, 0), true));
+		var_add_back(&minishell->var_def, var_init(ft_strdup("OLDPWD"), getcwd(NULL, 0), true));
 	if (tab_len(args) == 1)
 	{
-		path = get_variable_value(minishell->var_def, "HOME");
+		path = get_var_value(minishell->var_def, "HOME");
 		if (path == NULL)
 		{
 			ft_putstr_fd("cd: HOME not set\n", 2);
@@ -36,7 +36,7 @@ int	cd(char **args, t_minishell *minishell)
 	}
 	else if (args[1][0] == '~')
 	{
-		home = get_variable_value(minishell->var_def, "HOME");
+		home = get_var_value(minishell->var_def, "HOME");
 		path = ft_strjoin(home, args[1] + 1);
 		free(home);
 	}
@@ -53,11 +53,11 @@ int	cd(char **args, t_minishell *minishell)
 	else
 		path = ft_strdup(args[1]);
 	newpwd = getcwd(NULL, 0);
-	change_variable_value(minishell->var_def, "OLDPWD", newpwd);
+	change_var_value(minishell->var_def, "OLDPWD", newpwd);
 	free(newpwd);
 	if (chdir(path) == -1)
 	{
-		change_variable_value(minishell->var_def, "OLDPWD", oldpwd);
+		change_var_value(minishell->var_def, "OLDPWD", oldpwd);
 		free(oldpwd);
 		ft_putstr_fd("minishell: cd: ", 2);
 		perror(path);

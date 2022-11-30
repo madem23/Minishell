@@ -68,7 +68,7 @@ int main(int argc, char *argv[], char *envp[])
 			// }
 			// //DISPLAY TREE:
 			// display_tree(minishell->tree);
-			pipex(minishell);
+			executor(minishell);
 			unlink("tmp_heredoc.txt");
 			unlink("tmp_empty_heredoc.txt");
 			free(minishell->prompt);

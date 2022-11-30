@@ -73,12 +73,12 @@ typedef struct s_parser
 	char		**envp;
 }				t_parser;
 
-typedef struct s_word_parser_tree
+typedef struct s_expander_tree
 {
-	struct s_word_parser_tree	*treetop;
-	struct s_word_parser_tree	*subtree; //dispo dans chaque branch pour remonter au debut de la chaine
-	struct s_word_parser_tree	*next_branch; 
-	struct s_word_parser_tree	*next_subtree;
+	struct s_expander_tree	*treetop;
+	struct s_expander_tree	*subtree; //dispo dans chaque branch pour remonter au debut de la chaine
+	struct s_expander_tree	*next_branch; 
+	struct s_expander_tree	*next_subtree;
 
 	enum
 	{
@@ -94,7 +94,7 @@ typedef struct s_word_parser_tree
 	bool	is_branch;
 	char 	*value;	
 	int		index; //for branches
-}				t_word_parser_tree;
+}				t_expander_tree;
 
 t_parser		*parser_init(t_lexer *lexer, struct s_minishell *minishell);
 t_tree			*parser_start(t_parser *parser, struct s_minishell *minishell);
@@ -112,22 +112,22 @@ char			*check_and_manage_closed_quotes(char **token_value, int *save, int *i, ch
 int				parsing_var_def(t_tree *branch);
 
 void			var_add_back(t_var **var, t_var *new);
-t_var			*variable_init(char	*name, char *value, bool env);
+t_var			*var_init(char	*name, char *value, bool env);
 void			lexing_dollar_token(t_parser *parser, struct s_minishell *minishell);
 char			*managing_non_alpha(char *value, int i, int j, struct s_minishell *minishell);
 char			*managing_curly_brakets(char *value, int i, struct s_minishell *minishell);
 char 			*convert_dollar_token(char *value, struct s_minishell *minishell);
 
 //parsing tree
-void				lexing_quotes_and_dollar(t_parser *parser, struct s_minishell *minishell);
-char				*parsing_quotes_dollar(char *value, struct s_minishell *minishell, t_word_parser_tree *tree);
+void				expander(t_parser *parser, struct s_minishell *minishell);
+char				*expander_convert(char *value, struct s_minishell *minishell, t_expander_tree *tree);
 char				*get_var(unsigned int *i, char *value);
 char				*get_word(unsigned int *i, char *value);
 char				*get_prev_word(unsigned int last_end, unsigned int *i, char *value);
-t_word_parser_tree	*creating_word_parsing_tree(char *value, struct s_minishell *minishell);
-t_word_parser_tree	*create_parsing_subtree(int type, t_word_parser_tree *treetop, char *value);
-void				create_parsing_branches(t_word_parser_tree *subtree, char *value_subtree, int type_subtree);
-t_word_parser_tree	*init_branch(t_word_parser_tree *subtree, int type, int index, char *value);
+t_expander_tree		*creating_expander_tree(char *value, struct s_minishell *minishell);
+t_expander_tree		*create_parsing_subtree(int type, t_expander_tree *treetop, char *value);
+void				create_parsing_branches(t_expander_tree *subtree, char *value_subtree, int type_subtree);
+t_expander_tree		*init_branch(t_expander_tree *subtree, int type, int index, char *value);
 
 
 

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expander_tree.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mdemma <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/11/30 13:03:01 by mdemma            #+#    #+#             */
+/*   Updated: 2022/11/30 13:03:06 by mdemma           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parser.h"
 #include "../minishell.h"
 #include <stdlib.h>
@@ -5,13 +17,12 @@
 #include <stdio.h>
 #include "../libft/libft.h"
 
-
-t_word_parser_tree	*init_branch(t_word_parser_tree *subtree, int type, int index, char *value)
+t_expander_tree	*init_branch(t_expander_tree *subtree, int type, int index, char *value)
 {
-	t_word_parser_tree	*branch;
+	t_expander_tree	*branch;
 	
 	printf("Creation branch = %s, of type : %d\n", value, type);
-	branch = malloc(sizeof(t_word_parser_tree));
+	branch = malloc(sizeof(t_expander_tree));
 	if (!branch)
 		error(1, "Failed to allocate branch\n");
 	branch->treetop = subtree->treetop;
@@ -28,9 +39,9 @@ t_word_parser_tree	*init_branch(t_word_parser_tree *subtree, int type, int index
 
 
 
-void	create_parsing_branches(t_word_parser_tree *subtree, char *value_subtree, int type_subtree)
+void	create_parsing_branches(t_expander_tree *subtree, char *value_subtree, int type_subtree)
 {
-	t_word_parser_tree	*current_node;
+	t_expander_tree	*current_node;
 	int					index;
 	unsigned int		i;
 	unsigned 			last_end;
@@ -85,12 +96,12 @@ void	create_parsing_branches(t_word_parser_tree *subtree, char *value_subtree, i
 	}
 }
 
-t_word_parser_tree	*create_parsing_subtree(int type, t_word_parser_tree *treetop, char *value)
+t_expander_tree	*create_parsing_subtree(int type, t_expander_tree *treetop, char *value)
 {
-	t_word_parser_tree	*subtree;
+	t_expander_tree	*subtree;
 	
 	printf("Creation subtree = %s, of type : %d\n", value, type);
-	subtree = malloc(sizeof(t_word_parser_tree));
+	subtree = malloc(sizeof(t_expander_tree));
 	if (!subtree)
 		error(1, "Failed to allocate parsing subtree\n");
 	subtree->treetop = treetop;
@@ -103,10 +114,10 @@ t_word_parser_tree	*create_parsing_subtree(int type, t_word_parser_tree *treetop
 	return (subtree);
 }
 
-t_word_parser_tree	*creating_word_parsing_tree(char *value, t_minishell *minishell)
+t_expander_tree	*creating_expander_tree(char *value, t_minishell *minishell)
 {
-	t_word_parser_tree	*tree;
-	t_word_parser_tree	*current_node;
+	t_expander_tree	*tree;
+	t_expander_tree	*current_node;
 	int		i;
 	int		i_end;
 	char	*s_tmp;
@@ -114,7 +125,7 @@ t_word_parser_tree	*creating_word_parsing_tree(char *value, t_minishell *minishe
 	i = 0;
 	i_end = - 1;
 	(void)minishell;
-	tree = malloc(sizeof(t_word_parser_tree));
+	tree = malloc(sizeof(t_expander_tree));
 	if (!tree)
 		error(1, "Failed to allocate parsing tree\n");
 	tree->value = value;

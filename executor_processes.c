@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   processes.c                                        :+:      :+:    :+:   */
+/*   executor_processes.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 12:50:08 by mdemma            #+#    #+#             */
-/*   Updated: 2022/11/26 18:54:17 by antoine          ###   ########.fr       */
+/*   Updated: 2022/11/30 13:06:27 by mdemma           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,7 +188,7 @@ void	exec_parent(t_minishell *minishell, int **pipefd)
 		status = unset(minishell->tree->branch->exec_args, minishell);
 	if (minishell->tree->branch->exec_name && !ft_strcmp(minishell->tree->branch->exec_name, "exit"))
 		ft_exit(minishell->tree->branch->exec_args);
-	change_variable_value(minishell->var_def, "?", ft_itoa(status));
+	change_var_value(minishell->var_def, "?", ft_itoa(status));
 	while (i < minishell->tree->nb_pipes + 1 && pipefd)
 	{
 		close(pipefd[i][0]);
@@ -204,9 +204,9 @@ void	exec_parent(t_minishell *minishell, int **pipefd)
 	if (WEXITSTATUS(status) != 255)
 	{
 		printf("WIFEXITED = %d, status = %d\n", WIFEXITED(status), status);
-		change_variable_value(minishell->var_def, "?", ft_itoa(WEXITSTATUS(status)));
+		change_var_value(minishell->var_def, "?", ft_itoa(WEXITSTATUS(status)));
 	}
-	free_end_pipex(minishell, pipefd);
+	free_end_executor(minishell, pipefd);
 	free_tree(minishell->tree);
 	free_parser(minishell->parser);
 }

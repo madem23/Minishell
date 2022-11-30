@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   free.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mdemma <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/11/30 13:06:48 by mdemma            #+#    #+#             */
+/*   Updated: 2022/11/30 13:06:49 by mdemma           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	free_tab(void **tab)
@@ -15,7 +27,7 @@ void	free_tab(void **tab)
 	free(tab);
 }
 
-void	free_end_pipex(t_minishell *minishell, int **pipefd)
+void	free_end_executor(t_minishell *minishell, int **pipefd)
 {
 	int	nb;
 	int	i;

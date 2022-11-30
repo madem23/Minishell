@@ -47,8 +47,7 @@ t_tree	*parser_start(t_parser *parser, t_minishell *minishell)
 {
 	t_tree	*top;
 
-	lexing_quotes_and_dollar(parser, minishell);
-	//lexing_dollar_token(parser, minishell);
+	expander(parser, minishell);
 	top = tree_init(parser);
 	parser->treetop = top;
 	parser->treetop->paths = parser->cmd_paths;

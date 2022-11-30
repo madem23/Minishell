@@ -31,7 +31,7 @@ void	error_cmd_not_found(t_minishell *minishell, t_tree *branch, int **pipefd)
 {
 	ft_putstr_fd(branch->exec_name, 2);
 	write(2, ": command not found\n", 20);
-	free_end_pipex(minishell, pipefd);
+	free_end_executor(minishell, pipefd);
 	free_tree(minishell->tree);
 	free_parser(minishell->parser);
 	exit(EXIT_FAILURE);
@@ -42,7 +42,7 @@ void	error_cmd_path(t_minishell *minishell, t_tree *branch, int **pipefd)
 	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(branch->exec_name, 2);
 	ft_putstr_fd(": no such file or directory\n", 2);
-	free_end_pipex(minishell, pipefd);
+	free_end_executor(minishell, pipefd);
 	free_tree(minishell->tree);
 	free_parser(minishell->parser);
 	exit(EXIT_FAILURE);
@@ -57,7 +57,7 @@ void	error_empty_cmd(char *cmd, t_global global, int x, int **pipefd)
 		write(2, "\n", 1);
 	}
 	free_parsing(global);
-	free_pipex(global, pipefd);
+	free_executor(global, pipefd);
 	exit(EXIT_FAILURE);
 }
 
@@ -76,6 +76,6 @@ void	error_exec(char *str, char **cmd, int **pipefd, t_global global)
 	ft_putstr_fd(str, 2);
 	write(2, ")\n", 2);
 	free_parsing(global);
-	free_pipex(global, pipefd);
+	free_executor(global, pipefd);
 	exit(EXIT_FAILURE);
 }*/

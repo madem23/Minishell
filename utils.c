@@ -167,7 +167,7 @@ void	update_envp(t_minishell *minishell)
 	minishell->envp[i] = NULL;
 }
 
-char	*get_variable_value(t_var *var_list, char *name)
+char	*get_var_value(t_var *var_list, char *name)
 {
 	t_var	*tmp;
 	char	*value;

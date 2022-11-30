@@ -70,7 +70,7 @@ int		ft_strchrset(const char *s, char *charset);
  void	free_exit_final(t_minishell *minishell);
  void	free_tree(t_tree *treetop);
 void	free_tab(void **tab);
-void	free_end_pipex(t_minishell *minishell, int **pipefd);
+void	free_end_executor(t_minishell *minishell, int **pipefd);
  
  //error:
  void	error_too_many_pipes(t_minishell *minishell);
@@ -82,7 +82,7 @@ void	exec_interim_children(t_minishell *minishell, t_tree *branch, int **pipefd,
 void	exec_last_child(t_minishell *minishell, t_tree *branch, int **pipefd);
 void	exec_first_child(t_minishell *minishell, t_tree *branch, int **pipefd);
 void	test_which_child_and_exec(t_minishell *minishell, unsigned int j, int **pipefd);
-int		pipex(t_minishell *minishell);
+int		executor(t_minishell *minishell);
 void	exec_parent(t_minishell *minishell, int **pipefd);
 
 //Display:
@@ -93,8 +93,8 @@ void	print_tab(char *s,	t_token **tab, int i);
 
 //Variables
 t_var	*var_list_init(char **envp);
-int		change_variable_value(t_var *list, char *name, char *value);
+int		change_var_value(t_var *list, char *name, char *value);
 void	update_envp(t_minishell *minishell);
-char	*get_variable_value(t_var *var_list, char *name);
+char	*get_var_value(t_var *var_list, char *name);
 
 #endif

@@ -48,12 +48,12 @@ int	export(t_tree *branch, t_minishell *minishell)
 	{
 		var_def = ft_split(branch->exec_args[i], '=');
 		if (var_def[1])
-			var_def[1] = parsing_quotes_dollar(var_def[1], branch->minishell, creating_word_parsing_tree(var_def[1], branch->minishell));
+			var_def[1] = expander_convert(var_def[1], branch->minishell, creating_expander_tree(var_def[1], branch->minishell));
 		if (locate_char(branch->exec_args[i], '=') >= 0)
 		{
-			if (var_def && !change_variable_value(minishell->var_def, var_def[0], var_def[1]))
+			if (var_def && !change_var_value(minishell->var_def, var_def[0], var_def[1]))
 				var_add_back(&branch->minishell->var_def,
-					variable_init(ft_strdup(var_def[0]), ft_strdup(var_def[1]), true));
+					var_init(ft_strdup(var_def[0]), ft_strdup(var_def[1]), true));
 		}
 		create_var_entry_in_env(var_def[0], minishell);
 		i++;

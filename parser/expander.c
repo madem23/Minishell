@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expander.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mdemma <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/11/30 13:02:32 by mdemma            #+#    #+#             */
+/*   Updated: 2022/11/30 13:02:34 by mdemma           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parser.h"
 #include "../minishell.h"
 #include <stdlib.h>
@@ -5,7 +17,7 @@
 #include <stdio.h>
 #include "../libft/libft.h"
 
-void	converting_dollar_tk(t_minishell *minishell, t_word_parser_tree *branch)
+void	converting_dollar_tk(t_minishell *minishell, t_expander_tree *branch)
 {
 	char	*tmp_s;
 	int		i_occur;
@@ -23,7 +35,7 @@ void	converting_dollar_tk(t_minishell *minishell, t_word_parser_tree *branch)
 }
 
 
-void	removing_op_clos_quotes(t_word_parser_tree *branch, int type)
+void	removing_op_clos_quotes(t_expander_tree *branch, int type)
 {
 	char	*new_value;
 
@@ -36,10 +48,10 @@ void	removing_op_clos_quotes(t_word_parser_tree *branch, int type)
 	branch->value = new_value;
 }
 
-void	converting_all_branches(t_word_parser_tree *tree, t_minishell *minishell)
+void	converting_all_branches(t_expander_tree *tree, t_minishell *minishell)
 {
-	t_word_parser_tree *current_node;
-	t_word_parser_tree *tmp;
+	t_expander_tree *current_node;
+	t_expander_tree *tmp;
 	
 	tmp = tree->next_subtree;
 	current_node = tmp->next_branch;
@@ -59,11 +71,11 @@ void	converting_all_branches(t_word_parser_tree *tree, t_minishell *minishell)
 	}
 }
 
-char	*parsing_quotes_dollar(char *value, t_minishell *minishell, t_word_parser_tree *tree)
+char	*expander_convert(char *value, t_minishell *minishell, t_expander_tree *tree)
 {
 	char				*new_value;
 	char				*buf;
-	t_word_parser_tree *tmp;
+	t_expander_tree *tmp;
 
 	new_value = NULL;
 	converting_all_branches(tree, minishell);
@@ -92,11 +104,10 @@ char	*parsing_quotes_dollar(char *value, t_minishell *minishell, t_word_parser_t
 		tree = tmp;
 	}
 	free(value);
-	//free_parsing_tree(begin);
 	return (new_value);
 }
 
-void	lexing_quotes_and_dollar(t_parser *parser, t_minishell *minishell)
+void	expander(t_parser *parser, t_minishell *minishell)
 {
 	t_token	*tmp;
 
@@ -104,7 +115,7 @@ void	lexing_quotes_and_dollar(t_parser *parser, t_minishell *minishell)
 	while (tmp)
 	{
 		if (tmp->type == TK_WORD || tmp->type == TK_QUOTE || tmp->type == TK_DOLLAR)
-			tmp->value = parsing_quotes_dollar(tmp->value, minishell, creating_word_parsing_tree(tmp->value, minishell));
+			tmp->value = expander_convert(tmp->value, minishell, creating_expander_tree(tmp->value, minishell));
 		tmp = tmp->next_token;
 	}
 }

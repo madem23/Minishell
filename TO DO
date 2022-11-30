@@ -1,0 +1,2 @@
+- verif le nb de processes a creer (children + 1 parent ?)
+- regler pb des "cmd not found" dans le desordre -> rajout de waitpid
