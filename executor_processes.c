@@ -57,7 +57,7 @@ int	*check_redir_open_files(t_tree *branch)
 	}
 	if (fd[0] != -1 && ((i == 0 && branch->here_doc >= 0 ) || (i >= 1 && branch->here_doc >= 0 && branch->infiles[i - 1]->index < branch->here_doc))) 
 	{
-		if (count_token_type(branch->first_token, branch->end_index, TK_DLOWER) > 1)
+		if (count_tk(branch->first_token, branch->end_index, TK_DLOWER) > 1)
 			fd[0] = open("tmp_empty_heredoc.txt", O_CREAT | O_RDWR | O_TRUNC, 777);
 		else
 			fd[0] = open("tmp_heredoc.txt", O_RDONLY);

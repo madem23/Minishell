@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "expander/expander.h"
 
 int	change_var_value(t_var *list, char *name, char *value)
 {

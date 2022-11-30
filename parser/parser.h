@@ -73,35 +73,14 @@ typedef struct s_parser
 	char		**envp;
 }				t_parser;
 
-typedef struct s_expander_tree
-{
-	struct s_expander_tree	*treetop;
-	struct s_expander_tree	*subtree; //dispo dans chaque branch pour remonter au debut de la chaine
-	struct s_expander_tree	*next_branch; 
-	struct s_expander_tree	*next_subtree;
-
-	enum
-	{
-		DQUOTE, //subtree types
-		SQUOTE,//subtree types
-		WORD,//subtree/branch types
-		OPENING_TK, //branch types
-		CLOSING_TK,//branch types
-		DOLLAR//branch types, not picked out in squotes
-	}	type;
-
-	bool	is_subtree;
-	bool	is_branch;
-	char 	*value;	
-	int		index; //for branches
-}				t_expander_tree;
-
 t_parser		*parser_init(t_lexer *lexer, struct s_minishell *minishell);
 t_tree			*parser_start(t_parser *parser, struct s_minishell *minishell);
 t_parser		*lexing_start(t_parser *parser);
 t_tree			*parsing(t_parser *parser, struct s_minishell *minishell);
 t_tree			*tree_init(t_parser *parser);
-unsigned int	count_token_type(t_token *first_token, int end_index, unsigned int type);
+t_tree			*create_branch(t_token *begin, t_token *end, t_tree *treetop, struct s_minishell *minishell);
+t_tree			*create_subtree(t_token *begin, t_tree *treetop);
+unsigned int	count_tk(t_token *first_token, int end_index, unsigned int type);
 void			parsing_cmd(t_tree *branch);
 int				count_unparsed_word(t_tree *branch);
 void			parsing_redir(t_tree *branch);
@@ -117,19 +96,5 @@ void			lexing_dollar_token(t_parser *parser, struct s_minishell *minishell);
 char			*managing_non_alpha(char *value, int i, int j, struct s_minishell *minishell);
 char			*managing_curly_brakets(char *value, int i, struct s_minishell *minishell);
 char 			*convert_dollar_token(char *value, struct s_minishell *minishell);
-
-//parsing tree
-void				expander(t_parser *parser, struct s_minishell *minishell);
-char				*expander_convert(char *value, struct s_minishell *minishell, t_expander_tree *tree);
-char				*get_var(unsigned int *i, char *value);
-char				*get_word(unsigned int *i, char *value);
-char				*get_prev_word(unsigned int last_end, unsigned int *i, char *value);
-t_expander_tree		*creating_expander_tree(char *value, struct s_minishell *minishell);
-t_expander_tree		*create_parsing_subtree(int type, t_expander_tree *treetop, char *value);
-void				create_parsing_branches(t_expander_tree *subtree, char *value_subtree, int type_subtree);
-t_expander_tree		*init_branch(t_expander_tree *subtree, int type, int index, char *value);
-
-
-
 
 #endif

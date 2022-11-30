@@ -23,6 +23,7 @@
 # include <readline/history.h>
 # include <stdbool.h>
 # include <signal.h>
+#include <unistd.h>
 
 //open
 # include <sys/types.h>

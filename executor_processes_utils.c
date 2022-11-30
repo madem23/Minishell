@@ -12,6 +12,7 @@
 
 #include "minishell.h"
 
+//Returns the requested branch number 'j' of the global tree.
 t_tree	*get_branch(t_tree *treetop, unsigned int j)
 {
 	t_tree			*tmp;
@@ -21,10 +22,10 @@ t_tree	*get_branch(t_tree *treetop, unsigned int j)
 	i = 0;
 	while (tmp->subtree && i++ < j)
 		tmp = tmp->subtree;
-	//dprintf(2, "Pour process : %d, BRANCHE = %s\n", j, tmp->branch->exec_name);
 	return (tmp->branch);
 }
 
+//Closes all pipes.
 void	close_pipes(unsigned int nb_pipes, int **pipefd)
 {
 	unsigned int	i;

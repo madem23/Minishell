@@ -10,11 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "expander.h"
+#include "../parser/parser.h"
 #include "../minishell.h"
-#include <stdlib.h>
-#include <unistd.h>
-#include <stdio.h>
 #include "../libft/libft.h"
 
 void	converting_dollar_tk(t_minishell *minishell, t_expander_tree *branch)

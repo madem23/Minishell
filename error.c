@@ -27,7 +27,8 @@ void	error_too_many_pipes(t_minishell *minishell)
 	exit(EXIT_FAILURE);
 }
 
-void	error_cmd_not_found(t_minishell *minishell, t_tree *branch, int **pipefd)
+void	error_cmd_not_found(t_minishell *minishell, t_tree *branch,
+		int **pipefd)
 {
 	ft_putstr_fd(branch->exec_name, 2);
 	write(2, ": command not found\n", 20);
@@ -47,35 +48,3 @@ void	error_cmd_path(t_minishell *minishell, t_tree *branch, int **pipefd)
 	free_parser(minishell->parser);
 	exit(EXIT_FAILURE);
 }
-/*
-void	error_empty_cmd(char *cmd, t_global global, int x, int **pipefd)
-{
-	if (x != 1 || global.input->fd_infile != -1)
-	{
-		write(2, "permission denied: ", 19);
-		ft_putstr_fd(cmd, 2);
-		write(2, "\n", 1);
-	}
-	free_parsing(global);
-	free_executor(global, pipefd);
-	exit(EXIT_FAILURE);
-}
-
-void	error_exec(char *str, char **cmd, int **pipefd, t_global global)
-{
-	int	i;
-
-	i = 0;
-	while (cmd[i])
-	{
-		ft_putstr_fd(cmd[i], 2);
-		write(2, " ", 1);
-		i++;
-	}
-	ft_putstr_fd(": failure of execve call (", 2);
-	ft_putstr_fd(str, 2);
-	write(2, ")\n", 2);
-	free_parsing(global);
-	free_executor(global, pipefd);
-	exit(EXIT_FAILURE);
-}*/

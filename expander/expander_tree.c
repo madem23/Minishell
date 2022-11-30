@@ -10,12 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "expander.h"
+#include "../parser/parser.h"
 #include "../minishell.h"
-#include <stdlib.h>
-#include <unistd.h>
-#include <stdio.h>
 #include "../libft/libft.h"
+
+
 
 t_expander_tree	*init_branch(t_expander_tree *subtree, int type, int index, char *value)
 {

@@ -17,14 +17,15 @@ SRCS		= 	main.c \
 				paths.c \
 				./lexer/lexer.c \
 				./lexer/token.c \
+				./lexer/lexer_extraction.c \
 				./parser/parser.c \
 				./parser/parser_tree.c \
 				./parser/parser_utils.c \
 				./parser/parser_here_doc.c \
-				./parser/expander_conversion_utils.c \
-				./parser/expander_tree.c \
-				./parser/expander_tree_utils.c \
-				./parser/expander.c \
+				./expander/expander_conversion_utils.c \
+				./expander/expander_tree.c \
+				./expander/expander_tree_utils.c \
+				./expander/expander.c \
 				./builtins/echo.c \
 				./builtins/env.c \
 				./builtins/pwd.c \

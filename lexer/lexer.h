@@ -31,5 +31,9 @@ char	*lexer_get_word(t_lexer *lexer);
 char	*lexer_get_string(t_lexer *lexer, char quote);
 char	*lexer_get_char(t_lexer *lexer);
 t_token	*token_init(int type, char *value, t_lexer *lexer);
+char	*lexer_get_word(t_lexer *lexer);
+char	*lexer_get_char(t_lexer *lexer);
+char	*lexer_get_string(t_lexer *lexer, char quote);
+int		count_char(char *s, int end_index);
 
 #endif

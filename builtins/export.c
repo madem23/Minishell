@@ -12,6 +12,7 @@
 
 #include "builtins.h"
 #include "../parser/parser.h"
+#include "../expander/expander.h"
 
 void	create_var_entry_in_env(char *var_name, t_minishell *minishell)
 {
