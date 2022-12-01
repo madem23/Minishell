@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 11:15:19 by antoine           #+#    #+#             */
-/*   Updated: 2022/11/26 20:09:41 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/01 14:52:09 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	ft_isaccepted_var_name(char c)
 {
 	if (ft_isalnum(c))
 		return (1);
-	else if (c == '_' || c == '?')
+	else if (c == '_')
 		return (1);
 	else
 		return (0);

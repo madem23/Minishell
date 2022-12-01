@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 10:25:12 by antoine           #+#    #+#             */
-/*   Updated: 2022/11/26 19:48:42 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/01 14:46:38 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,13 @@ int	export(t_tree *branch, t_minishell *minishell)
 	i = 1;
 	while (branch->exec_args[i])
 	{
+		// if (((ft_strchrset(branch->exec_args[i] + 1, "?1234567890") != -1)))
+		// {
+		// 	ft_putstr_fd("minishell: export: \'", 2);
+		// 	ft_putstr_fd(branch->exec_args[i], 2);
+		// 	ft_putstr_fd("\': not a valid identifier\n", 2);
+		// 	return (1);
+		// }
 		var_def = ft_split(branch->exec_args[i], '=');
 		if (var_def[1])
 			var_def[1] = expander_convert(var_def[1], branch->minishell, creating_expander_tree(var_def[1], branch->minishell));

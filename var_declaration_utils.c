@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   var_declaration_utils.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdemma <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 13:02:07 by mdemma            #+#    #+#             */
-/*   Updated: 2022/11/30 13:02:09 by mdemma           ###   ########.fr       */
+/*   Updated: 2022/12/01 14:51:34 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ t_var	*var_list_init(char **envp)
 
 	i = 0;
 	list = NULL;
-	var_add_back(&list, var_init(ft_strdup("?"), ft_itoa(0), false));
 	while (envp[i])
 	{
 		trim = separate_name_value(envp[i], '=');

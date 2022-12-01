@@ -176,19 +176,16 @@ void	exec_interim_children(t_minishell *minishell, t_tree *branch, int **pipefd,
 void	exec_parent(t_minishell *minishell, int **pipefd)
 {
 	unsigned int	i;
-	int				status;
 
 	i = 0;
-	status = 0;
 	if (minishell->tree->branch->exec_name && !ft_strcmp(minishell->tree->branch->exec_name, "cd"))
-		status = cd(minishell->tree->branch->exec_args, minishell);
+		cd(minishell->tree->branch->exec_args, minishell);
 	if (minishell->tree->branch->exec_name && !ft_strcmp(minishell->tree->branch->exec_name, "export"))
-		status = export(minishell->tree->branch, minishell);
+		export(minishell->tree->branch, minishell);
 	if (minishell->tree->branch->exec_name && !ft_strcmp(minishell->tree->branch->exec_name, "unset"))
-		status = unset(minishell->tree->branch->exec_args, minishell);
+		unset(minishell->tree->branch->exec_args, minishell);
 	if (minishell->tree->branch->exec_name && !ft_strcmp(minishell->tree->branch->exec_name, "exit"))
 		ft_exit(minishell->tree->branch->exec_args);
-	change_var_value(minishell->var_def, "?", ft_itoa(status));
 	while (i < minishell->tree->nb_pipes + 1 && pipefd)
 	{
 		close(pipefd[i][0]);
@@ -198,14 +195,10 @@ void	exec_parent(t_minishell *minishell, int **pipefd)
 	i = 0;
 	while (i < minishell->tree->nb_pipes + 1)
 	{
-		waitpid(minishell->p_id[i], &status, 0);
+		waitpid(minishell->p_id[i], &exit_status, 0);
 		i++;
 	}
-	if (WEXITSTATUS(status) != 255)
-	{
-		printf("WIFEXITED = %d, status = %d\n", WIFEXITED(status), status);
-		change_var_value(minishell->var_def, "?", ft_itoa(WEXITSTATUS(status)));
-	}
+	puts(ft_itoa(WEXITSTATUS(exit_status)));
 	free_end_executor(minishell, pipefd);
 	free_tree(minishell->tree);
 	free_parser(minishell->parser);

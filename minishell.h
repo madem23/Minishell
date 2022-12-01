@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 12:56:26 by anloisea          #+#    #+#             */
-/*   Updated: 2022/11/26 20:11:08 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/01 14:54:29 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@
 # include <fcntl.h>
 
 #include <sys/wait.h>
+
+int	exit_status;
 
 typedef struct s_minishell
 {

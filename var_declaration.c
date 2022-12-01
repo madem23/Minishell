@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   var_def.c                                          :+:      :+:    :+:   */
+/*   var_declaration.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 11:01:37 by antoine           #+#    #+#             */
-/*   Updated: 2022/11/26 20:16:48 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/01 14:09:18 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int	change_var_value(t_var *list, char *name, char *value)
 	}
 	return (0);
 }
+
 int	parsing_var_def(t_tree *branch)
 {	
 	t_token	*tmp;
