@@ -15,22 +15,13 @@
 int	check_for_builtins(t_tree *branch, t_minishell *minishell)
 {
 	if (!ft_strcmp(branch->exec_name, "echo"))
-	{
-		echo(branch->exec_args);
-		return (1);
-	}
+		return (echo(branch->exec_args));
 	else if (!ft_strcmp(branch->exec_name, "pwd"))
-	{
-		pwd();
-		return (1);
-	}
+		return (pwd());
 	else if (!ft_strcmp(branch->exec_name, "cd"))
 		return (1);
 	else if (!ft_strcmp(branch->exec_name, "env"))
-	{
-		env(minishell->var_def, branch->exec_args);
-		return (1);
-	}
+		return (env(minishell->var_def, branch->exec_args));
 	else if (!ft_strcmp(branch->exec_name, "export"))
 		return (1);
 	else if (!ft_strcmp(branch->exec_name, "unset"))
@@ -38,5 +29,5 @@ int	check_for_builtins(t_tree *branch, t_minishell *minishell)
 	else if (!ft_strcmp(branch->exec_name, "exit"))
 		return (1);
 	else
-		return (0);
+		return (-1);
 }

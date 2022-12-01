@@ -19,16 +19,17 @@ char	*get_var(unsigned int *i, char *value)
 {
 	unsigned int	save;
 
+	printf("------ value == %s\n", value);
 	save = *i;
 	(*i)++;
-	if (value[*i] && value[*i] >= '0' && value[*i] <= '9')
+	if (value[*i] && (ft_isdigit(value[*i]) || value[*i] == '?'))
 	{
 		*i += 1;
 		return (ft_substr(value, save, 2));
 	}
 	else if (value[*i] && !ft_isaccepted_var_name(value[*i]))
 	{
-		while (value[*i] && value[*i] != '$' && *i < (ft_strlen(value) - 1))
+		while (value[*i] && value[*i] != '$')
 			(*i)++;
 		return (ft_substr(value, save, *i - save));
 	}

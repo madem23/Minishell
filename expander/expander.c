@@ -22,12 +22,19 @@ void	converting_dollar_tk(t_minishell *minishell, t_expander_tree *branch)
 
 	tmp_s = NULL;
 	i_occur = ft_strchrset(branch->value + 1, "\"\'!@#^%&*$()- +=[]{}:;.,");
-	if (branch->value[1] == '{')
+	if (branch->value[1] == '?')
+	{
+		if (WEXITSTATUS(exit_status) != 255)
+			tmp_s = ft_itoa(WEXITSTATUS(exit_status));
+		else
+			tmp_s = ft_itoa(exit_status);
+	}
+	else if (branch->value[1] == '{')
 		tmp_s = managing_curly_brakets(branch->value, 0, minishell);
 	else if (i_occur == 0)
 		return ;
 	else if (i_occur == -1)
-		tmp_s = convert_dollar_token(branch->value + 1, minishell);
+		tmp_s = search_var_list_and_replace(branch->value + 1, minishell);
 	free(branch->value);
 	branch->value = tmp_s;
 }

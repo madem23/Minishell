@@ -15,7 +15,7 @@
 #include "../minishell.h"
 #include "../libft/libft.h"
 
-char *convert_dollar_token(char *value, t_minishell *minishell)
+char *search_var_list_and_replace(char *value, t_minishell *minishell)
 {
 	bool	convertion;
 	char    *new_value;
@@ -47,6 +47,6 @@ char	*managing_curly_brakets(char *value, int i, t_minishell *minishell)
 	while (value[i] && value[i] != '}')
 		i++;
 	if (value[i])
-		tmp_s = ft_strjoin(convert_dollar_token(ft_substr(value, 2, i - 2), minishell), ft_strchr(value, '}') + 1);
+		tmp_s = ft_strjoin(search_var_list_and_replace(ft_substr(value, 2, i - 2), minishell), ft_strchr(value, '}') + 1);
 	return (tmp_s);
 }

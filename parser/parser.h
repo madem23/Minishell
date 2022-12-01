@@ -95,6 +95,6 @@ t_var			*var_init(char	*name, char *value, bool env);
 void			lexing_dollar_token(t_parser *parser, struct s_minishell *minishell);
 char			*managing_non_alpha(char *value, int i, int j, struct s_minishell *minishell);
 char			*managing_curly_brakets(char *value, int i, struct s_minishell *minishell);
-char 			*convert_dollar_token(char *value, struct s_minishell *minishell);
+char 			*search_var_list_and_replace(char *value, struct s_minishell *minishell);
 
 #endif
