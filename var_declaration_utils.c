@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 13:02:07 by mdemma            #+#    #+#             */
-/*   Updated: 2022/12/01 14:51:34 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/02 10:45:04 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ t_var	*var_list_init(char **envp)
 	t_var	*list;
 	int		i;
 	char	**trim;
+	char	*oldpwd;
 
 	i = 0;
 	list = NULL;
@@ -74,6 +75,9 @@ t_var	*var_list_init(char **envp)
 		free(trim);
 		i++;
 	}
+	oldpwd = get_var_value(list, "OLDPWD");
+	if (!oldpwd)
+		var_add_back(&list, var_init(ft_strdup("OLDPWD"), getcwd(NULL, 0), true));
 	change_var_value(list, "SHELL", "./minishell");
 	return (list);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdemma <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 13:06:48 by mdemma            #+#    #+#             */
-/*   Updated: 2022/11/30 13:06:49 by mdemma           ###   ########.fr       */
+/*   Updated: 2022/12/02 11:11:09 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,3 +97,19 @@ void	free_exit_final(t_minishell *minishell)
 	free(minishell);
 	exit(EXIT_SUCCESS);
 }
+
+// void	free_tokens(t_parser *parser)
+// {
+// 	t_token *current_token;
+// 	t_token	*tmp;
+
+// 	current_token = parser->first_token;
+// 	while (current_token->type != TK_EOC)
+// 	{
+// 		tmp = current_token;
+// 		if (tmp->value)
+// 			free(tmp->value);
+// 		current_token = tmp->next_token;
+// 		free(tmp);
+// 	}
+// }

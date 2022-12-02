@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 12:33:01 by antoine           #+#    #+#             */
-/*   Updated: 2022/11/26 19:18:32 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/02 11:52:25 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,13 @@ int unset(char **args, t_minishell *minishell)
 	i = 0;
 	while (args[i])
 	{
+		if (ft_strchrset(args[i], "\"\'!@#^%&*()- +[]{}:;.,?") != -1 || ft_isdigit(args[i][0]))
+		{
+			ft_putstr_fd("minishell: unset: \'", 2);
+			ft_putstr_fd(args[i], 2);
+			ft_putstr_fd("\': not a valid identifier\n", 2);
+			return (1);
+		}
 		tmp = minishell->var_def;
 		while (tmp)
 		{

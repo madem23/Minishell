@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdemma <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 13:02:32 by mdemma            #+#    #+#             */
-/*   Updated: 2022/11/30 13:02:34 by mdemma           ###   ########.fr       */
+/*   Updated: 2022/12/02 11:36:15 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ void	converting_dollar_tk(t_minishell *minishell, t_expander_tree *branch)
 	i_occur = ft_strchrset(branch->value + 1, "\"\'!@#^%&*$()- +=[]{}:;.,");
 	if (branch->value[1] == '?')
 	{
-		if (WEXITSTATUS(exit_status) != 255)
-			tmp_s = ft_itoa(WEXITSTATUS(exit_status));
-		else
+		// if (WEXITSTATUS(exit_status) != 255)
+		// 	tmp_s = ft_itoa(WEXITSTATUS(exit_status));
+		// else
 			tmp_s = ft_itoa(exit_status);
 	}
 	else if (branch->value[1] == '{')

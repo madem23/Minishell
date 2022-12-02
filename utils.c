@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 11:15:19 by antoine           #+#    #+#             */
-/*   Updated: 2022/12/01 14:52:09 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/02 10:31:09 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,7 @@ void	update_envp(t_minishell *minishell)
 			len++;
 		tmp = tmp->next;
 	}
-	minishell->envp = malloc((len + 1) * sizeof(char*));
+	minishell->envp = malloc((len + 1) * sizeof(char *));
 	i = 0;
 	tmp = minishell->var_def;
 	while (tmp)

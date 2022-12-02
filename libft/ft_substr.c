@@ -3,27 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anloisea <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/21 17:18:44 by anloisea          #+#    #+#             */
-/*   Updated: 2022/04/01 19:08:13 by anloisea         ###   ########.fr       */
+/*   Updated: 2022/12/02 10:02:53 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static size_t	ft_check_len(char const *s, size_t len)
+static size_t	ft_check_len(char const *s, int len)
 {
 	if (len >= ft_strlen(s))
 		return (ft_strlen(s));
 	return (len);
 }
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+char	*ft_substr(char const *s, int start, int len)
 {
 	char			*sub;
-	unsigned int	i;
-	unsigned int	j;
+	int	i;
+	int	j;
 
 	if (!s)
 		return (NULL);

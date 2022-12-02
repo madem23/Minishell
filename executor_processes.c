@@ -124,6 +124,7 @@ void	exec_last_child(t_minishell *minishell, t_tree *branch, int **pipefd)
 {
 	char	**cmd;
 	int		*fd;
+	int		n;
 
 	cmd = branch->exec_args;
 	fd = check_redir_open_files(branch);
@@ -136,8 +137,9 @@ void	exec_last_child(t_minishell *minishell, t_tree *branch, int **pipefd)
 	if (fd[1] > 0)
 		dup2(fd[1], STDOUT_FILENO);
 	close_pipes(branch->treetop->nb_pipes, pipefd);
-	if (check_for_builtins(branch, minishell))
-		exit(EXIT_SUCCESS);
+	n = check_for_builtins(branch, minishell);
+	if (n != -1)
+		exit(n);
 	if (!branch->exec_path && !branch->treetop->paths)
 		error_cmd_path(minishell, branch, pipefd);
 	if (!branch->exec_path)
@@ -149,6 +151,7 @@ void	exec_last_child(t_minishell *minishell, t_tree *branch, int **pipefd)
 void	exec_interim_children(t_minishell *minishell, t_tree *branch, int **pipefd, int j)
 {
 	int	*fd;
+	int	n;
 
 	fd = check_redir_open_files(branch);
 	if (fd[0] < 0 || fd[1] < 0 || !branch->exec_name)
@@ -162,11 +165,9 @@ void	exec_interim_children(t_minishell *minishell, t_tree *branch, int **pipefd,
 	else if (branch->piped_output == true)
 		dup2(pipefd[j][1], STDOUT_FILENO);
 	close_pipes(branch->treetop->nb_pipes, pipefd);
-	if (check_for_builtins(branch, minishell))
-	{
-		puts(branch->exec_name);
-		exit(EXIT_SUCCESS);
-	}
+	n = check_for_builtins(branch, minishell);
+	if (n != -1)
+		exit(n);
 	if (!branch->exec_path && !branch->treetop->paths)
 		error_cmd_path(minishell, branch, pipefd);
 	if (!branch->exec_path)
@@ -190,8 +191,7 @@ void	exec_parent(t_minishell *minishell, int **pipefd)
 	while (i < minishell->tree->nb_pipes + 1)
 	{
 		waitpid(minishell->p_id[i], &exit_status, 0);
-		printf("TEST EXIT STATUS = %d \n", exit_status);
-		printf("TEST WW EXIT STATUS = %d \n", WEXITSTATUS(exit_status));
+		exit_status = WEXITSTATUS(exit_status);
 		i++;
 	}
 	if (minishell->tree->branch->exec_name && !ft_strcmp(minishell->tree->branch->exec_name, "cd"))
@@ -201,9 +201,7 @@ void	exec_parent(t_minishell *minishell, int **pipefd)
 	if (minishell->tree->branch->exec_name && !ft_strcmp(minishell->tree->branch->exec_name, "unset"))
 		exit_status = unset(minishell->tree->branch->exec_args, minishell);
 	if (minishell->tree->branch->exec_name && !ft_strcmp(minishell->tree->branch->exec_name, "exit"))
-		ft_exit(minishell->tree->branch->exec_args); //exit_status = a 
-	printf("TEST EXIT STATUS POST = %d \n", exit_status);
-	printf("TEST WW EXIT STATUS POSt = %d \n", WEXITSTATUS(exit_status));
+		ft_exit(minishell->tree->branch->exec_args);
 	free_end_executor(minishell, pipefd);
 	free_tree(minishell->tree);
 	free_parser(minishell->parser);

@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 12:13:10 by anloisea          #+#    #+#             */
-/*   Updated: 2022/11/21 15:22:43 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/02 11:17:18 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@
 
 typedef struct s_lexer
 {
-	char			c;
-	unsigned int	i;
-	int				token_index;
-	char			*cmd_line;
+	char	c;
+	int		i;
+	int		token_index;
+	char	*cmd_line;
 }				t_lexer;
 
 t_lexer	*lexer_init(char *cmd_line);
