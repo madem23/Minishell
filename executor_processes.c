@@ -191,16 +191,13 @@ void	exec_parent(t_minishell *minishell, int **pipefd)
 	i = 0;
 	while (i < minishell->tree->nb_pipes + 1)
 	{
-		minishell->sa.sa_handler = &handler_child;
-		sigaction(SIGINT, &minishell->sa, NULL);
+	 	minishell->sa.sa_handler = &handler_child;
+	 	sigaction(SIGINT, &minishell->sa, NULL);
 		waitpid(minishell->p_id[i], &exit_status, 0);
-		if (WIFSIGNALED(exit_status))
-		{
-			printf("received a signal %d: %s\n", WTERMSIG(exit_status), strsignal(WTERMSIG(exit_status)));
-			printf("exit_status = %d WEXITSTATUS = %d\n", exit_status, WEXITSTATUS(exit_status));
-		}
-		exit_status = WEXITSTATUS(exit_status);
-		printf("exit_status = %d\n", exit_status);
+		if (WIFSIGNALED(exit_status) && WTERMSIG(exit_status) == SIGINT)
+				exit_status = 130;
+		else
+			exit_status = WEXITSTATUS(exit_status);
 		i++;
 	}
 	if (minishell->tree->branch->exec_name && !ft_strcmp(minishell->tree->branch->exec_name, "cd"))
