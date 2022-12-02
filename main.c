@@ -6,11 +6,12 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 11:32:55 by anloisea          #+#    #+#             */
-/*   Updated: 2022/12/02 11:13:22 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/02 15:34:06 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <signal.h>
 
 void	get_line(t_minishell *minishell)
 {
@@ -24,6 +25,15 @@ void	get_line(t_minishell *minishell)
 		add_history(minishell->cmd_line);
 }
 
+void	handler_main(int sig)
+{
+	(void)sig;
+	ft_putchar_fd('\n', 1);
+	rl_replace_line("", 1);
+	rl_on_new_line();
+	rl_redisplay();
+}
+
 t_minishell	*init_minishell(char *envp[])
 {
 	t_minishell	*minishell;
@@ -34,6 +44,9 @@ t_minishell	*init_minishell(char *envp[])
 	minishell->var_def = var_list_init(envp);
 	minishell->prompt = get_prompt();
 	minishell->cmd_line = NULL;
+	minishell->sa.sa_handler = &handler_main;
+	minishell->sa.sa_flags = SA_RESTART;
+	sigaction(SIGINT, &minishell->sa, NULL);
 	get_line(minishell);
 	minishell->lexer = NULL;
 	minishell->parser = NULL;
@@ -41,13 +54,22 @@ t_minishell	*init_minishell(char *envp[])
 	return (minishell);
 }
 
+void	handler_child(int sig)
+{
+	(void)sig;
+	ft_putchar_fd('\n', 1);
+}
+
+
+
 int main(int argc, char *argv[], char *envp[])
 {
-	t_minishell	*minishell;
-	t_parser	*parser;
-
+	t_minishell		*minishell;
+	t_parser		*parser;
+	
 	(void)argc;
 	(void)argv;
+	sigaction(SIGQUIT, SIG_IGN);
 	minishell = init_minishell(envp);
 	while (minishell->cmd_line)
 	{

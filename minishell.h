@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 12:56:26 by anloisea          #+#    #+#             */
-/*   Updated: 2022/12/02 11:16:26 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/02 14:41:00 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct s_minishell
 	t_parser	*parser;
 	t_tree		*tree;
 	int			**pipefd;
+	struct sigaction	sa;
 }				t_minishell;
 
 
@@ -101,5 +102,9 @@ t_var	*var_list_init(char **envp);
 int		change_var_value(t_var *list, char *name, char *value);
 void	update_envp(t_minishell *minishell);
 char	*get_var_value(t_var *var_list, char *name);
+
+//signals
+void	handler_child(int sig);
+void	handler_main(int sig);
 
 #endif

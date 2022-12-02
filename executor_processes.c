@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <string.h>
 
 //Distributes all processes to their dedicated program
 void	test_which_child_and_exec(t_minishell *minishell, unsigned int j, int **pipefd)
@@ -190,8 +191,16 @@ void	exec_parent(t_minishell *minishell, int **pipefd)
 	i = 0;
 	while (i < minishell->tree->nb_pipes + 1)
 	{
+		minishell->sa.sa_handler = &handler_child;
+		sigaction(SIGINT, &minishell->sa, NULL);
 		waitpid(minishell->p_id[i], &exit_status, 0);
+		if (WIFSIGNALED(exit_status))
+		{
+			printf("received a signal %d: %s\n", WTERMSIG(exit_status), strsignal(WTERMSIG(exit_status)));
+			printf("exit_status = %d WEXITSTATUS = %d\n", exit_status, WEXITSTATUS(exit_status));
+		}
 		exit_status = WEXITSTATUS(exit_status);
+		printf("exit_status = %d\n", exit_status);
 		i++;
 	}
 	if (minishell->tree->branch->exec_name && !ft_strcmp(minishell->tree->branch->exec_name, "cd"))
@@ -205,4 +214,6 @@ void	exec_parent(t_minishell *minishell, int **pipefd)
 	free_end_executor(minishell, pipefd);
 	free_tree(minishell->tree);
 	free_parser(minishell->parser);
+	minishell->sa.sa_handler = &handler_main;
+	sigaction(SIGINT, &minishell->sa, NULL);
 }
