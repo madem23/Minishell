@@ -38,28 +38,36 @@ t_expander_tree	*init_branch(t_expander_tree *subtree, int type, int index, char
 }
 
 
+//		if (type_subtree == WORD && ((i != 0 && (!value_subtree[i] || (value_subtree[i] == '$' &&  i - last_end > 1) || i == ft_strlen(value_subtree) - 1)) || (i == 0 && (value_subtree[i] == '\'' || value_subtree[i] == '\"'))))
 
 void	create_parsing_branches(t_expander_tree *subtree, char *value_subtree, int type_subtree)
 {
 	t_expander_tree	*current_node;
-	int					index;
-	unsigned int		i;
-	unsigned 			last_end;
+	int				index;
+	int				i;
+	int				last_end;
+
 	
 	index = 0;
 	i = 0;
-	last_end = 0;
-
+	last_end = -1;
 	current_node = subtree;
 	while (value_subtree[i])
 	{
 		while (value_subtree[i] && value_subtree[i] != '$' && value_subtree[i] != '\'' && value_subtree[i] != '"')
 			i++;
-		if (type_subtree == WORD && i != 0 && (!value_subtree[i] || value_subtree[i] == '$' || i == ft_strlen(value_subtree) - 1))
+		printf("+++++TEST == %c", value_subtree[i]);
+		printf("+++++pour i == %d", i);
+		printf("+++++et last end == %d\n", last_end);
+		if ((last_end == -1 && (i > 0 || (i == 0 && ft_strlen(value_subtree) == 1))) || (i - last_end > 1 && last_end >= 0))
 		{ 
+			if (type_subtree == WORD && i == ft_strlen(value_subtree) - 1)
+				i++;
+			printf("----------ENTREE loop WORD i = %d et last_end = %d\n", i, last_end);
 			current_node->next_branch = init_branch(subtree, WORD, index++, get_prev_word(last_end, &i, value_subtree));
 			current_node = current_node->next_branch;
 			last_end = i - 1;
+			printf("SORTIE loop WORD, i = %d et last_end = %d\n", i, last_end);
 		}
 		if (value_subtree[i] == '$' && type_subtree != SQUOTE)
 		{
@@ -69,6 +77,14 @@ void	create_parsing_branches(t_expander_tree *subtree, char *value_subtree, int 
 				printf("Sortiee fct , i = %d et last_end = %d\n", i, last_end);
 			last_end = i - 1;
 			printf("SORTIE loop VAR, i = %d et last_end = %d\n", i, last_end);
+		}
+		else if (value_subtree[i] == '$' && type_subtree == SQUOTE)
+		{
+			printf("----------ENTREE loop VAR SQUOTE i = %d et last_end = %d\n", i, last_end);
+			current_node->next_branch = init_branch(subtree, WORD, index++, get_word(&i, value_subtree));
+			current_node = current_node->next_branch;
+			last_end = i - 1;
+			printf("SORTIE loop VAR SQUOTE, i = %d et last_end = %d\n", i, last_end);
 		}
 		else if ((value_subtree[i] == '\'' && type_subtree == SQUOTE && i == 0)
 				|| (value_subtree[i] == '"' && type_subtree == DQUOTE && i == 0))

@@ -30,9 +30,9 @@ typedef struct s_expander_tree
 
 void				expander(struct s_parser *parser, struct s_minishell *minishell);
 char				*expander_convert(char *value, struct s_minishell *minishell, t_expander_tree *tree);
-char				*get_var(unsigned int *i, char *value);
-char				*get_word(unsigned int *i, char *value);
-char				*get_prev_word(unsigned int last_end, unsigned int *i, char *value);
+char				*get_var(int *i, char *value);
+char				*get_word(int *i, char *value);
+char				*get_prev_word(int last_end,int *i, char *value);
 t_expander_tree		*creating_expander_tree(char *value, struct s_minishell *minishell);
 t_expander_tree		*create_parsing_subtree(int type, t_expander_tree *treetop, char *value);
 void				create_parsing_branches(t_expander_tree *subtree, char *value_subtree, int type_subtree);

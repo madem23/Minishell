@@ -15,9 +15,9 @@
 #include "../minishell.h"
 #include "../libft/libft.h"
 
-char	*get_var(unsigned int *i, char *value)
+char	*get_var(int *i, char *value)
 {
-	unsigned int	save;
+	int	save;
 
 	printf("------ value == %s\n", value);
 	save = *i;
@@ -42,14 +42,16 @@ char	*get_var(unsigned int *i, char *value)
 }
 
 //for opening token only
-char	*get_word(unsigned int *i, char *value)
+char	*get_word(int *i, char *value)
 {
 	char	*s;
 	int		j;
-	unsigned int		save;
+	int		save;
 
 	j = 0;
 	save = *i;
+	if (value[save] == '$')
+		(*i)++;
 	while (value[*i] && value[*i] != '$' && *i < (ft_strlen(value) - 1))
 		(*i)++;
 	s = malloc(sizeof(char) * (*i - save + 1));
@@ -59,14 +61,16 @@ char	*get_word(unsigned int *i, char *value)
 	return (s);
 }
 
-char	*get_prev_word(unsigned int last_end, unsigned int *i, char *value)
+char	*get_prev_word(int last_end, int *i, char *value)
 {
 	char	*s;
 	int		j;
 	int		verif;
 
 	verif = 0;
-	j = 0;	
+	j = 0;
+	if (last_end == -1)
+		last_end++;
 	if (*i - last_end <= 1)
 	{
 		verif++;
@@ -75,7 +79,7 @@ char	*get_prev_word(unsigned int last_end, unsigned int *i, char *value)
 	if (last_end != 0)
 		last_end++;
 	s = malloc(sizeof(char) * (*i - last_end + 1));
-	while (value[last_end] && last_end <= *i)
+	while (value[last_end] && last_end < *i)
 	{
 		s[j++] = value[last_end];
 		last_end++;
