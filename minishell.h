@@ -24,6 +24,7 @@
 # include <stdbool.h>
 # include <signal.h>
 #include <unistd.h>
+#include <termios.h> 
 
 //open
 # include <sys/types.h>
@@ -47,6 +48,8 @@ typedef struct s_minishell
 	t_tree		*tree;
 	int			**pipefd;
 	struct sigaction	sa;
+	struct termios old_termios;
+	struct termios new_termios;
 }				t_minishell;
 
 

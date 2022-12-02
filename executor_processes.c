@@ -207,7 +207,10 @@ void	exec_parent(t_minishell *minishell, int **pipefd)
 	if (minishell->tree->branch->exec_name && !ft_strcmp(minishell->tree->branch->exec_name, "unset"))
 		exit_status = unset(minishell->tree->branch->exec_args, minishell);
 	if (minishell->tree->branch->exec_name && !ft_strcmp(minishell->tree->branch->exec_name, "exit"))
+	{
+
 		ft_exit(minishell->tree->branch->exec_args);
+	}
 	free_end_executor(minishell, pipefd);
 	free_tree(minishell->tree);
 	free_parser(minishell->parser);

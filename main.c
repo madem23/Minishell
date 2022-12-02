@@ -67,15 +67,18 @@ int main(int argc, char *argv[], char *envp[])
 	t_minishell		*minishell;
 	t_parser		*parser;
 	
-
+	
 	(void)argc;
 	(void)argv;
-	signal(SIGQUIT, SIG_IGN);
-	minishell = init_minishell(envp);
+	minishell = init_minishell(envp);		
+	tcgetattr(0, &minishell->old_termios);
+	minishell->new_termios = minishell->old_termios;
+	minishell->new_termios.c_cc[VQUIT]  = 4;
+	tcsetattr(0, TCSANOW, &minishell->new_termios);
 	while (minishell->cmd_line)
-	{
+	{	
 		update_envp(minishell);
-		if (minishell->cmd_line[0] != EOF)
+		if (minishell->cmd_line[0])
 		{
 			minishell->lexer = lexer_init(minishell->cmd_line);
 			parser = parser_init(minishell->lexer, minishell);
