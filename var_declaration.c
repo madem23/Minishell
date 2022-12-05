@@ -40,7 +40,7 @@ int	parsing_var_def(t_tree *branch)
 	{
 		while (tmp && tmp->index <= branch->end_index)
 		{
-			if (tmp->type == TK_EQUAL)
+			if (tmp->e_tk_type == TK_EQUAL)
 			{
 				v = ft_split(tmp->value, '=');
 				v[1] = expander_convert(v[1], branch->minishell,

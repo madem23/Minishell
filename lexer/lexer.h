@@ -13,7 +13,7 @@
 #ifndef LEXER_H
 # define LEXER_H
 
-#include "token.h"
+# include "token.h"
 
 typedef struct s_lexer
 {
@@ -35,5 +35,7 @@ char	*lexer_get_word(t_lexer *lexer);
 char	*lexer_get_char(t_lexer *lexer);
 char	*lexer_get_string(t_lexer *lexer, char quote);
 int		count_char(char *s, int end_index);
+int		count_char(char *s, int end_index);
+void	ignore_spaces(t_lexer *lexer);
 
 #endif

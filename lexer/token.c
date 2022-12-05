@@ -26,7 +26,7 @@ int	is_a_variable_declaration(char *value)
 	if (value[i] == '=' && (!value[++i] || ft_isaccepted(value[i])))
 		return (1);
 	else
-		return(0);	
+		return (0);
 }
 
 t_token	*token_init(int type, char *value, t_lexer *lexer)
@@ -38,10 +38,10 @@ t_token	*token_init(int type, char *value, t_lexer *lexer)
 		error(1, "failed to allocate token\n");
 	if (type == TK_WORD && is_a_variable_declaration(value))
 		type = TK_EQUAL;
-	token->type = type;
+	token->e_tk_type = type;
 	token->value = value;
 	if (type == TK_LOWER || type == TK_GREATER || type == TK_DLOWER
-		|| type == TK_DGREATER || type == TK_LOWER_GREATER)
+		|| type == TK_DGREATER)
 		token->redir_token = true;
 	else
 		token->redir_token = false;

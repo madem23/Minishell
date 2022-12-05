@@ -182,3 +182,13 @@ char	*get_var_value(t_var *var_list, char *name)
 	}
 	return (value);
 }
+
+char	*malloc_string(int size)
+{
+	char	*str;
+
+	str = malloc((size) * sizeof(char));
+	if (str == NULL)
+		error(1, "failed to allocate string\n");
+	return (str);
+}

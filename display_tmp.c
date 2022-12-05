@@ -51,7 +51,6 @@ void	display_tree(t_tree *top)
 		print_tab("	Infiles = ", tmp1->branch->infiles, 0);
 		print_tab("	Outfiles = ", tmp1->branch->outfiles, 0);
 		print_tab("	Outfiles append-mode = ", tmp1-> branch->outfiles_append, 0);
-		print_tab("	Diamonds = ", tmp1-> branch->diamonds, 0);
 		printf(" piped input = %d\n", tmp1->branch->piped_input);
 		printf(" piped output = %d\n", tmp1->branch->piped_output);
 		tmp1 = tmp1->subtree;

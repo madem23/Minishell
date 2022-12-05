@@ -17,14 +17,15 @@
 # include "libft/libft.h"
 # include "lexer/lexer.h"
 # include "parser/parser.h"
+# include "expander/expander.h"
 # include "builtins/builtins.h"
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <stdbool.h>
 # include <signal.h>
-#include <unistd.h>
-#include <termios.h> 
+# include <unistd.h>
+# include <termios.h> 
 
 //open
 # include <sys/types.h>
@@ -34,6 +35,14 @@
 #include <sys/wait.h>
 
 int	exit_status;
+
+
+typedef struct s_global
+{
+	struct s_expander_tree	subtree;
+}						t_global;
+
+t_global	global;
 
 typedef struct s_minishell
 {
@@ -71,6 +80,7 @@ int		locate_char(char *s, char c);
 void	close_pipes(unsigned int nb_pipes, int **pipefd);
 t_tree	*get_branch(t_tree *treetop, unsigned int j);
 int		ft_strchrset(const char *s, char *charset);
+char	*malloc_string(int size);
 
 //free:
  void	free_parser(t_parser *parser);
@@ -107,7 +117,7 @@ void	update_envp(t_minishell *minishell);
 char	*get_var_value(t_var *var_list, char *name);
 
 //signals
-void	handler_child(int sig);
-void	handler_main(int sig);
+void	handler_sigint_child(int sig);
+void	handler_sigint_main(int sig);
 
 #endif

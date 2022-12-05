@@ -13,7 +13,7 @@
 #ifndef TOKEN_H
 # define TOKEN_H
 
-#include <stdbool.h>
+# include <stdbool.h>
 
 typedef struct s_token
 {
@@ -25,21 +25,16 @@ typedef struct s_token
 		TK_QUOTE,
 		TK_LOWER,
 		TK_GREATER,
-		TK_DLOWER, //heredoc
+		TK_DLOWER,
 		TK_DGREATER,
 		TK_PIPE,
 		TK_DOLLAR,
-		TK_LOWER_GREATER,
-		TK_EOC // End of command (equivalent de EOF)
-	}type;
-
+		TK_EOC
+	}	e_tk_type;
 	bool			redir_token;
 	char			*value;
 	int				index;
 	struct s_token	*next_token;
 	bool			parsed;
-}			t_token;
-
-
-
+}					t_token;
 #endif

@@ -57,7 +57,6 @@ void	free_branch(t_tree *branch)
 	free(branch->infiles);
 	free(branch->outfiles);
 	free(branch->outfiles_append);
-	free(branch->diamonds);
 	free(branch);
 }
 
@@ -104,7 +103,7 @@ void	free_exit_final(t_minishell *minishell)
 // 	t_token	*tmp;
 
 // 	current_token = parser->first_token;
-// 	while (current_token->type != TK_EOC)
+// 	while (current_token->e_tk_type != TK_EOC)
 // 	{
 // 		tmp = current_token;
 // 		if (tmp->value)

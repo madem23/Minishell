@@ -31,7 +31,7 @@ t_parser	*parser_init(t_lexer *lexer, t_minishell *minishell)
 
 t_parser	*lexing_start(t_parser *parser)
 {
-	while (parser->current_token->type != TK_EOC)
+	while (parser->current_token->e_tk_type != TK_EOC)
 	{
 		parser->current_token->next_token = lexer_get_next_token(parser->lexer);
 		parser->current_token = parser->current_token->next_token;
@@ -63,14 +63,16 @@ t_tree	*parsing(t_parser *parser, t_minishell *minishell)
 	current_node = parser->treetop;
 	while (tmp)
 	{
-		if (tmp->type == TK_PIPE || tmp->type == TK_EOC)
+		if (tmp->e_tk_type == TK_PIPE || tmp->e_tk_type == TK_EOC)
 		{
-			current_node->branch = create_branch(save_point, tmp, parser->treetop, minishell);
+			current_node->branch = create_branch(save_point, tmp,
+					parser->treetop, minishell);
 			save_point = tmp;
 		}
-		if (tmp->type == TK_PIPE)
+		if (tmp->e_tk_type == TK_PIPE)
 		{
-			current_node->subtree = create_subtree(tmp->next_token, parser->treetop);
+			current_node->subtree = create_subtree(tmp->next_token,
+					parser->treetop);
 			current_node = current_node->subtree;
 		}
 		tmp = tmp->next_token;

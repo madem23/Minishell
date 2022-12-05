@@ -191,7 +191,7 @@ void	exec_parent(t_minishell *minishell, int **pipefd)
 	i = 0;
 	while (i < minishell->tree->nb_pipes + 1)
 	{
-	 	minishell->sa.sa_handler = &handler_child;
+	 	minishell->sa.sa_handler = &handler_sigint_child;
 	 	sigaction(SIGINT, &minishell->sa, NULL);
 		waitpid(minishell->p_id[i], &exit_status, 0);
 		if (WIFSIGNALED(exit_status) && WTERMSIG(exit_status) == SIGINT)
@@ -214,6 +214,6 @@ void	exec_parent(t_minishell *minishell, int **pipefd)
 	free_end_executor(minishell, pipefd);
 	free_tree(minishell->tree);
 	free_parser(minishell->parser);
-	minishell->sa.sa_handler = &handler_main;
+	minishell->sa.sa_handler = &handler_sigint_main;
 	sigaction(SIGINT, &minishell->sa, NULL);
 }

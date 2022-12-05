@@ -21,7 +21,7 @@ void	get_pipe_info(t_tree *branch, t_token *begin, t_token *end)
 		branch->piped_input = false;
 	else
 		branch->piped_input = true;
-	if (end->type == TK_PIPE)
+	if (end->e_tk_type == TK_PIPE)
 		branch->piped_output = true;
 	else
 		branch->piped_output = false;
@@ -93,7 +93,7 @@ unsigned int	count_tk(t_token *first_token, int end_index, unsigned int type)
 	{
 		while (first_token && first_token->index < end_index)
 		{
-			if (first_token->type == type)
+			if (first_token->e_tk_type == type)
 				nb++;
 			first_token = first_token->next_token;
 		}
@@ -102,7 +102,7 @@ unsigned int	count_tk(t_token *first_token, int end_index, unsigned int type)
 	{
 		while (first_token)
 		{
-			if (first_token->type == type)
+			if (first_token->e_tk_type == type)
 				nb++;
 			first_token = first_token->next_token;
 		}

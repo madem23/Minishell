@@ -15,12 +15,11 @@
 #include "../minishell.h"
 #include "../libft/libft.h"
 
-
-
-t_expander_tree	*init_branch(t_expander_tree *subtree, int type, int index, char *value)
+t_expander_tree	*init_branch(t_expander_tree *subtree, int type,
+	int index, char *value)
 {
 	t_expander_tree	*branch;
-	
+
 	printf("Creation branch = %s, of type : %d\n", value, type);
 	branch = malloc(sizeof(t_expander_tree));
 	if (!branch)
@@ -37,75 +36,78 @@ t_expander_tree	*init_branch(t_expander_tree *subtree, int type, int index, char
 	return (branch);
 }
 
+int	init_var_branch_and_move(t_expander_tree *subtree, int *index, int *i, t_expander_tree **current_node)
+{
+	//printf("----------ENTREE loop VAR i = %d et last_end = %d\n", i, last_end);
+	(*current_node)->next_branch = init_branch(subtree, DOLLAR, (*index)++, get_var(i, subtree->value));
+	*current_node = (*current_node)->next_branch;
+	printf("SORTIE loop VAR, i = %d et last_end = %d\n", *i, (*i) - 1);
+	return ((*i) - 1);
+}
 
-//		if (type_subtree == WORD && ((i != 0 && (!value_subtree[i] || (value_subtree[i] == '$' &&  i - last_end > 1) || i == ft_strlen(value_subtree) - 1)) || (i == 0 && (value_subtree[i] == '\'' || value_subtree[i] == '\"'))))
+int	init_word_branch_and_move(t_expander_tree *subtree, int *index, int *i, t_expander_tree **current_node)
+{
+	//	printf("----------ENTREE loop VAR SQUOTE i = %d et last_end = %d\n", i, last_end);
+	(*current_node)->next_branch = init_branch(subtree, WORD, (*index)++, get_word(i, subtree->value));
+	*current_node = (*current_node)->next_branch;
+	printf("SORTIE loop VAR, i = %d et last_end = %d\n", *i, (*i) - 1);
+	return ((*i) - 1);
+}
 
-void	create_parsing_branches(t_expander_tree *subtree, char *value_subtree, int type_subtree)
+int	init_op_tk_branch_and_move(t_expander_tree *subtree, int *index, int *i, t_expander_tree **current_node)
+{
+	//	printf("----------ENTREE loop VAR SQUOTE i = %d et last_end = %d\n", i, last_end);
+	(*current_node)->next_branch = init_branch(subtree, OPENING_TK, (*index)++, get_word(i, subtree->value));
+	*current_node = (*current_node)->next_branch;
+	printf("SORTIE loop VAR, i = %d et last_end = %d\n", *i, (*i) - 1);
+	return ((*i) - 1);
+}
+
+void	create_parsing_branches(t_expander_tree *subtree, char *value_subtree,
+	int type_subtree)
 {
 	t_expander_tree	*current_node;
 	int				index;
 	int				i;
 	int				last_end;
 
-	
 	index = 0;
 	i = 0;
 	last_end = -1;
 	current_node = subtree;
 	while (value_subtree[i])
 	{
-		while (value_subtree[i] && value_subtree[i] != '$' && value_subtree[i] != '\'' && value_subtree[i] != '"')
+		while (value_subtree[i] && value_subtree[i] != '$' && value_subtree[i] != '\''
+			&& value_subtree[i] != '"')
 			i++;
-		printf("+++++TEST == %c", value_subtree[i]);
-		printf("+++++pour i == %d", i);
-		printf("+++++et last end == %d\n", last_end);
-		if ((last_end == -1 && (i > 0 || (i == 0 && ft_strlen(value_subtree) == 1))) || (i - last_end > 1 && last_end >= 0))
+		if ((last_end == -1 && (i > 0 || (i == 0 && ft_strlen(value_subtree) == 1)))
+			|| (i - last_end > 1 && last_end >= 0))
 		{ 
 			if (type_subtree == WORD && i == ft_strlen(value_subtree) - 1)
 				i++;
-			printf("----------ENTREE loop WORD i = %d et last_end = %d\n", i, last_end);
+		//	printf("----------ENTREE loop WORD i = %d et last_end = %d\n", i, last_end);
 			current_node->next_branch = init_branch(subtree, WORD, index++, get_prev_word(last_end, &i, value_subtree));
 			current_node = current_node->next_branch;
 			last_end = i - 1;
-			printf("SORTIE loop WORD, i = %d et last_end = %d\n", i, last_end);
+		//	printf("SORTIE loop WORD, i = %d et last_end = %d\n", i, last_end);
 		}
 		if (value_subtree[i] == '$' && type_subtree != SQUOTE)
-		{
-			printf("----------ENTREE loop VAR i = %d et last_end = %d\n", i, last_end);
-			current_node->next_branch = init_branch(subtree, DOLLAR, index++, get_var(&i, value_subtree));
-			current_node = current_node->next_branch;
-				printf("Sortiee fct , i = %d et last_end = %d\n", i, last_end);
-			last_end = i - 1;
-			printf("SORTIE loop VAR, i = %d et last_end = %d\n", i, last_end);
-		}
+			last_end = init_var_branch_and_move(subtree, &index, &i, &current_node);
 		else if (value_subtree[i] == '$' && type_subtree == SQUOTE)
-		{
-			printf("----------ENTREE loop VAR SQUOTE i = %d et last_end = %d\n", i, last_end);
-			current_node->next_branch = init_branch(subtree, WORD, index++, get_word(&i, value_subtree));
-			current_node = current_node->next_branch;
-			last_end = i - 1;
-			printf("SORTIE loop VAR SQUOTE, i = %d et last_end = %d\n", i, last_end);
-		}
+			last_end = init_word_branch_and_move(subtree, &index, &i, &current_node);
 		else if ((value_subtree[i] == '\'' && type_subtree == SQUOTE && i == 0)
 				|| (value_subtree[i] == '"' && type_subtree == DQUOTE && i == 0))
-		{
-			printf("----------ENTREE loop OPENING TOKEN, i = %d et last_end = %d\n", i, last_end);
-			current_node->next_branch = init_branch(subtree, OPENING_TK, index++, get_word(&i, value_subtree));
-			current_node = current_node->next_branch;
-			printf("Sortiee fct , i = %d et last_end = %d\n", i, last_end);
-			last_end = i - 1;
-			printf("SORTIE loop OPENING TOKEN, i = %d et last_end = %d\n", i, last_end);
-		}
+			last_end = init_op_tk_branch_and_move(subtree, &index, &i, &current_node);
 		else if ((value_subtree[i] == '\'' && type_subtree == SQUOTE && i == ft_strlen(value_subtree) - 1)
 				|| (value_subtree[i] == '"' && type_subtree == DQUOTE && i == ft_strlen(value_subtree) - 1))
 		{
-			printf("----------ENTREE loop CLOSING TOKEN, i = %d et last_end = %d\n", i, last_end);
+		//	printf("----------ENTREE loop CLOSING TOKEN, i = %d et last_end = %d\n", i, last_end);
 			current_node->next_branch = init_branch(subtree, CLOSING_TK, index++, get_prev_word(last_end, &i, value_subtree));
 			current_node = current_node->next_branch;
-			printf("Sortiee fct , i = %d et last_end = %d\n", i, last_end);
+		//	printf("Sortiee fct , i = %d et last_end = %d\n", i, last_end);
 			last_end = i - 1;
 			i++;
-			printf("SORTIE loop CLOSING TOKEN, i = %d et last_end = %d\n", i, last_end);
+		//	printf("SORTIE loop CLOSING TOKEN, i = %d et last_end = %d\n", i, last_end);
 		}
 		else if (value_subtree[i])
 			i++;

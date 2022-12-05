@@ -119,7 +119,7 @@ void	expander(t_parser *parser, t_minishell *minishell)
 	tmp = parser->first_token;
 	while (tmp)
 	{
-		if (tmp->type == TK_WORD || tmp->type == TK_QUOTE || tmp->type == TK_DOLLAR)
+		if (tmp->e_tk_type == TK_WORD || tmp->e_tk_type == TK_QUOTE || tmp->e_tk_type == TK_DOLLAR)
 			tmp->value = expander_convert(tmp->value, minishell, creating_expander_tree(tmp->value, minishell));
 		tmp = tmp->next_token;
 	}

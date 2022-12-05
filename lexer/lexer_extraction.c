@@ -12,16 +12,6 @@
 
 #include "../minishell.h"
 
-char	*malloc_string(int size)
-{
-	char	*str;
-
-	str = malloc((size) * sizeof(char));
-	if (str == NULL)
-		error(1, "failed to allocate string\n");
-	return (str);
-}
-
 char	*lexer_get_word(t_lexer *lexer)
 {
 	char	*str;
