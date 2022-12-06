@@ -15,6 +15,25 @@
 #include "../minishell.h"
 #include "../libft/libft.h"
 
+/* Moves pointer to next branch (if bool is true) or next subtree. */
+void	move_to_next(t_expander_tree **tree, bool branch)
+{
+	t_expander_tree		*tmp;
+
+	if (branch == true)
+	{
+		tmp = (*tree)->next_branch->next_branch;
+		free((*tree)->next_branch);
+		(*tree)->next_branch = tmp;
+	}
+	else
+	{
+		tmp = (*tree)->next_subtree;
+		free(*tree);
+		(*tree) = tmp;
+	}
+}
+
 char	*get_var(int *i, char *value)
 {
 	int	save;

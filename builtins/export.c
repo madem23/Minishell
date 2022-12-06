@@ -56,7 +56,7 @@ int	export(t_tree *branch, t_minishell *minishell)
 		}
 		var_def = ft_split(branch->exec_args[i], '=');
 		if (var_def[1])
-			var_def[1] = expander_convert(var_def[1], branch->minishell, creating_expander_tree(var_def[1], branch->minishell));
+			var_def[1] = expander_convert(var_def[1], branch->minishell, creating_expander_tree(var_def[1]));
 		if (locate_char(branch->exec_args[i], '=') >= 0)
 		{
 			if (var_def && !change_var_value(minishell->var_def, var_def[0], var_def[1]))

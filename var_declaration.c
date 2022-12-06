@@ -44,7 +44,7 @@ int	parsing_var_def(t_tree *branch)
 			{
 				v = ft_split(tmp->value, '=');
 				v[1] = expander_convert(v[1], branch->minishell,
-						creating_expander_tree(v[1], branch->minishell));
+						creating_expander_tree(v[1]));
 				if (change_var_value(branch->minishell->var_def, v[0], v[1]))
 					return (1);
 				else

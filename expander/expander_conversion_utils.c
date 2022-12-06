@@ -15,10 +15,10 @@
 #include "../minishell.h"
 #include "../libft/libft.h"
 
-char *search_var_list_and_replace(char *value, t_minishell *minishell)
+char	*search_var_list_and_replace(char *value, t_minishell *minishell)
 {
 	bool	convertion;
-	char    *new_value;
+	char	*new_value;
 	t_var	*var_tmp;
 
 	convertion = false;
@@ -43,10 +43,12 @@ char	*managing_curly_brakets(char *value, int i, t_minishell *minishell)
 {
 	char	*tmp_s;
 
-	tmp_s = NULL; 
+	tmp_s = NULL;
 	while (value[i] && value[i] != '}')
 		i++;
 	if (value[i])
-		tmp_s = ft_strjoin(search_var_list_and_replace(ft_substr(value, 2, i - 2), minishell), ft_strchr(value, '}') + 1);
+		tmp_s = ft_strjoin(search_var_list_and_replace
+				(ft_substr(value, 2, i - 2), minishell),
+				ft_strchr(value, '}') + 1);
 	return (tmp_s);
 }

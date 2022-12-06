@@ -36,13 +36,24 @@
 
 int	exit_status;
 
-
+//subtree = current subtree being parsed for expander
 typedef struct s_global
 {
-	struct s_expander_tree	subtree;
-}						t_global;
+	struct s_expander_tree	*cur_exp_subtree;
+	struct s_expander_tree	*cur_exp_treetop;
+	struct s_minishell		*minishell;
+	struct s_utils			*u;
+}							t_global;
 
 t_global	global;
+
+typedef struct s_utils
+{
+	int	len;
+	int	i;
+	int	last_end;
+	int	index;
+}		t_utils;
 
 typedef struct s_minishell
 {

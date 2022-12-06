@@ -39,7 +39,6 @@ void	converting_dollar_tk(t_minishell *minishell, t_expander_tree *branch)
 	branch->value = tmp_s;
 }
 
-
 void	removing_op_clos_quotes(t_expander_tree *branch, int type)
 {
 	char	*new_value;
@@ -48,45 +47,45 @@ void	removing_op_clos_quotes(t_expander_tree *branch, int type)
 	if (type == OPENING_TK)
 		new_value = ft_strdup(branch->value + 1);
 	else if (type == CLOSING_TK)
-		new_value = ft_strtrim(branch->value, branch->value + (ft_strlen(branch->value) - 1));
+		new_value = ft_strtrim(branch->value,
+				branch->value + (ft_strlen(branch->value) - 1));
 	free(branch->value);
 	branch->value = new_value;
 }
 
 void	converting_all_branches(t_expander_tree *tree, t_minishell *minishell)
 {
-	t_expander_tree *current_node;
-	t_expander_tree *tmp;
-	
+	t_expander_tree	*cur_nod;
+	t_expander_tree	*tmp;
+
 	tmp = tree->next_subtree;
-	current_node = tmp->next_branch;
+	cur_nod = tmp->next_branch;
 	while (tmp)
 	{
-		while (current_node)
+		while (cur_nod)
 		{
-			if (current_node->type == OPENING_TK || current_node->type == CLOSING_TK)
-				removing_op_clos_quotes(current_node, current_node->type);
-			else if (current_node->type == DOLLAR)
-				converting_dollar_tk(minishell, current_node);
-			current_node = current_node->next_branch;
+			if (cur_nod->e_brch_type == OPENING_TK
+				|| cur_nod->e_brch_type == CLOSING_TK)
+				removing_op_clos_quotes(cur_nod, cur_nod->e_brch_type);
+			else if (cur_nod->e_brch_type == DOLLAR)
+				converting_dollar_tk(minishell, cur_nod);
+			cur_nod = cur_nod->next_branch;
 		}
 		tmp = tmp->next_subtree;
 		if (tmp)
-			current_node = tmp->next_branch;
+			cur_nod = tmp->next_branch;
 	}
 }
 
-char	*expander_convert(char *value, t_minishell *minishell, t_expander_tree *tree)
+char	*expander_convert(char *value, t_minishell *minishell,
+	t_expander_tree *tree)
 {
 	char				*new_value;
 	char				*buf;
-	t_expander_tree *tmp;
 
 	new_value = NULL;
 	converting_all_branches(tree, minishell);
-	tmp = tree->next_subtree;
-	free(tree);
-	tree = tmp;
+	move_to_next(&tree, false);
 	while (tree)
 	{
 		while (tree->next_branch)
@@ -100,13 +99,9 @@ char	*expander_convert(char *value, t_minishell *minishell, t_expander_tree *tre
 				new_value = buf;
 				buf = new_value;
 			}
-			tmp = tree->next_branch->next_branch;
-			free(tree->next_branch);
-			tree->next_branch = tmp;
+			move_to_next(&tree, true);
 		}
-		tmp = tree->next_subtree;
-		free(tree);
-		tree = tmp;
+		move_to_next(&tree, false);
 	}
 	free(value);
 	return (new_value);
@@ -119,8 +114,10 @@ void	expander(t_parser *parser, t_minishell *minishell)
 	tmp = parser->first_token;
 	while (tmp)
 	{
-		if (tmp->e_tk_type == TK_WORD || tmp->e_tk_type == TK_QUOTE || tmp->e_tk_type == TK_DOLLAR)
-			tmp->value = expander_convert(tmp->value, minishell, creating_expander_tree(tmp->value, minishell));
+		if (tmp->e_tk_type == TK_WORD || tmp->e_tk_type == TK_QUOTE
+			|| tmp->e_tk_type == TK_DOLLAR)
+			tmp->value = expander_convert(tmp->value, minishell,
+					creating_expander_tree(tmp->value));
 		tmp = tmp->next_token;
 	}
 }

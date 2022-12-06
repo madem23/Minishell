@@ -86,7 +86,9 @@ int main(int argc, char *argv[], char *envp[])
 	
 	(void)argc;
 	(void)argv;
-	minishell = init_minishell(envp);	
+	minishell = init_minishell(envp);
+	global.minishell = minishell;
+	global.u = malloc(sizeof(t_utils));
 	// tcgetattr(0, &minishell->old_termios);
 	// printf("TERMIOS OLD = %d\n", minishell->old_termios.c_cc[VQUIT]);
 	while (minishell->cmd_line)

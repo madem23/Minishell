@@ -28,6 +28,8 @@ SRCS		= 	main.c \
 				./expander/expander_tree.c \
 				./expander/expander_tree_utils.c \
 				./expander/expander.c \
+				./expander/expander_init_branch.c\
+				./expander/expander_create_branch.c \
 				./builtins/echo.c \
 				./builtins/env.c \
 				./builtins/pwd.c \
