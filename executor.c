@@ -12,6 +12,41 @@
 
 #include "minishell.h"
 
+// Distributes all child processes to their dedicated program
+void	test_which_child_and_exec(t_minishell *minishell, unsigned int j,
+	int **pipefd)
+{
+	t_tree	*tmp;
+
+	if (minishell->p_id[j] == 0 && j == 0)
+		exec_first_child(minishell, minishell->tree->branch, pipefd);
+	if (minishell->p_id[j] == 0 && j == minishell->tree->nb_pipes)
+	{
+		tmp = minishell->tree;
+		while (tmp->subtree)
+			tmp = tmp->subtree;
+		exec_last_child(minishell, tmp->branch, pipefd);
+	}
+	if (minishell->p_id[j] == 0 && j > 0 && j < minishell->tree->nb_pipes)
+		exec_interim_children(minishell, get_branch(minishell->tree, j),
+			pipefd, j);
+}
+
+/* First sas to send each process to the right function. */
+void	exec_processes(t_minishell *minishell, int **pipefd)
+{
+	unsigned int	i;
+
+	i = 0;
+	while (i <= minishell->tree->nb_pipes)
+	{
+		test_which_child_and_exec(minishell, i, pipefd);
+		i++;
+	}
+	if (minishell->p_id[0] > 0)
+		exec_parent(minishell, pipefd);
+}
+
 //Calls fork (and thus create a child process) for each command
 //Returns a tab of int for containing the process IDs of all children
 pid_t	*create_all_children(t_tree *treetop)
@@ -33,20 +68,6 @@ pid_t	*create_all_children(t_tree *treetop)
 		nb--;
 	}
 	return (child_id);
-}
-
-void	exec_processes(t_minishell *minishell, int **pipefd)
-{
-	unsigned int	i;
-
-	i = 0;
-	while (i <= minishell->tree->nb_pipes)
-	{
-		test_which_child_and_exec(minishell, i, pipefd);
-		i++;
-	}
-	if (minishell->p_id[0] > 0)
-		exec_parent(minishell, pipefd);
 }
 
 //Creates n pipes, then n child processes and executes all commands

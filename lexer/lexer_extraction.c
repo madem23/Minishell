@@ -12,12 +12,23 @@
 
 #include "../minishell.h"
 
+char	*get_string_in_word(int *i, char *str, t_lexer *lexer)
+{
+	char	*tmp;
+
+	str[*i] = '\0';
+	tmp = lexer_get_string(lexer, lexer->c);
+	ft_strcat(str, tmp);
+	free(tmp);
+	*i = ft_strlen(str);
+	return (str);
+}
+
 char	*lexer_get_word(t_lexer *lexer)
 {
 	char	*str;
 	int		i;
 	int		size;
-	char	*tmp;
 
 	size = count_char(lexer->cmd_line + lexer->i,
 			ft_strlen(lexer->cmd_line) - 1);
@@ -27,13 +38,7 @@ char	*lexer_get_word(t_lexer *lexer)
 	while (lexer->c != 0 && ft_isaccepted(lexer->c))
 	{
 		if (lexer->c == '"' || lexer->c == '\'')
-		{
-			str[i] = '\0';
-			tmp = lexer_get_string(lexer, lexer->c);
-			ft_strcat(str, tmp);
-			free(tmp);
-			i = ft_strlen(str);
-		}
+			str = get_string_in_word(&i, str, lexer);
 		else
 		{
 			str[i++] = lexer->c;

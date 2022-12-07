@@ -85,7 +85,7 @@ char	*check_exec_paths(char **paths, char *exec_called);
 int		ft_isaccepted(char c);
 int		ft_isaccepted_var_name(char c);
 char	*get_prompt();
-char	**t_strcpy(char **t_str);
+char	**ft_tabdup(char **t_str);
 char	**add_str_to_tab(char **tab, const char *str);
 int		locate_char(char *s, char c);
 void	close_pipes(unsigned int nb_pipes, int **pipefd);
@@ -114,6 +114,12 @@ void	exec_first_child(t_minishell *minishell, t_tree *branch, int **pipefd);
 void	test_which_child_and_exec(t_minishell *minishell, unsigned int j, int **pipefd);
 int		executor(t_minishell *minishell);
 void	exec_parent(t_minishell *minishell, int **pipefd);
+int		*check_input_redir(t_tree *branch, int *fd);
+int		*check_output_redir(t_tree *branch, int *fd);
+int		*check_output_append_redir(t_token **app_outfiles,
+	t_token **infiles, int *fd);
+int		*check_redir_open_files(t_tree *branch);
+
 
 //Display:
 void	print_var(t_minishell *minishell);

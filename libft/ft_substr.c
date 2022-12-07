@@ -21,9 +21,9 @@ static size_t	ft_check_len(char const *s, int len)
 
 char	*ft_substr(char const *s, int start, int len)
 {
-	char			*sub;
-	int				i;
-	int				j;
+	char	*sub;
+	int		i;
+	int		j;
 
 	if (!s)
 		return (NULL);

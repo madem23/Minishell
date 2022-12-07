@@ -12,44 +12,7 @@
 
 #include "minishell.h"
 
-//returns the index of the first occurence of a char
-int	locate_char(char *s, char c)
-{
-	int	i;
-
-	i = 0;
-	if (!s)
-		return (-1);
-	while (s[i] && s[i] != c)
-		i++;
-	if (!s[i])
-		return (-1);
-	else
-		return (i);	
-}
-
-//locate the first occurence of any char of the charset in *s
-int	ft_strchrset(const char *s, char *charset)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	while (s[i])
-	{
-		while (charset[j])
-		{
-			if (s[i] == charset[j])
-				return (i);
-			j++;
-		}
-		j = 0;
-		i++;
-	}
-	return (-1);
-}
-
+/* Returns 1 if char is accepted in a variable name. */
 int	ft_isaccepted_var_name(char c)
 {
 	if (ft_isalnum(c))
@@ -60,6 +23,7 @@ int	ft_isaccepted_var_name(char c)
 		return (0);
 }
 
+/* Returns 1 if char c is accepted as part of a word. */
 int	ft_isaccepted(char c)
 {
 	if (ft_isalnum(c))
@@ -80,7 +44,8 @@ int	ft_isaccepted(char c)
 		return (0);
 }
 
-char	*get_prompt()
+/* Create string to use as prompt by readline. */
+char	*get_prompt(void)
 {
 	char	*prompt;
 	char	*current_dir;
@@ -98,27 +63,12 @@ char	*get_prompt()
 	return (prompt);
 }
 
-char	**t_strcpy(char **t_str)
-{
-	char	**copy;
-	int		i;
-
-	copy = malloc((tab_len(t_str) + 1) * sizeof(char *));
-	i = 0;
-	while (t_str[i])
-	{
-		copy[i] = ft_strdup(t_str[i]);
-		i++;
-	}
-	copy[i] = NULL;
-	return (copy);
-}
-
+/* Adds a string at the end of a tab of strings. */
 char	**add_str_to_tab(char **tab, const char *str)
 {
 	char	**result;
 	int		i;
-	
+
 	i = 0;
 	result = malloc((tab_len(tab) + 2) * sizeof(char *));
 	while (tab[i])
@@ -133,56 +83,7 @@ char	**add_str_to_tab(char **tab, const char *str)
 	return (result);
 }
 
-void	update_envp(t_minishell *minishell)
-{
-	int		len;
-	t_var	*tmp;
-	int		i;
-	char	*join_equal;
-
-	if (minishell->envp)
-		free_tab((void **)minishell->envp);
-	tmp = minishell->var_def;
-	len = 0;
-	while (tmp)
-	{
-		if (tmp->env == true)
-			len++;
-		tmp = tmp->next;
-	}
-	minishell->envp = malloc((len + 1) * sizeof(char *));
-	i = 0;
-	tmp = minishell->var_def;
-	while (tmp)
-	{
-		if (tmp->env == true)
-		{
-			join_equal = ft_strjoin(tmp->name, "=");
-			minishell->envp[i] = ft_strjoin(join_equal, tmp->value);
-			free(join_equal);
-			i++;
-		}
-		tmp = tmp->next;
-	}
-	minishell->envp[i] = NULL;
-}
-
-char	*get_var_value(t_var *var_list, char *name)
-{
-	t_var	*tmp;
-	char	*value;
-
-	tmp = var_list;
-	value = NULL;
-	while (tmp)
-	{
-		if (!ft_strcmp(tmp->name, name))
-			value = ft_strdup(tmp->value);
-		tmp = tmp->next;
-	}
-	return (value);
-}
-
+/* Malloc with security for strings.*/
 char	*malloc_string(int size)
 {
 	char	*str;

@@ -56,10 +56,10 @@ t_minishell	*init_minishell(char *envp[])
 	minishell->var_def = var_list_init(envp);
 	minishell->prompt = get_prompt();
 	minishell->cmd_line = NULL;
-	// minishell->sa.sa_handler = &handler_sigint_main;
-	// minishell->sa.sa_flags = SA_RESTART;
-	// sigemptyset(&minishell->sa.sa_mask);
-	// sigaction(SIGINT, &minishell->sa, NULL);
+	minishell->sa.sa_handler = &handler_sigint_main;
+	minishell->sa.sa_flags = SA_RESTART;
+	sigemptyset(&minishell->sa.sa_mask);
+	sigaction(SIGINT, &minishell->sa, NULL);
 	get_line(minishell);
 	minishell->lexer = NULL;
 	minishell->parser = NULL;
@@ -115,7 +115,7 @@ int main(int argc, char *argv[], char *envp[])
 			// display_tree(minishell->tree);
 			executor(minishell);
 			unlink("tmp_heredoc.txt");
-			unlink("tmp_empty_heredoc.txt");
+			unlink("empty_heredoc.txt");
 		}
 
 		minishell->prompt = get_prompt();

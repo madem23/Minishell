@@ -18,7 +18,6 @@ char	**get_paths(t_var *var_list)
 	char	**paths;
 	char	*tmp;
 	t_var	*tmp_list;
-	int		i;
 
 	env_path = NULL;
 	tmp_list = var_list;
@@ -32,13 +31,12 @@ char	**get_paths(t_var *var_list)
 		return (NULL);
 	paths = ft_split(env_path, ':');
 	free (env_path);
-	i = 0;
-	while (paths[i])
+	global.u->i = -1;
+	while (paths[++(global.u->i)])
 	{
-		tmp = paths[i];
-		paths[i] = ft_strjoin(paths[i], "/");
+		tmp = paths[global.u->i];
+		paths[global.u->i] = ft_strjoin(paths[global.u->i], "/");
 		free(tmp);
-		i++;
 	}
 	return (paths);
 }

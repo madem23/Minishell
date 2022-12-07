@@ -31,7 +31,7 @@ void	close_pipes(unsigned int nb_pipes, int **pipefd)
 	unsigned int	i;
 
 	i = 0;
-	while (i < nb_pipes && pipefd)
+	while (pipefd && i < nb_pipes + 1)
 	{
 		close(pipefd[i][0]);
 		close(pipefd[i][1]);

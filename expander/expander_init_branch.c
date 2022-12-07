@@ -3,6 +3,9 @@
 #include "../minishell.h"
 #include "../libft/libft.h"
 
+/* Initializes (malloc) expander branches.
+Branches will then be converted and then joined again to
+form expanded tokens. */
 t_expander_tree	*init_branch(t_expander_tree *subtree, int type,
 	int index, char *value)
 {
@@ -24,50 +27,50 @@ t_expander_tree	*init_branch(t_expander_tree *subtree, int type,
 	return (branch);
 }
 
+/* Send the string to the correct function for extraction to create
+a branch of type VAR, and moves to the next branch. */
 int	init_var_brch(int type, int *index, int *i, t_expander_tree **current_node)
 {
-//	printf("----------ENTREE loop VAR i = %d\n", *i);
 	(*current_node)->next_branch = init_branch(global.cur_exp_subtree, type,
 			(*index)++, get_var(i, global.cur_exp_subtree->value));
 	*current_node = (*current_node)->next_branch;
-//	printf("SORTIE loop VAR, i = %d et last_end = %d\n", *i, (*i) - 1);
 	return ((*i) - 1);
 }
 
+/* Send the string to the correct function for extraction to create
+a branch of type WORD or OPENING TK, and moves to the next branch. */
 int	init_wd_brch(int type, int *index, int *i, t_expander_tree **current_node)
 {
-//	printf("----------ENTREE loop WORD/OPTK i = %d\n", *i);
 	(*current_node)->next_branch = init_branch(global.cur_exp_subtree, type,
 			(*index)++, get_word(i, global.cur_exp_subtree->value));
 	*current_node = (*current_node)->next_branch;
-//	printf("SORTIE loop WORD/OPTK, i = %d et last_end = %d\n", *i, (*i) - 1);
 	return ((*i) - 1);
 }
 
+/* Send the string to the correct function for extraction to create a branch
+of type Prev Word, and moves to the next branch. */
 int	init_prvwd_brch(int last_end, int *index, int *i,
 	t_expander_tree **current_node)
 {
 	if (global.cur_exp_subtree->e_brch_type == WORD
 		&& (*i) == ft_strlen(global.cur_exp_subtree->value) - 1)
 		(*i)++;
-//	printf("----------ENTREE loop WORD i = %d et last_end = %d\n", *i, last_end);
 	(*current_node)->next_branch = init_branch(global.cur_exp_subtree, WORD,
 			(*index)++,
 			get_prev_word(last_end, i, global.cur_exp_subtree->value));
 	*current_node = (*current_node)->next_branch;
-//	printf("SORTIE loop WORD, i = %d et last_end = %d\n", *i, (*i) - 1);
 	return ((*i) - 1);
 }
 
+/* Send the string to the correct function for extraction to create a branch
+of type CLOSING TK, and moves to the next branch. */
 int	init_clostk_brch(int last_end, int *index, int *i,
 	t_expander_tree **current_node)
 {
-//	printf("----ENTREE loop CLOSING TK i = %d et last_end = %d\n", *i, last_end);
 	(*current_node)->next_branch = init_branch(global.cur_exp_subtree,
 			CLOSING_TK, (*index)++,
 			get_prev_word(last_end, i, global.cur_exp_subtree->value));
 	*current_node = (*current_node)->next_branch;
 	(*i)++;
-//	printf("SORTIE loop CLOSING TOKEN, i = %d et last_end = %d\n", *i, (*i) - 2);
 	return ((*i) - 2);
 }

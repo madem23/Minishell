@@ -12,6 +12,23 @@
 
 #include "minishell.h"
 
+/* Returns the value corresponding the variable name received. */
+char	*get_var_value(t_var *var_list, char *name)
+{
+	t_var	*tmp;
+	char	*value;
+
+	tmp = var_list;
+	value = NULL;
+	while (tmp)
+	{
+		if (!ft_strcmp(tmp->name, name))
+			value = ft_strdup(tmp->value);
+		tmp = tmp->next;
+	}
+	return (value);
+}
+
 char	**separate_name_value(char *var, char c)
 {
 	int		begin;

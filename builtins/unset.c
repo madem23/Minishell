@@ -56,32 +56,31 @@ void	rmv_var_from_list(t_var	**list, t_var *var)
 	}
 }
 
-int unset(char **args, t_minishell *minishell)
+int	unset(char **args, t_minishell *minishell)
 {
-	int		i;
 	t_var	*tmp;
 
-	i = 0;
-	while (args[i])
+	global.u->i = -1;
+	while (args[++(global.u->i)])
 	{
-		if (ft_strchrset(args[i], "\"\'!@#^%&*()- +[]{}:;.,?") != -1 || ft_isdigit(args[i][0]))
+		if (ft_strchrset(args[global.u->i], "\"\'!@#^%&*()- +[]{}:;.,?") != -1
+			|| ft_isdigit(args[global.u->i][0]))
 		{
 			ft_putstr_fd("minishell: unset: \'", 2);
-			ft_putstr_fd(args[i], 2);
+			ft_putstr_fd(args[global.u->i], 2);
 			ft_putstr_fd("\': not a valid identifier\n", 2);
 			return (1);
 		}
 		tmp = minishell->var_def;
 		while (tmp)
 		{
-			if (!ft_strcmp(args[i], tmp->name))
+			if (!ft_strcmp(args[global.u->i], tmp->name))
 			{
 				rmv_var_from_list(&minishell->var_def, tmp);
 				break ;
 			}
 			tmp = tmp->next;
 		}
-		i++;
 	}
 	return (0);
 }

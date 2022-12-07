@@ -12,21 +12,7 @@
 
 #include "minishell.h"
 
-void	free_tab(void **tab)
-{
-	int	i;
-
-	i = 0;
-	if (!tab)
-		return ;
-	while (tab[i])
-	{	
-		free(tab[i]);
-		i++;
-	}
-	free(tab);
-}
-
+/* Frees all elements of the executor.*/
 void	free_end_executor(t_minishell *minishell, int **pipefd)
 {
 	int	nb;
@@ -47,37 +33,11 @@ void	free_end_executor(t_minishell *minishell, int **pipefd)
 	free(global.u);
 }
 
-void	free_branch(t_tree *branch)
-{
-	if (branch->exec_args)
-		free_tab((void **)branch->exec_args);
-	if (branch->exec_path)
-		free(branch->exec_path);
-	if (branch->exec_name)
-		free(branch->exec_name);
-	free(branch->infiles);
-	free(branch->outfiles);
-	free(branch->outfiles_append);
-	free(branch);
-}
-
-void	free_tree(t_tree *treetop)
-{
-	t_tree	*tmp;
-
-	while (treetop)
-	{
-		free_branch(treetop->branch);
-		tmp = treetop;
-		treetop = treetop->subtree;
-		free(tmp);
-	}
-}
-
+/* Frees all elements of the parser.*/
 void	free_parser(t_parser *parser)
 {
 	t_token	*tmp;
-	
+
 	while (parser->first_token)
 	{
 		tmp = parser->first_token;
@@ -92,6 +52,7 @@ void	free_parser(t_parser *parser)
 	free(parser);
 }
 
+/* Frees everything and quit when user send 'exit'.*/
 void	free_exit_final(t_minishell *minishell)
 {
 	free_tree(minishell->tree);

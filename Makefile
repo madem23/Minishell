@@ -38,13 +38,16 @@ SRCS		= 	main.c \
 				./builtins/unset.c \
 				./builtins/check_for_builtins.c\
 				./builtins/ft_exit.c \
-				executor_processes_utils.c\
 				var_declaration.c \
-				var_declaration_utils.c \
+				variable_utils.c \
 				executor.c \
 				executor_processes.c \
+				executor_processes_utils.c\
+				executor_redirections.c\
 				free.c\
+				free_utils.c\
 				display_tmp.c\
+				envp.c\
 
 				
 OBJS		=	${SRCS:.c=.o}
