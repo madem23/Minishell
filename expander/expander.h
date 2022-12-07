@@ -33,8 +33,7 @@ typedef struct s_expander_tree
 
 void			expander(struct s_parser *parser, struct s_minishell
 					*minishell);
-char			*expander_convert(char *value, struct s_minishell *minishell,
-					t_expander_tree *tree);
+char			*expander_convert(struct s_minishell *minishell, t_expander_tree *tree);
 char			*get_var(int *i, char *value);
 char			*get_word(int *i, char *value);
 char			*get_prev_word(int last_end, int *i, char *value);

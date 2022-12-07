@@ -77,8 +77,7 @@ void	converting_all_branches(t_expander_tree *tree, t_minishell *minishell)
 	}
 }
 
-char	*expander_convert(char *value, t_minishell *minishell,
-	t_expander_tree *tree)
+char	*expander_convert(t_minishell *minishell, t_expander_tree *tree)
 {
 	char				*new_value;
 	char				*buf;
@@ -95,6 +94,7 @@ char	*expander_convert(char *value, t_minishell *minishell,
 			else
 			{
 				buf = ft_strjoin(new_value, tree->next_branch->value);
+				free(tree->next_branch->value);
 				free(new_value);
 				new_value = buf;
 				buf = new_value;
@@ -103,7 +103,6 @@ char	*expander_convert(char *value, t_minishell *minishell,
 		}
 		move_to_next(&tree, false);
 	}
-	free(value);
 	return (new_value);
 }
 
@@ -116,7 +115,7 @@ void	expander(t_parser *parser, t_minishell *minishell)
 	{
 		if (tmp->e_tk_type == TK_WORD || tmp->e_tk_type == TK_QUOTE
 			|| tmp->e_tk_type == TK_DOLLAR)
-			tmp->value = expander_convert(tmp->value, minishell,
+			tmp->value = expander_convert(minishell,
 					creating_expander_tree(tmp->value));
 		tmp = tmp->next_token;
 	}

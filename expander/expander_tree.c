@@ -79,7 +79,6 @@ void	create_exp_final_subtree(int i, int i_end, char *value,
 	s_tmp = ft_substr(value, i_end, i - i_end);
 	(*cur_node)->next_subtree = init_exp_subtree(WORD,
 			global.cur_exp_treetop, s_tmp);
-	free(s_tmp);
 	(*cur_node) = (*cur_node)->next_subtree;
 }
 

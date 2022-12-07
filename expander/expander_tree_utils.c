@@ -29,6 +29,7 @@ void	move_to_next(t_expander_tree **tree, bool branch)
 	else
 	{
 		tmp = (*tree)->next_subtree;
+		free((*tree)->value);
 		free(*tree);
 		(*tree) = tmp;
 	}
@@ -38,7 +39,6 @@ char	*get_var(int *i, char *value)
 {
 	int	save;
 
-	printf("------ value == %s\n", value);
 	save = *i;
 	(*i)++;
 	if (value[*i] && (ft_isdigit(value[*i]) || value[*i] == '?'))

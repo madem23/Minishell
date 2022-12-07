@@ -16,10 +16,11 @@ void	get_line(t_minishell *minishell)
 {
 	if (minishell->cmd_line)
 	{
-		free (minishell->cmd_line);
+		free(minishell->cmd_line);
 		minishell->cmd_line = (char *)NULL;
     }
 	minishell->cmd_line = readline(minishell->prompt);
+	free(minishell->prompt);
 	if (minishell->cmd_line && *(minishell->cmd_line))
 		add_history(minishell->cmd_line);
 }
@@ -88,7 +89,6 @@ int main(int argc, char *argv[], char *envp[])
 	(void)argv;
 	minishell = init_minishell(envp);
 	global.minishell = minishell;
-	global.u = malloc(sizeof(t_utils));
 	// tcgetattr(0, &minishell->old_termios);
 	// printf("TERMIOS OLD = %d\n", minishell->old_termios.c_cc[VQUIT]);
 	while (minishell->cmd_line)
@@ -98,7 +98,7 @@ int main(int argc, char *argv[], char *envp[])
 		update_envp(minishell);
 		if (minishell->cmd_line[0])
 		{
-			
+			global.u = malloc(sizeof(t_utils));
 			minishell->lexer = lexer_init(minishell->cmd_line);
 			parser = parser_init(minishell->lexer, minishell);
 			minishell->parser = lexing_start(parser);
@@ -116,11 +116,11 @@ int main(int argc, char *argv[], char *envp[])
 			executor(minishell);
 			unlink("tmp_heredoc.txt");
 			unlink("tmp_empty_heredoc.txt");
-			free(minishell->prompt);
-			
 		}
+
 		minishell->prompt = get_prompt();
 		get_line(minishell);
+		printf("=========test \n");
 		// minishell->new_termios.c_cc[VQUIT]  = 4;
 		// tcsetattr(0, TCSANOW, &minishell->new_termios);
 		// sigaction(SIGQUIT, &minishell->sa, NULL);

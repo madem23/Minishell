@@ -107,6 +107,7 @@ void	exec_first_child(t_minishell *minishell, t_tree *branch, int **pipefd)
 		dup2(fd[1], STDOUT_FILENO);
 	else if (branch->piped_output == true)
 		dup2(pipefd[0][1], STDOUT_FILENO);
+	free(fd);
 	close_pipes(branch->treetop->nb_pipes, pipefd);
 	n = check_for_builtins(branch, minishell);
 	if (n != -1)
@@ -137,6 +138,7 @@ void	exec_last_child(t_minishell *minishell, t_tree *branch, int **pipefd)
 		dup2(pipefd[branch->treetop->nb_pipes - 1][0], STDIN_FILENO);
 	if (fd[1] > 0)
 		dup2(fd[1], STDOUT_FILENO);
+	free(fd);
 	close_pipes(branch->treetop->nb_pipes, pipefd);
 	n = check_for_builtins(branch, minishell);
 	if (n != -1)
@@ -165,6 +167,7 @@ void	exec_interim_children(t_minishell *minishell, t_tree *branch, int **pipefd,
 		dup2(fd[1], STDOUT_FILENO);
 	else if (branch->piped_output == true)
 		dup2(pipefd[j][1], STDOUT_FILENO);
+	free(fd);
 	close_pipes(branch->treetop->nb_pipes, pipefd);
 	n = check_for_builtins(branch, minishell);
 	if (n != -1)

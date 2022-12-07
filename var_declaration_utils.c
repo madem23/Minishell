@@ -78,6 +78,7 @@ t_var	*var_list_init(char **envp)
 	oldpwd = get_var_value(list, "OLDPWD");
 	if (!oldpwd)
 		var_add_back(&list, var_init(ft_strdup("OLDPWD"), getcwd(NULL, 0), true));
+	free(oldpwd);
 	change_var_value(list, "SHELL", "./minishell");
 	return (list);
 }

@@ -20,7 +20,7 @@ void	free_tab(void **tab)
 	if (!tab)
 		return ;
 	while (tab[i])
-	{
+	{	
 		free(tab[i]);
 		i++;
 	}
@@ -44,6 +44,7 @@ void	free_end_executor(t_minishell *minishell, int **pipefd)
 		free(pipefd);
 	}
 	free(minishell->p_id);
+	free(global.u);
 }
 
 void	free_branch(t_tree *branch)
@@ -84,6 +85,8 @@ void	free_parser(t_parser *parser)
 		free(tmp->value);
 		free(tmp);
 	}
+	parser->lexer->cmd_line = NULL;
+	free(parser->lexer->cmd_line);
 	free(parser->lexer);
 	free_tab((void **)parser->cmd_paths);
 	free(parser);
@@ -93,22 +96,7 @@ void	free_exit_final(t_minishell *minishell)
 {
 	free_tree(minishell->tree);
 	free_parser(minishell->parser);
+	free_tab((void **)minishell->envp);
 	free(minishell);
 	exit(EXIT_SUCCESS);
 }
-
-// void	free_tokens(t_parser *parser)
-// {
-// 	t_token *current_token;
-// 	t_token	*tmp;
-
-// 	current_token = parser->first_token;
-// 	while (current_token->e_tk_type != TK_EOC)
-// 	{
-// 		tmp = current_token;
-// 		if (tmp->value)
-// 			free(tmp->value);
-// 		current_token = tmp->next_token;
-// 		free(tmp);
-// 	}
-// }

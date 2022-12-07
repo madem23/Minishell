@@ -17,6 +17,7 @@ char	*lexer_get_word(t_lexer *lexer)
 	char	*str;
 	int		i;
 	int		size;
+	char	*tmp;
 
 	size = count_char(lexer->cmd_line + lexer->i,
 			ft_strlen(lexer->cmd_line) - 1);
@@ -28,7 +29,9 @@ char	*lexer_get_word(t_lexer *lexer)
 		if (lexer->c == '"' || lexer->c == '\'')
 		{
 			str[i] = '\0';
-			ft_strcat(str, lexer_get_string(lexer, lexer->c));
+			tmp = lexer_get_string(lexer, lexer->c);
+			ft_strcat(str, tmp);
+			free(tmp);
 			i = ft_strlen(str);
 		}
 		else
