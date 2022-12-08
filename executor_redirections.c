@@ -1,6 +1,7 @@
 #include "minishell.h"
 #include <string.h>
 
+//branch->heredoc : last_index
 /* Checks for the last input redir and amends fd[0] if necessary
 (if no error on file, otherwise fd[0] = -1).
 If heredoc after last input redir, replaces fd[0]. */

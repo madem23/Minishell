@@ -38,6 +38,7 @@ void	ft_exit(char **args)
 			}
 			i++;
 		}
+		free_exit_final(global.minishell);
 		exit(ft_atoi(args[1]));
 	}
 }

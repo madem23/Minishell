@@ -27,23 +27,30 @@ void	get_line(t_minishell *minishell)
 
 void	handler_sigint_main(int sig)
 {
-	struct termios old_termios;
-	
-	if (sig == SIGINT)
+	(void)sig;
+
+	if (global.sigint_heredoc == false)
 	{
-		ft_putchar_fd('\n', 1);
-		rl_replace_line("", 1);
-		rl_on_new_line();
-		rl_redisplay();
+	ft_putchar_fd('\n', 1);
+	rl_replace_line("", 1);
+	rl_on_new_line();
+	rl_redisplay();
 	}
-	else
-	{
-	//	(void)sig;
-		printf("SIGQUIT HANDLER\n");
-		tcgetattr(0, &old_termios);
-		old_termios.c_cc[VQUIT]  = 28;
-		tcsetattr(0, TCSANOW, &old_termios);
-	}
+}
+
+//rajouter les free ?
+void	handler_sigint_child(int sig)
+{
+	(void)sig;
+	ft_putchar_fd('\n', 1);
+}
+
+//rajouter les free ?
+void	handler_sigint_heredoc(int sig)
+{
+	(void)sig;
+	ft_putchar_fd('\n', 1);
+	exit(130);
 }
 
 t_minishell	*init_minishell(char *envp[])
@@ -60,23 +67,12 @@ t_minishell	*init_minishell(char *envp[])
 	minishell->sa.sa_flags = SA_RESTART;
 	sigemptyset(&minishell->sa.sa_mask);
 	sigaction(SIGINT, &minishell->sa, NULL);
+	signal(SIGQUIT, SIG_IGN);
 	get_line(minishell);
 	minishell->lexer = NULL;
 	minishell->parser = NULL;
 	minishell->tree = NULL;
 	return (minishell);
-}
-
-void	handler_sigint_child(int sig)
-{
-	(void)sig;
-	ft_putchar_fd('\n', 1);
-}
-
-void	handler_sigquit(int sig)
-{
-	(void)sig;
-	ft_putchar_fd('\n', 1);
 }
 
 int main(int argc, char *argv[], char *envp[])
@@ -87,14 +83,11 @@ int main(int argc, char *argv[], char *envp[])
 	
 	(void)argc;
 	(void)argv;
+	global.sigint_heredoc = false;
 	minishell = init_minishell(envp);
 	global.minishell = minishell;
-	// tcgetattr(0, &minishell->old_termios);
-	// printf("TERMIOS OLD = %d\n", minishell->old_termios.c_cc[VQUIT]);
 	while (minishell->cmd_line)
 	{	
-		// tcsetattr(0, TCSANOW, &minishell->old_termios);
-		// minishell->new_termios = minishell->old_termios;
 		update_envp(minishell);
 		if (minishell->cmd_line[0])
 		{
@@ -117,15 +110,14 @@ int main(int argc, char *argv[], char *envp[])
 			unlink("tmp_heredoc.txt");
 			unlink("empty_heredoc.txt");
 		}
-
 		minishell->prompt = get_prompt();
 		get_line(minishell);
-		printf("=========test \n");
-		// minishell->new_termios.c_cc[VQUIT]  = 4;
-		// tcsetattr(0, TCSANOW, &minishell->new_termios);
-		// sigaction(SIGQUIT, &minishell->sa, NULL);
-		// printf("TERMIOS OLD FIN = %d\n", minishell->old_termios.c_cc[VQUIT]);
-		// printf("TERMIOS NEW FIN = %d\n", minishell->new_termios.c_cc[VQUIT]);
+		if (minishell->cmd_line == NULL)
+		{
+			ft_putstr_fd("exit\n", 1);
+			exit(0);
+		}
 	}
 	return (0);
 }
+	

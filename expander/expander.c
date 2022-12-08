@@ -27,7 +27,7 @@ void	converting_dollar_tk(t_minishell *minishell, t_expander_tree *branch)
 		// if (WEXITSTATUS(exit_status) != 255)
 		// 	tmp_s = ft_itoa(WEXITSTATUS(exit_status));
 		// else
-			tmp_s = ft_itoa(exit_status);
+			tmp_s = ft_itoa(global.exit_status);
 	}
 	else if (branch->value[1] == '{')
 		tmp_s = managing_curly_brakets(branch->value, 0, minishell);

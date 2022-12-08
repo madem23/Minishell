@@ -106,13 +106,13 @@ void	exec_parent_builtins(t_minishell *minishell)
 {
 	if (minishell->tree->branch->exec_name
 		&& !ft_strcmp(minishell->tree->branch->exec_name, "cd"))
-		exit_status = cd(minishell->tree->branch->exec_args, minishell);
+		global.exit_status = cd(minishell->tree->branch->exec_args, minishell);
 	if (minishell->tree->branch->exec_name
 		&& !ft_strcmp(minishell->tree->branch->exec_name, "export"))
-		exit_status = export(minishell->tree->branch, minishell);
+		global.exit_status = export(minishell->tree->branch, minishell);
 	if (minishell->tree->branch->exec_name
 		&& !ft_strcmp(minishell->tree->branch->exec_name, "unset"))
-		exit_status = unset(minishell->tree->branch->exec_args, minishell);
+		global.exit_status = unset(minishell->tree->branch->exec_args, minishell);
 	if (minishell->tree->branch->exec_name
 		&& !ft_strcmp(minishell->tree->branch->exec_name, "exit"))
 	{
@@ -131,11 +131,14 @@ void	exec_parent(t_minishell *minishell, int **pipefd)
 	{
 		minishell->sa.sa_handler = &handler_sigint_child;
 		sigaction(SIGINT, &minishell->sa, NULL);
-		waitpid(minishell->p_id[i], &exit_status, 0);
-		if (WIFSIGNALED(exit_status) && WTERMSIG(exit_status) == SIGINT)
-				exit_status = 130;
+		waitpid(minishell->p_id[i], &global.exit_status, 0);
+		if (WIFSIGNALED(global.exit_status) && WTERMSIG(global.exit_status) == SIGINT)
+			global.exit_status = 130;
 		else
-			exit_status = WEXITSTATUS(exit_status);
+		{
+			if (WIFSIGNALED(global.exit_status))
+				global.exit_status = WEXITSTATUS(global.exit_status);
+		}
 		i++;
 	}
 	exec_parent_builtins(minishell);

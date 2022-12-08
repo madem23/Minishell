@@ -34,7 +34,7 @@
 
 #include <sys/wait.h>
 
-int	exit_status;
+
 
 //subtree = current subtree being parsed for expander
 typedef struct s_global
@@ -43,6 +43,8 @@ typedef struct s_global
 	struct s_expander_tree	*cur_exp_treetop;
 	struct s_minishell		*minishell;
 	struct s_utils			*u;
+	bool					sigint_heredoc;
+	int	exit_status;
 }							t_global;
 
 t_global	global;
@@ -136,5 +138,6 @@ char	*get_var_value(t_var *var_list, char *name);
 //signals
 void	handler_sigint_child(int sig);
 void	handler_sigint_main(int sig);
+void	handler_sigint_heredoc(int sig);
 
 #endif

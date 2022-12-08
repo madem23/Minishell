@@ -78,6 +78,11 @@ int	executor(t_minishell *minishell)
 	int				tmp_secu;
 
 	i = 0;
+	if (global.sigint_heredoc == true)
+	{
+		global.sigint_heredoc = false;
+		return (1);
+	}
 	if (minishell->tree->nb_pipes > 0)
 	{
 		pipefd = malloc(sizeof(pipefd) * (minishell->tree->nb_pipes + 1));

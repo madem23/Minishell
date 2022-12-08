@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
 #include "libft.h"
 
 char	*join(const char *buf, const char *save)
@@ -102,11 +103,6 @@ char	*ft_read_file(int fd, char *save)
 	while (!ft_is_endline(save) && bytes)
 	{
 		bytes = read(fd, buf, BUFFER_SIZE);
-		if (bytes == -1)
-		{
-			free(buf);
-			return (NULL);
-		}
 		buf[bytes] = '\0';
 		save = join(buf, save);
 	}
@@ -122,6 +118,7 @@ char	*get_next_line(int fd)
 	if (fd < 0 || BUFFER_SIZE <= 0 || fd > 1024)
 		return (NULL);
 	save[fd] = ft_read_file(fd, save[fd]);
+
 	if (!save[fd])
 		return (NULL);
 	line = ft_get_line(save[fd]);

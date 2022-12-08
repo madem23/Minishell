@@ -9,3 +9,4 @@
 		- init_minishell (main.c:62), minishell a free a chaque loop ? Non car variables
 		- minishell->envp
 		
+- voir modif dans ft_exit, rajout de free, verif code de sortie
