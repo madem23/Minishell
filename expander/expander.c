@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 13:02:32 by mdemma            #+#    #+#             */
-/*   Updated: 2022/12/02 11:36:15 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/08 17:48:47 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,7 @@ void	converting_dollar_tk(t_minishell *minishell, t_expander_tree *branch)
 	tmp_s = NULL;
 	i_occur = ft_strchrset(branch->value + 1, "\"\'!@#^%&*$()- +=[]{}:;.,");
 	if (branch->value[1] == '?')
-	{
-		// if (WEXITSTATUS(exit_status) != 255)
-		// 	tmp_s = ft_itoa(WEXITSTATUS(exit_status));
-		// else
-			tmp_s = ft_itoa(global.exit_status);
-	}
+			tmp_s = ft_itoa(g_global.exit_status);
 	else if (branch->value[1] == '{')
 		tmp_s = managing_curly_brakets(branch->value, 0, minishell);
 	else if (i_occur == 0)

@@ -4,7 +4,7 @@
 - LEAKS: 
 	* rajouter minishell dans ft_exit.c pour pouvoir gerer les leaks a la sortie :
 		- check_redir_open_files (executor_processes.c:46), fd a free
-		- main (main.c:91), global.u a free
+		- main (main.c:91), g_global.u a free
 		- get_prompt (utils.c:96), prompt a free
 		- init_minishell (main.c:62), minishell a free a chaque loop ? Non car variables
 		- minishell->envp

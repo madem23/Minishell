@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdemma <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 13:10:21 by mdemma            #+#    #+#             */
-/*   Updated: 2022/11/30 13:10:24 by mdemma           ###   ########.fr       */
+/*   Updated: 2022/12/08 18:11:53 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,16 @@ pid_t	*create_all_children(t_tree *treetop)
 	return (child_id);
 }
 
+int	check_for_heredoc_error(void)
+{
+	if (g_global.sigint_heredoc == true)
+	{
+		g_global.sigint_heredoc = false;
+		return (1);
+	}
+	return (0);
+}
+
 //Creates n pipes, then n child processes and executes all commands
 int	executor(t_minishell *minishell)
 {
@@ -78,11 +88,8 @@ int	executor(t_minishell *minishell)
 	int				tmp_secu;
 
 	i = 0;
-	if (global.sigint_heredoc == true)
-	{
-		global.sigint_heredoc = false;
+	if (check_for_heredoc_error())
 		return (1);
-	}
 	if (minishell->tree->nb_pipes > 0)
 	{
 		pipefd = malloc(sizeof(pipefd) * (minishell->tree->nb_pipes + 1));

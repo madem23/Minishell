@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expander.h                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/12/08 17:34:12 by antoine           #+#    #+#             */
+/*   Updated: 2022/12/08 18:02:26 by antoine          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef EXPANDER_H
 # define EXPANDER_H
 # include <stdbool.h>
@@ -33,7 +45,8 @@ typedef struct s_expander_tree
 
 void			expander(struct s_parser *parser, struct s_minishell
 					*minishell);
-char			*expander_convert(struct s_minishell *minishell, t_expander_tree *tree);
+char			*expander_convert(struct s_minishell *minishell,
+					t_expander_tree *tree);
 char			*get_var(int *i, char *value);
 char			*get_word(int *i, char *value);
 char			*get_prev_word(int last_end, int *i, char *value);
@@ -50,7 +63,7 @@ int				init_var_brch(int type, int *index, int *i,
 					t_expander_tree **current_node);
 int				init_wd_brch(int type, int *index, int *i,
 					t_expander_tree **current_node);
-int				init_prvwd_brch(int last_end, int *index, int *i,
+int				init_prv_brch(int last_end, int *index, int *i,
 					t_expander_tree **current_node);
 int				init_clostk_brch(int last_end, int *index, int *i,
 					t_expander_tree **current_node);

@@ -6,11 +6,19 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/26 14:07:41 by antoine           #+#    #+#             */
-/*   Updated: 2022/12/01 18:26:10 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/08 11:31:43 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
+
+void	exit_error(char *arg)
+{
+	ft_putstr_fd("minishell: exit: ", 2);
+	ft_putstr_fd(arg, 2);
+	ft_putstr_fd(": numeric argument required\n", 2);
+	exit(2);
+}
 
 void	ft_exit(char **args)
 {
@@ -30,15 +38,9 @@ void	ft_exit(char **args)
 		while (args[1][i])
 		{
 			if (!ft_isdigit(args[1][i]))
-			{
-				ft_putstr_fd("minishell: exit: ", 2);
-				ft_putstr_fd(args[1], 2);
-				ft_putstr_fd(": numeric argument required\n", 2);		
-				exit(2);
-			}
+				exit_error(args[1]);
 			i++;
 		}
-		free_exit_final(global.minishell);
 		exit(ft_atoi(args[1]));
 	}
 }

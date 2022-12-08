@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expander_init_branch.c                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/12/08 17:32:31 by antoine           #+#    #+#             */
+/*   Updated: 2022/12/08 18:02:26 by antoine          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "expander.h"
 #include "../parser/parser.h"
 #include "../minishell.h"
@@ -31,8 +43,8 @@ t_expander_tree	*init_branch(t_expander_tree *subtree, int type,
 a branch of type VAR, and moves to the next branch. */
 int	init_var_brch(int type, int *index, int *i, t_expander_tree **current_node)
 {
-	(*current_node)->next_branch = init_branch(global.cur_exp_subtree, type,
-			(*index)++, get_var(i, global.cur_exp_subtree->value));
+	(*current_node)->next_branch = init_branch(g_global.cur_exp_subtree, type,
+			(*index)++, get_var(i, g_global.cur_exp_subtree->value));
 	*current_node = (*current_node)->next_branch;
 	return ((*i) - 1);
 }
@@ -41,23 +53,23 @@ int	init_var_brch(int type, int *index, int *i, t_expander_tree **current_node)
 a branch of type WORD or OPENING TK, and moves to the next branch. */
 int	init_wd_brch(int type, int *index, int *i, t_expander_tree **current_node)
 {
-	(*current_node)->next_branch = init_branch(global.cur_exp_subtree, type,
-			(*index)++, get_word(i, global.cur_exp_subtree->value));
+	(*current_node)->next_branch = init_branch(g_global.cur_exp_subtree, type,
+			(*index)++, get_word(i, g_global.cur_exp_subtree->value));
 	*current_node = (*current_node)->next_branch;
 	return ((*i) - 1);
 }
 
 /* Send the string to the correct function for extraction to create a branch
 of type Prev Word, and moves to the next branch. */
-int	init_prvwd_brch(int last_end, int *index, int *i,
+int	init_prv_brch(int last_end, int *index, int *i,
 	t_expander_tree **current_node)
 {
-	if (global.cur_exp_subtree->e_brch_type == WORD
-		&& (*i) == ft_strlen(global.cur_exp_subtree->value) - 1)
+	if (g_global.cur_exp_subtree->e_brch_type == WORD
+		&& (*i) == ft_strlen(g_global.cur_exp_subtree->value) - 1)
 		(*i)++;
-	(*current_node)->next_branch = init_branch(global.cur_exp_subtree, WORD,
+	(*current_node)->next_branch = init_branch(g_global.cur_exp_subtree, WORD,
 			(*index)++,
-			get_prev_word(last_end, i, global.cur_exp_subtree->value));
+			get_prev_word(last_end, i, g_global.cur_exp_subtree->value));
 	*current_node = (*current_node)->next_branch;
 	return ((*i) - 1);
 }
@@ -67,9 +79,9 @@ of type CLOSING TK, and moves to the next branch. */
 int	init_clostk_brch(int last_end, int *index, int *i,
 	t_expander_tree **current_node)
 {
-	(*current_node)->next_branch = init_branch(global.cur_exp_subtree,
+	(*current_node)->next_branch = init_branch(g_global.cur_exp_subtree,
 			CLOSING_TK, (*index)++,
-			get_prev_word(last_end, i, global.cur_exp_subtree->value));
+			get_prev_word(last_end, i, g_global.cur_exp_subtree->value));
 	*current_node = (*current_node)->next_branch;
 	(*i)++;
 	return ((*i) - 2);

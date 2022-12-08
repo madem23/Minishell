@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 13:06:48 by mdemma            #+#    #+#             */
-/*   Updated: 2022/12/02 11:11:09 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/08 17:48:47 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	free_end_executor(t_minishell *minishell, int **pipefd)
 		free(pipefd);
 	}
 	free(minishell->p_id);
-	free(global.u);
+	free(g_global.u);
 }
 
 /* Frees all elements of the parser.*/

@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 11:56:59 by antoine           #+#    #+#             */
-/*   Updated: 2022/11/17 11:59:38 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/08 17:38:11 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,5 +19,5 @@ int	ft_strcmp(const char *s1, const char *s2)
 	i = 0;
 	while (s1[i] == s2[i] && s1[i])
 		i++;
-	return (s1[i] - s2[i]);	
+	return (s1[i] - s2[i]);
 }

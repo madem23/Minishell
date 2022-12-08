@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_tree.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdemma <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 13:03:01 by mdemma            #+#    #+#             */
-/*   Updated: 2022/11/30 13:03:06 by mdemma           ###   ########.fr       */
+/*   Updated: 2022/12/08 18:04:26 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_expander_tree	*init_exp_subtree(int type, t_expander_tree *treetop,
 	subtree->e_brch_type = type;
 	subtree->is_subtree = true;
 	subtree->is_branch = false;
-	global.cur_exp_subtree = subtree;
+	g_global.cur_exp_subtree = subtree;
 	create_exp_branches(subtree, value, type);
 	return (subtree);
 }
@@ -52,15 +52,15 @@ void	create_exp_subtree(int *i, int *i_end,
 		if (*i_end == -1)
 			*i_end = 0;
 		(*cur_nod)->next_subtree = init_exp_subtree(WORD,
-				global.cur_exp_treetop, ft_substr(global.cur_exp_treetop->value,
+				g_global.cur_exp_tree, ft_substr(g_global.cur_exp_tree->value,
 					*i_end, (*i) - (*i_end)));
 		(*cur_nod) = (*cur_nod)->next_subtree;
 	}
-	if (locate_char(global.cur_exp_treetop->value + (*i) + 1, quote) >= 0)
+	if (locate_char(g_global.cur_exp_tree->value + (*i) + 1, quote) >= 0)
 	{
-		*i_end = locate_char(global.cur_exp_treetop->value + (*i) + 1, quote);
+		*i_end = locate_char(g_global.cur_exp_tree->value + (*i) + 1, quote);
 		(*cur_nod)->next_subtree = init_exp_subtree(type,
-				global.cur_exp_treetop, ft_substr(global.cur_exp_treetop->value,
+				g_global.cur_exp_tree, ft_substr(g_global.cur_exp_tree->value,
 					*i, (*i_end) + 2));
 		(*cur_nod) = (*cur_nod)->next_subtree;
 		*i += ++(*i_end);
@@ -78,7 +78,7 @@ void	create_exp_final_subtree(int i, int i_end, char *value,
 			i_end = 0;
 	s_tmp = ft_substr(value, i_end, i - i_end);
 	(*cur_node)->next_subtree = init_exp_subtree(WORD,
-			global.cur_exp_treetop, s_tmp);
+			g_global.cur_exp_tree, s_tmp);
 	(*cur_node) = (*cur_node)->next_subtree;
 }
 
@@ -99,7 +99,7 @@ t_expander_tree	*creating_expander_tree(char *value)
 		error(1, "Failed to allocate parsing tree\n");
 	tree->value = value;
 	tree->treetop = tree;
-	global.cur_exp_treetop = tree;
+	g_global.cur_exp_tree = tree;
 	cur_node = tree->treetop;
 	while (value[i])
 	{

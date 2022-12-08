@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   var_declaration_utils.c                            :+:      :+:    :+:   */
+/*   variable_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 13:02:07 by mdemma            #+#    #+#             */
-/*   Updated: 2022/12/02 10:45:04 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/08 17:45:11 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,8 @@ t_var	*var_list_init(char **envp)
 	}
 	oldpwd = get_var_value(list, "OLDPWD");
 	if (!oldpwd)
-		var_add_back(&list, var_init(ft_strdup("OLDPWD"), getcwd(NULL, 0), true));
+		var_add_back(&list, var_init(ft_strdup("OLDPWD"),
+				getcwd(NULL, 0), true));
 	free(oldpwd);
 	change_var_value(list, "SHELL", "./minishell");
 	return (list);

@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 11:32:55 by anloisea          #+#    #+#             */
-/*   Updated: 2022/12/02 16:07:46 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/08 17:48:47 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	handler_sigint_main(int sig)
 {
 	(void)sig;
 
-	if (global.sigint_heredoc == false)
+	if (g_global.sigint_heredoc == false)
 	{
 	ft_putchar_fd('\n', 1);
 	rl_replace_line("", 1);
@@ -83,15 +83,15 @@ int main(int argc, char *argv[], char *envp[])
 	
 	(void)argc;
 	(void)argv;
-	global.sigint_heredoc = false;
+	g_global.sigint_heredoc = false;
 	minishell = init_minishell(envp);
-	global.minishell = minishell;
+	g_global.minishell = minishell;
 	while (minishell->cmd_line)
 	{	
 		update_envp(minishell);
 		if (minishell->cmd_line[0])
 		{
-			global.u = malloc(sizeof(t_utils));
+			g_global.u = malloc(sizeof(t_utils));
 			minishell->lexer = lexer_init(minishell->cmd_line);
 			parser = parser_init(minishell->lexer, minishell);
 			minishell->parser = lexing_start(parser);

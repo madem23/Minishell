@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   executor_processes_utils.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdemma <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 13:06:31 by mdemma            #+#    #+#             */
-/*   Updated: 2022/11/30 13:06:33 by mdemma           ###   ########.fr       */
+/*   Updated: 2022/12/08 17:48:47 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//Returns the requested branch number 'j' of the global tree.
+//Returns the requested branch number 'j' of the g_global tree.
 t_tree	*get_branch(t_tree *treetop, unsigned int j)
 {
 	t_tree			*tmp;

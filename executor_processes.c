@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 12:50:08 by mdemma            #+#    #+#             */
-/*   Updated: 2022/11/30 13:06:27 by mdemma           ###   ########.fr       */
+/*   Updated: 2022/12/08 18:06:25 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,13 +106,15 @@ void	exec_parent_builtins(t_minishell *minishell)
 {
 	if (minishell->tree->branch->exec_name
 		&& !ft_strcmp(minishell->tree->branch->exec_name, "cd"))
-		global.exit_status = cd(minishell->tree->branch->exec_args, minishell);
+		g_global.exit_status = cd(minishell->tree->branch->exec_args,
+				minishell);
 	if (minishell->tree->branch->exec_name
 		&& !ft_strcmp(minishell->tree->branch->exec_name, "export"))
-		global.exit_status = export(minishell->tree->branch, minishell);
+		g_global.exit_status = export(minishell->tree->branch, minishell);
 	if (minishell->tree->branch->exec_name
 		&& !ft_strcmp(minishell->tree->branch->exec_name, "unset"))
-		global.exit_status = unset(minishell->tree->branch->exec_args, minishell);
+		g_global.exit_status = unset(minishell->tree->branch->exec_args,
+				minishell);
 	if (minishell->tree->branch->exec_name
 		&& !ft_strcmp(minishell->tree->branch->exec_name, "exit"))
 	{
@@ -131,13 +133,14 @@ void	exec_parent(t_minishell *minishell, int **pipefd)
 	{
 		minishell->sa.sa_handler = &handler_sigint_child;
 		sigaction(SIGINT, &minishell->sa, NULL);
-		waitpid(minishell->p_id[i], &global.exit_status, 0);
-		if (WIFSIGNALED(global.exit_status) && WTERMSIG(global.exit_status) == SIGINT)
-			global.exit_status = 130;
+		waitpid(minishell->p_id[i], &g_global.exit_status, 0);
+		if (WIFSIGNALED(g_global.exit_status)
+			&& WTERMSIG(g_global.exit_status) == SIGINT)
+			g_global.exit_status = 130;
 		else
 		{
-			if (WIFSIGNALED(global.exit_status))
-				global.exit_status = WEXITSTATUS(global.exit_status);
+			if (WIFSIGNALED(g_global.exit_status))
+				g_global.exit_status = WEXITSTATUS(g_global.exit_status);
 		}
 		i++;
 	}

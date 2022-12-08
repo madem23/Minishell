@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/13 16:50:06 by anloisea          #+#    #+#             */
-/*   Updated: 2022/10/31 16:38:33 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/08 17:36:42 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,6 @@ char	*get_next_line(int fd)
 	if (fd < 0 || BUFFER_SIZE <= 0 || fd > 1024)
 		return (NULL);
 	save[fd] = ft_read_file(fd, save[fd]);
-
 	if (!save[fd])
 		return (NULL);
 	line = ft_get_line(save[fd]);

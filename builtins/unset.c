@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 12:33:01 by antoine           #+#    #+#             */
-/*   Updated: 2022/12/02 11:52:25 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/08 17:48:47 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,21 +60,21 @@ int	unset(char **args, t_minishell *minishell)
 {
 	t_var	*tmp;
 
-	global.u->i = -1;
-	while (args[++(global.u->i)])
+	g_global.u->i = -1;
+	while (args[++(g_global.u->i)])
 	{
-		if (ft_strchrset(args[global.u->i], "\"\'!@#^%&*()- +[]{}:;.,?") != -1
-			|| ft_isdigit(args[global.u->i][0]))
+		if (ft_strchrset(args[g_global.u->i], "\"\'!@#^%&*()- +[]{}:;.,?") != -1
+			|| ft_isdigit(args[g_global.u->i][0]))
 		{
 			ft_putstr_fd("minishell: unset: \'", 2);
-			ft_putstr_fd(args[global.u->i], 2);
+			ft_putstr_fd(args[g_global.u->i], 2);
 			ft_putstr_fd("\': not a valid identifier\n", 2);
 			return (1);
 		}
 		tmp = minishell->var_def;
 		while (tmp)
 		{
-			if (!ft_strcmp(args[global.u->i], tmp->name))
+			if (!ft_strcmp(args[g_global.u->i], tmp->name))
 			{
 				rmv_var_from_list(&minishell->var_def, tmp);
 				break ;

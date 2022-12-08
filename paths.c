@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 16:23:17 by antoine           #+#    #+#             */
-/*   Updated: 2022/11/25 15:36:03 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/08 17:48:47 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,11 @@ char	**get_paths(t_var *var_list)
 		return (NULL);
 	paths = ft_split(env_path, ':');
 	free (env_path);
-	global.u->i = -1;
-	while (paths[++(global.u->i)])
+	g_global.u->i = -1;
+	while (paths[++(g_global.u->i)])
 	{
-		tmp = paths[global.u->i];
-		paths[global.u->i] = ft_strjoin(paths[global.u->i], "/");
+		tmp = paths[g_global.u->i];
+		paths[g_global.u->i] = ft_strjoin(paths[g_global.u->i], "/");
 		free(tmp);
 	}
 	return (paths);

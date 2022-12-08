@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_here_doc.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdemma <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 13:04:33 by mdemma            #+#    #+#             */
-/*   Updated: 2022/11/30 13:04:37 by mdemma           ###   ########.fr       */
+/*   Updated: 2022/12/08 17:48:47 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	fill_heredoc(t_token *tmp, int index_last)
 	char	*limiter;
 	int		fd;
 	char	*line;
-	
+
 	limiter = tmp->next_token->value;
 	fd = open("tmp_heredoc.txt", O_CREAT | O_RDWR | O_TRUNC, 777);
 	line = get_next_line(0);
@@ -82,26 +82,26 @@ int	heredoc_parsing(t_token *begin, int end_index, unsigned int nb)
 				pid = fork();
 				if (pid == 0)
 				{
-					global.minishell->sa.sa_handler = &handler_sigint_heredoc;
-					sigaction(SIGINT, &global.minishell->sa, NULL);
+					g_global.minishell->sa.sa_handler = &handler_sigint_heredoc;
+					sigaction(SIGINT, &g_global.minishell->sa, NULL);
 					fill_heredoc(tmp, index_last);
 					exit(0);
 				}
 				else
-				{ 
+				{
 					signal(SIGINT, SIG_IGN);
-					waitpid(pid, &global.exit_status, 0);
-					if (WIFEXITED(global.exit_status) && WEXITSTATUS(global.exit_status) == 130)
+					waitpid(pid, &g_global.exit_status, 0);
+					if (WIFEXITED(g_global.exit_status) && WEXITSTATUS(g_global.exit_status) == 130)
 					{
-						global.exit_status = 130;
-						global.sigint_heredoc = true;
+						g_global.exit_status = 130;
+						g_global.sigint_heredoc = true;
 					}
 				}
 			}
 		}
 		tmp = tmp->next_token;
 	}
-	global.minishell->sa.sa_handler = &handler_sigint_main;
-	sigaction(SIGINT, &global.minishell->sa, NULL);
+	g_global.minishell->sa.sa_handler = &handler_sigint_main;
+	sigaction(SIGINT, &g_global.minishell->sa, NULL);
 	return (index_last);
 }
