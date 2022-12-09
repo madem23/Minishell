@@ -17,6 +17,16 @@
 #include "../minishell.h"
 #include "../libft/libft.h"
 
+//LEAKS : RAJOUTER LES FREEE
+void	error_syntax_redir(char *value)
+{
+	ft_putstr_fd("minishell: syntax error near unexpected token '", 2);
+	ft_putstr_fd(value, 2);
+	ft_putstr_fd("'\n", 2);
+	g_global.error_parsing = true;
+	g_global.exit_status = 2;
+}
+
 t_token	**filling_redir_files_tab(t_tree *branch, int size, unsigned int type)
 {
 	t_token	*tmp;
@@ -37,6 +47,8 @@ t_token	**filling_redir_files_tab(t_tree *branch, int size, unsigned int type)
 		{
 			tmp->parsed = true;
 			tmp = tmp->next_token;
+			if (tmp->e_tk_type == TK_LOWER || tmp->e_tk_type == TK_GREATER || tmp->e_tk_type == TK_DGREATER)
+				error_syntax_redir(tmp->value);
 			tmp->parsed = true;
 			tab[i++] = tmp;
 		}

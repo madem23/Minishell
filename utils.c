@@ -30,9 +30,9 @@ int	ft_isaccepted(char c)
 		return (1);
 	else if (c >= 33 && c <= 47)
 		return (1);
-	else if (c >= 58 && c <= 61)
+	else if (c >= 58 && c <= 59)
 		return (1);
-	else if (c == 63)
+	else if (c == 61 || c == 63)
 		return (1);
 	else if (c == 123 || c == 125)
 		return (1);

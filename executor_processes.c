@@ -20,9 +20,8 @@ void	exec_first_child(t_minishell *minishell, t_tree *branch, int **pipefd)
 	int	*fd;
 	int	n;
 
+	printf("coucou FIRST chil d\n");
 	fd = check_redir_open_files(branch);
-	if (fd[0] < 0 || fd[1] < 0 || !branch->exec_name)
-		exit(EXIT_FAILURE);
 	if (fd[0] > 0)
 		dup2(fd[0], STDIN_FILENO);
 	if (fd[1] > 0)
@@ -39,6 +38,7 @@ void	exec_first_child(t_minishell *minishell, t_tree *branch, int **pipefd)
 	if (!branch->exec_path)
 		error_cmd_not_found(minishell, branch, pipefd);
 	execve(branch->exec_path, branch->exec_args, minishell->envp);
+	error_cmd_not_found(minishell, branch, pipefd);
 }
 
 //Program for last child process: execute the last cmd
@@ -52,8 +52,6 @@ void	exec_last_child(t_minishell *minishell, t_tree *branch, int **pipefd)
 
 	cmd = branch->exec_args;
 	fd = check_redir_open_files(branch);
-	if (fd[0] < 0 || fd[1] < 0 || !branch->exec_name)
-		exit(EXIT_FAILURE);
 	if (fd[0] > 0)
 		dup2(fd[0], STDIN_FILENO);
 	else if (branch->piped_input == true)
@@ -70,6 +68,7 @@ void	exec_last_child(t_minishell *minishell, t_tree *branch, int **pipefd)
 	if (!branch->exec_path)
 		error_cmd_not_found(minishell, branch, pipefd);
 	execve(branch->exec_path, cmd, minishell->envp);
+	error_cmd_not_found(minishell, branch, pipefd);
 }
 
 //Program for all intermediary children processes
@@ -80,8 +79,6 @@ void	exec_interim_children(t_minishell *minishell, t_tree *branch,
 	int	n;
 
 	fd = check_redir_open_files(branch);
-	if (fd[0] < 0 || fd[1] < 0 || !branch->exec_name)
-		exit(EXIT_FAILURE);
 	if (fd[0] > 0)
 		dup2(fd[0], STDIN_FILENO);
 	else if (branch->piped_input == true)
@@ -100,6 +97,7 @@ void	exec_interim_children(t_minishell *minishell, t_tree *branch,
 	if (!branch->exec_path)
 		error_cmd_not_found(minishell, branch, pipefd);
 	execve(branch->exec_path, branch->exec_args, minishell->envp);
+	error_cmd_not_found(minishell, branch, pipefd);
 }
 
 void	exec_parent_builtins(t_minishell *minishell)

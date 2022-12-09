@@ -84,10 +84,11 @@ int main(int argc, char *argv[], char *envp[])
 	(void)argc;
 	(void)argv;
 	g_global.sigint_heredoc = false;
+	g_global.error_parsing = false;
 	minishell = init_minishell(envp);
 	g_global.minishell = minishell;
 	while (minishell->cmd_line)
-	{	
+	{	printf("coucou damns la copjh\n");
 		update_envp(minishell);
 		if (minishell->cmd_line[0])
 		{
@@ -96,17 +97,24 @@ int main(int argc, char *argv[], char *envp[])
 			parser = parser_init(minishell->lexer, minishell);
 			minishell->parser = lexing_start(parser);
 			minishell->tree = parser_start(minishell->parser, minishell);
-			// //DISPLAY LEXER:
-			// t_parser *tmp = minishell->parser;
-			// while (tmp->first_token)
-			// {
-			// 	printf("Created token = '%s', type: %d, index: %d.\n", tmp->first_token->value, tmp->first_token->e_tk_type, tmp->first_token->index);
-			// 	printf("Parsed? %d\n", tmp->first_token->parsed);
-			// 	tmp->first_token = tmp->first_token->next_token;		
-			// }
-			// //DISPLAY TREE:
-			// display_tree(minishell->tree);
-			executor(minishell);
+			//DISPLAY LEXER:
+			t_parser *tmp = minishell->parser;
+			while (tmp->first_token)
+			{
+				printf("Created token = '%s', type: %d, index: %d.\n", tmp->first_token->value, tmp->first_token->e_tk_type, tmp->first_token->index);
+				printf("Parsed? %d\n", tmp->first_token->parsed);
+				tmp->first_token = tmp->first_token->next_token;		
+			}
+			//DISPLAY TREE:
+			display_tree(minishell->tree);
+			if (g_global.error_parsing == true)
+			{
+				//mettre les free
+				g_global.error_parsing = false;
+
+			}
+			else
+				executor(minishell);
 			unlink("tmp_heredoc.txt");
 			unlink("empty_heredoc.txt");
 		}

@@ -42,6 +42,7 @@ typedef struct s_global
 	struct s_minishell		*minishell;
 	struct s_utils			*u;
 	bool					sigint_heredoc;
+	bool					error_parsing;
 	int						exit_status;
 }							t_global;
 
@@ -116,10 +117,9 @@ void	test_which_child_and_exec(t_minishell *minishell,
 			unsigned int j, int **pipefd);
 int		executor(t_minishell *minishell);
 void	exec_parent(t_minishell *minishell, int **pipefd);
-int		*check_input_redir(t_tree *branch, int *fd);
-int		*check_output_redir(t_tree *branch, int *fd);
-int		*check_output_append_redir(t_token **app_outfiles,
-			t_token **infiles, int *fd);
+int		*check_input_redir(t_tree *branch, int *fd, int *i);
+int	*check_output_append_redir(t_tree *branch, int *fd, int j, int i);
+int		*check_output_redir(t_tree *branch, int *fd, int *j, int i);
 int		*check_redir_open_files(t_tree *branch);
 
 //Display:
