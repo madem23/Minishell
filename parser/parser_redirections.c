@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_redirections.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdemma <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: elpolpa <elpolpa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 17:52:25 by mdemma            #+#    #+#             */
-/*   Updated: 2022/12/05 17:52:31 by mdemma           ###   ########.fr       */
+/*   Updated: 2022/12/10 10:17:07 by elpolpa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,6 @@
 #include "../minishell.h"
 #include "../libft/libft.h"
 
-//LEAKS : RAJOUTER LES FREEE
-void	error_syntax_redir(char *value)
-{
-	ft_putstr_fd("minishell: syntax error near unexpected token '", 2);
-	ft_putstr_fd(value, 2);
-	ft_putstr_fd("'\n", 2);
-	g_global.error_parsing = true;
-	g_global.exit_status = 2;
-}
-
 t_token	**filling_redir_files_tab(t_tree *branch, int size, unsigned int type)
 {
 	t_token	*tmp;
@@ -36,19 +26,16 @@ t_token	**filling_redir_files_tab(t_tree *branch, int size, unsigned int type)
 	i = 0;
 	tmp = branch->first_token;
 	tab = malloc(sizeof(t_token *) * size);
-	if (!tab)
-	{
-		printf("Error in allocating redir tab.\n");
-		exit(EXIT_FAILURE);
-	}
+	check_malloc((void *)tab);
 	while (tmp && tmp->index <= branch->end_index)
 	{
 		if (tmp->e_tk_type == type)
 		{
 			tmp->parsed = true;
 			tmp = tmp->next_token;
-			if (tmp->e_tk_type == TK_LOWER || tmp->e_tk_type == TK_GREATER || tmp->e_tk_type == TK_DGREATER)
-				error_syntax_redir(tmp->value);
+			if (tmp->e_tk_type == TK_LOWER || tmp->e_tk_type == TK_GREATER
+				|| tmp->e_tk_type == TK_DGREATER || tmp->e_tk_type == TK_PIPE)
+				error_syntax(tmp->value);
 			tmp->parsed = true;
 			tab[i++] = tmp;
 		}
@@ -65,7 +52,7 @@ void	parsing_redir(t_tree *branch)
 	tmp = branch->first_token;
 	branch->nb_infiles = 0;
 	branch->nb_outfiles = 0;
-	branch->nb_outfiles_append = 0;
+	branch->nb_outfiles_app = 0;
 	while (tmp && tmp->index <= branch->end_index)
 	{
 		if (tmp->e_tk_type == TK_LOWER)
@@ -73,13 +60,13 @@ void	parsing_redir(t_tree *branch)
 		else if (tmp->e_tk_type == TK_GREATER)
 			branch->nb_outfiles++;
 		else if (tmp->e_tk_type == TK_DGREATER)
-			branch->nb_outfiles_append++;
+			branch->nb_outfiles_app++;
 		tmp = tmp->next_token;
 	}
 	branch->infiles = filling_redir_files_tab(branch,
 			branch->nb_infiles + 1, TK_LOWER);
 	branch->outfiles = filling_redir_files_tab(branch,
 			branch->nb_outfiles + 1, TK_GREATER);
-	branch->outfiles_append = filling_redir_files_tab(branch,
-			branch->nb_outfiles_append + 1, TK_DGREATER);
+	branch->outfiles_app = filling_redir_files_tab(branch,
+			branch->nb_outfiles_app + 1, TK_DGREATER);
 }

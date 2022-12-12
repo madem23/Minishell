@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: elpolpa <elpolpa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 11:15:19 by antoine           #+#    #+#             */
-/*   Updated: 2022/12/02 10:31:09 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/09 16:26:02 by elpolpa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,4 +92,13 @@ char	*malloc_string(int size)
 	if (str == NULL)
 		error(1, "failed to allocate string\n");
 	return (str);
+}
+
+void	check_malloc(void *p)
+{
+	if (!p)
+	{
+		printf("Error in allocating pointer.\n");
+		exit(EXIT_FAILURE);
+	}
 }

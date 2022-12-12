@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: elpolpa <elpolpa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 12:56:26 by anloisea          #+#    #+#             */
-/*   Updated: 2022/12/08 18:04:14 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/10 23:56:50 by elpolpa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ typedef struct s_global
 	struct s_utils			*u;
 	bool					sigint_heredoc;
 	bool					error_parsing;
+	bool					ambi_redir;
+	bool					new_cmdline;
 	int						exit_status;
 }							t_global;
 
@@ -92,6 +94,7 @@ void	close_pipes(unsigned int nb_pipes, int **pipefd);
 t_tree	*get_branch(t_tree *treetop, unsigned int j);
 int		ft_strchrset(const char *s, char *charset);
 char	*malloc_string(int size);
+void	check_malloc(void *p);
 
 //free:
 void	free_parser(t_parser *parser);
@@ -106,6 +109,7 @@ void	error_too_many_pipes(t_minishell *minishell);
 void	error_cmd_path(t_minishell *minishell, t_tree *branch, int **pipefd);
 void	error_cmd_not_found(t_minishell *minishell,
 			t_tree *branch, int **pipefd);
+int		check_ambi_redir(char *value, int *fd);
 
 //processes:
 void	exec_interim_children(t_minishell *minishell,

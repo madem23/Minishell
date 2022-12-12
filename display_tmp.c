@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   display_tmp.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: elpolpa <elpolpa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 11:32:55 by anloisea          #+#    #+#             */
-/*   Updated: 2022/11/15 16:12:35 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/10 10:17:07 by elpolpa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	display_tree(t_tree *top)
 	print_tabchar("	CMD args/options = ", tmp1->branch->exec_args, 0);
 		print_tab("	Infiles = ", tmp1->branch->infiles, 0);
 		print_tab("	Outfiles = ", tmp1->branch->outfiles, 0);
-		print_tab("	Outfiles append-mode = ", tmp1-> branch->outfiles_append, 0);
+		print_tab("	Outfiles append-mode = ", tmp1-> branch->outfiles_app, 0);
 		printf(" piped input = %d\n", tmp1->branch->piped_input);
 		printf(" piped output = %d\n", tmp1->branch->piped_output);
 		tmp1 = tmp1->subtree;

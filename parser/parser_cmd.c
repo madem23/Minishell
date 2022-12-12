@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdemma <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: elpolpa <elpolpa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 17:52:03 by mdemma            #+#    #+#             */
-/*   Updated: 2022/12/05 17:52:05 by mdemma           ###   ########.fr       */
+/*   Updated: 2022/12/11 10:44:06 by elpolpa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,22 @@ int	count_unparsed_word(t_tree *branch)
 
 void	filling_cmd_tab_bis(t_tree *branch, int *i, t_token	*tmp)
 {
+	char **split;
+	int	j;
+	
+	j = 0;
 	tmp->parsed = true;
-	branch->exec_args[(*i)++] = ft_strdup(tmp->value);
+	if (tmp->e_tk_type == TK_DOLLAR && !ft_strcmp(tmp->value, ""))
+		tmp->value = NULL;
+	else if (tmp->e_tk_type == TK_DOLLAR)
+	{
+		split = ft_split(tmp->value, ' ');
+		while (split[j])
+			branch->exec_args[(*i)++] = ft_strdup(split[j++]);
+		free_tab((void **)split);
+	}
+	else
+		branch->exec_args[(*i)++] = ft_strdup(tmp->value);
 }
 
 //Creates a tab: tab[0] is cmd name, tab[1...] = args/options
@@ -49,7 +63,7 @@ void	filling_cmd_tab(t_tree *branch, int size)
 
 	i = 0;
 	tmp = branch->first_token;
-	branch->exec_args = malloc(sizeof(char *) * (size + 1));
+	branch->exec_args = malloc(sizeof(char *) * (size + 50));
 	if (!branch->exec_args)
 		error(2, "Error in allocating cmd tab.\n");
 	while (tmp && tmp->index <= branch->end_index)

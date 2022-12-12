@@ -107,5 +107,6 @@ int		ft_strcmp(const char *s1, const char *s2);
 int		locate_char(char *s, char c);
 int		ft_strchrset(const char *s, char *charset);
 char	**ft_tabdup(char **t_str);
+char	*strcut_endl(char *s);
 
 #endif

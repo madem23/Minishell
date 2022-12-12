@@ -52,7 +52,18 @@ t_tree	*parser_start(t_parser *parser, t_minishell *minishell)
 	return (top);
 }
 
-t_tree	*parsing(t_parser *parser, t_minishell *minishell)
+int	check_pipe_syntax(t_token *tmp)
+{
+	if (tmp->next_token->e_tk_type == TK_PIPE)
+	{
+		error_syntax(tmp->value);
+		return (0);
+	}
+	else
+		return (1);
+}
+
+void	parsing(t_parser *parser, t_minishell *minishell)
 {
 	t_token	*tmp;
 	t_token	*save_point;
@@ -71,11 +82,12 @@ t_tree	*parsing(t_parser *parser, t_minishell *minishell)
 		}
 		if (tmp->e_tk_type == TK_PIPE)
 		{
+			if (!check_pipe_syntax(tmp))
+				break ;
 			current_node->subtree = create_subtree(tmp->next_token,
 					parser->treetop);
 			current_node = current_node->subtree;
 		}
 		tmp = tmp->next_token;
 	}
-	return (NULL);
 }

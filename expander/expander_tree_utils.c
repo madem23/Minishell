@@ -80,6 +80,19 @@ char	*get_word(int *i, char *value)
 	return (s);
 }
 
+void	get_prev_word_bis(int *last_end, int *i, int *verif)
+{
+	if (*last_end == -1)
+		(*last_end)++;
+	if (*i - *last_end <= 1)
+	{
+		(*verif)++;
+		(*i)++;
+	}
+	if (*last_end != 0)
+		(*last_end)++;
+}
+
 char	*get_prev_word(int last_end, int *i, char *value)
 {
 	char	*s;
@@ -87,17 +100,14 @@ char	*get_prev_word(int last_end, int *i, char *value)
 	int		verif;
 
 	verif = 0;
-	j = 0;
-	if (last_end == -1)
-		last_end++;
-	if (*i - last_end <= 1)
-	{
-		verif++;
-		(*i)++;
-	}
-	if (last_end != 0)
-		last_end++;
+	get_prev_word_bis(&last_end, i, &verif);
 	s = malloc(sizeof(char) * (*i - last_end + 1));
+	j = 0;
+	if (verif == 1 && *i == 2)
+	{
+		(*i)--;
+		verif--;
+	}
 	while (value[last_end] && last_end < *i)
 	{
 		s[j++] = value[last_end];

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_here_doc.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: elpolpa <elpolpa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 13:04:33 by mdemma            #+#    #+#             */
-/*   Updated: 2022/12/08 17:48:47 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/09 16:34:36 by elpolpa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,35 @@ int	fill_heredoc(t_token *tmp, int index_last)
 	return (index_last);
 }
 
+void	heredoc_parsing_sigint(t_token *tmp, int index_last)
+{
+	int		pid;
+
+	pid = fork();
+	if (pid == 0)
+	{
+		g_global.minishell->sa.sa_handler = &handler_sigint_heredoc;
+		sigaction(SIGINT, &g_global.minishell->sa, NULL);
+		fill_heredoc(tmp, index_last);
+		exit(0);
+	}
+	else
+	{
+		signal(SIGINT, SIG_IGN);
+		waitpid(pid, &g_global.exit_status, 0);
+		if (WIFEXITED(g_global.exit_status)
+			&& WEXITSTATUS(g_global.exit_status) == 130)
+		{
+			g_global.exit_status = 130;
+			g_global.sigint_heredoc = true;
+		}
+	}
+}
+
 int	heredoc_parsing(t_token *begin, int end_index, unsigned int nb)
 {
 	int		index_last;
 	t_token	*tmp;
-	int		pid;
 
 	index_last = -1;
 	tmp = begin;
@@ -78,26 +102,7 @@ int	heredoc_parsing(t_token *begin, int end_index, unsigned int nb)
 			tmp->parsed = true;
 			tmp->next_token->parsed = true;
 			if (tmp->index == index_last)
-			{
-				pid = fork();
-				if (pid == 0)
-				{
-					g_global.minishell->sa.sa_handler = &handler_sigint_heredoc;
-					sigaction(SIGINT, &g_global.minishell->sa, NULL);
-					fill_heredoc(tmp, index_last);
-					exit(0);
-				}
-				else
-				{
-					signal(SIGINT, SIG_IGN);
-					waitpid(pid, &g_global.exit_status, 0);
-					if (WIFEXITED(g_global.exit_status) && WEXITSTATUS(g_global.exit_status) == 130)
-					{
-						g_global.exit_status = 130;
-						g_global.sigint_heredoc = true;
-					}
-				}
-			}
+				heredoc_parsing_sigint(tmp, index_last);
 		}
 		tmp = tmp->next_token;
 	}

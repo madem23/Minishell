@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: elpolpa <elpolpa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 12:13:10 by anloisea          #+#    #+#             */
-/*   Updated: 2022/12/02 11:17:18 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/11 10:24:47 by elpolpa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,6 @@ char	*lexer_get_string(t_lexer *lexer, char quote);
 int		count_char(char *s, int end_index);
 int		count_char(char *s, int end_index);
 void	ignore_spaces(t_lexer *lexer);
+int		is_a_variable_declaration(char *value);
 
 #endif

@@ -3,21 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: elpolpa <elpolpa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 10:25:12 by antoine           #+#    #+#             */
-/*   Updated: 2022/12/08 17:31:13 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/11 11:38:42 by elpolpa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 #include "../parser/parser.h"
 #include "../expander/expander.h"
+#include "../lexer/token.h"
 
+// A REVOIR POUR LES DECLARATIONS DE VARIABLE DANS EXPORT
 int	check_for_invalid_identifier(char *exec_arg)
 {
-	if (ft_strchrset(exec_arg, "\"\'!@#^%&*()- +[]{}:;.,?") != -1
-		|| ft_isdigit(exec_arg[0]))
+	if (!is_a_variable_declaration(exec_arg) || ft_isdigit(exec_arg[0]) || !ft_strcmp(exec_arg, ""))
 	{
 		ft_putstr_fd("minishell: export: \'", 2);
 		ft_putstr_fd(exec_arg, 2);
@@ -55,26 +56,31 @@ int	export(t_tree *branch, t_minishell *minishell)
 {
 	int		i;
 	char	**var_def;
-
+	int		exit;
+	
+	exit = 0;
 	if (tab_len(branch->exec_args) == 1)
 		return (display_declare_x(minishell->var_def));
 	i = 0;
 	while (branch->exec_args[++i])
 	{
-		if (check_for_invalid_identifier(branch->exec_args[i]))
-			return (1);
-		var_def = ft_split(branch->exec_args[i], '=');
-		if (var_def[1])
-			var_def[1] = expander_convert(branch->minishell,
-					creating_expander_tree(var_def[1]));
-		if (locate_char(branch->exec_args[i], '=') >= 0)
+		if (!check_for_invalid_identifier(branch->exec_args[i]))
 		{
-			if (var_def && !change_var_value(minishell->var_def,
-					var_def[0], var_def[1]))
-				var_add_back(&branch->minishell->var_def,
-					var_init(ft_strdup(var_def[0]),
-						ft_strdup(var_def[1]), true));
+			var_def = ft_split(branch->exec_args[i], '=');
+			if (var_def[1])
+				var_def[1] = expander_convert(branch->minishell,
+						creating_expander_tree(var_def[1]));
+			if (locate_char(branch->exec_args[i], '=') >= 0)
+			{
+				if (var_def && !change_var_value(minishell->var_def,
+						var_def[0], var_def[1]))
+					var_add_back(&branch->minishell->var_def,
+						var_init(ft_strdup(var_def[0]),
+							ft_strdup(var_def[1]), true));
+			}
 		}
+		else
+			exit = 1;
 	}
-	return (0);
+	return (exit);
 }

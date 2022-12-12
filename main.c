@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: elpolpa <elpolpa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 11:32:55 by anloisea          #+#    #+#             */
-/*   Updated: 2022/12/08 17:48:47 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/11 00:05:06 by elpolpa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ void	get_line(t_minishell *minishell)
 void	handler_sigint_main(int sig)
 {
 	(void)sig;
-
 	if (g_global.sigint_heredoc == false)
 	{
 	ft_putchar_fd('\n', 1);
@@ -75,6 +74,61 @@ t_minishell	*init_minishell(char *envp[])
 	return (minishell);
 }
 
+//only ctrl D to quit readline here
+//LEAKS: rajouter les frees du exit
+int	check_finishing_pipe(char *s, t_minishell *minishell)
+{
+	int i;
+	char *rest;
+	char *new;
+
+	i = 0;
+	while (s[i])
+		i++;
+	if (i > 0 && s[--i] == '|')
+	{
+		while (ft_isspace(s[--i]));
+		if (s[i] == '|')
+		{
+			error_syntax("|");
+			return (0);
+		}
+		rest = readline("> ");
+		while (rest && !ft_strcmp(rest, ""))
+			rest = readline("> ");
+		if (!rest)
+		{
+			ft_putstr_fd("bash: syntax error: unexpected end of file\nexit\n", 2);
+			exit(2);
+		}
+		minishell->cmd_line = strcut_endl(minishell->cmd_line);
+		new = ft_strjoin(minishell->cmd_line, rest);
+		free(minishell->cmd_line);
+		minishell->cmd_line = (char *)NULL;
+		free(rest);
+		minishell->cmd_line = new;
+		if (minishell->cmd_line && *(minishell->cmd_line))
+			add_history(minishell->cmd_line);
+		return (1);
+	}
+	return (0);
+}
+
+int	check_beginning_pipe(char *s)
+{
+	int i;
+
+	i = 0;
+	while (s[i] && ft_isspace(s[i]))
+		i++;
+	if (s[i] == '|')
+	{
+		error_syntax("|");
+		return (0);
+	}
+	return (1);
+}
+
 int main(int argc, char *argv[], char *envp[])
 {
 	t_minishell		*minishell;
@@ -85,41 +139,53 @@ int main(int argc, char *argv[], char *envp[])
 	(void)argv;
 	g_global.sigint_heredoc = false;
 	g_global.error_parsing = false;
+	g_global.ambi_redir = false;
+	g_global.new_cmdline = false;
 	minishell = init_minishell(envp);
 	g_global.minishell = minishell;
 	while (minishell->cmd_line)
-	{	printf("coucou damns la copjh\n");
+	{
 		update_envp(minishell);
 		if (minishell->cmd_line[0])
 		{
-			g_global.u = malloc(sizeof(t_utils));
-			minishell->lexer = lexer_init(minishell->cmd_line);
-			parser = parser_init(minishell->lexer, minishell);
-			minishell->parser = lexing_start(parser);
-			minishell->tree = parser_start(minishell->parser, minishell);
-			//DISPLAY LEXER:
-			t_parser *tmp = minishell->parser;
-			while (tmp->first_token)
+			if (check_beginning_pipe(minishell->cmd_line))
 			{
-				printf("Created token = '%s', type: %d, index: %d.\n", tmp->first_token->value, tmp->first_token->e_tk_type, tmp->first_token->index);
-				printf("Parsed? %d\n", tmp->first_token->parsed);
-				tmp->first_token = tmp->first_token->next_token;		
+				
+				g_global.u = malloc(sizeof(t_utils));
+				minishell->lexer = lexer_init(minishell->cmd_line);
+				parser = parser_init(minishell->lexer, minishell);
+				minishell->parser = lexing_start(parser);
+				minishell->tree = parser_start(minishell->parser, minishell);
+				//DISPLAY LEXER:
+				t_parser *tmp = minishell->parser;
+				while (tmp->first_token)
+				{
+					printf("Created token = '%s', type: %d, index: %d.\n", tmp->first_token->value, tmp->first_token->e_tk_type, tmp->first_token->index);
+					printf("Parsed? %d\n", tmp->first_token->parsed);
+					tmp->first_token = tmp->first_token->next_token;		
+				}
+				//DISPLAY TREE:
+				display_tree(minishell->tree);
 			}
-			//DISPLAY TREE:
-			display_tree(minishell->tree);
-			if (g_global.error_parsing == true)
+			if (g_global.error_parsing == false && check_finishing_pipe(minishell->cmd_line, minishell))
+				g_global.new_cmdline = true;
+			else if (g_global.error_parsing == true)
 			{
 				//mettre les free
 				g_global.error_parsing = false;
-
 			}
 			else
 				executor(minishell);
 			unlink("tmp_heredoc.txt");
 			unlink("empty_heredoc.txt");
 		}
-		minishell->prompt = get_prompt();
-		get_line(minishell);
+		if (g_global.new_cmdline == true)
+			g_global.new_cmdline = false;
+		else
+		{
+			minishell->prompt = get_prompt();
+			get_line(minishell);
+		}
 		if (minishell->cmd_line == NULL)
 		{
 			ft_putstr_fd("exit\n", 1);

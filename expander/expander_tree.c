@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_tree.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: elpolpa <elpolpa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 13:03:01 by mdemma            #+#    #+#             */
-/*   Updated: 2022/12/08 18:04:26 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/12 09:15:18 by elpolpa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,11 @@ void	create_exp_subtree(int *i, int *i_end,
 		type = DQUOTE;
 	if ((*i) - (*i_end) >= 2)
 	{
-		if (*i_end == -1)
-			*i_end = 0;
+		//if (*i_end == -1)
+		//	*i_end = 0;
 		(*cur_nod)->next_subtree = init_exp_subtree(WORD,
 				g_global.cur_exp_tree, ft_substr(g_global.cur_exp_tree->value,
-					*i_end, (*i) - (*i_end)));
+					*i_end + 1, (*i) - (*i_end) - 1));
 		(*cur_nod) = (*cur_nod)->next_subtree;
 	}
 	if (locate_char(g_global.cur_exp_tree->value + (*i) + 1, quote) >= 0)
@@ -61,10 +61,10 @@ void	create_exp_subtree(int *i, int *i_end,
 		*i_end = locate_char(g_global.cur_exp_tree->value + (*i) + 1, quote);
 		(*cur_nod)->next_subtree = init_exp_subtree(type,
 				g_global.cur_exp_tree, ft_substr(g_global.cur_exp_tree->value,
-					*i, (*i_end) + 2));
+					*i, ++(*i_end) + 1));
 		(*cur_nod) = (*cur_nod)->next_subtree;
-		*i += ++(*i_end);
-		*i_end = (*i) + 1;
+		*i_end += *i; 
+		*i = (*i_end);
 	}
 }
 
@@ -74,9 +74,7 @@ void	create_exp_final_subtree(int i, int i_end, char *value,
 {
 	char	*s_tmp;
 
-	if (i_end == -1)
-			i_end = 0;
-	s_tmp = ft_substr(value, i_end, i - i_end);
+	s_tmp = ft_substr(value, i_end + 1, i - i_end - 1);
 	(*cur_node)->next_subtree = init_exp_subtree(WORD,
 			g_global.cur_exp_tree, s_tmp);
 	(*cur_node) = (*cur_node)->next_subtree;
@@ -109,7 +107,7 @@ t_expander_tree	*creating_expander_tree(char *value)
 			create_exp_subtree(&i, &i_end, &cur_node, '"');
 		i++;
 	}
-	if (i - i_end >= 1)
+	if (i - i_end >= 2)
 		create_exp_final_subtree(i, i_end, value, &cur_node);
 	return (tree);
 }

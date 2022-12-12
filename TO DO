@@ -12,3 +12,7 @@
 - voir modif dans ft_exit, rajout de free, verif code de sortie
 
 - A NOTER, <> dealed as a <, no syntax error.
+
+- return code apres redir
+
+- MANON : fork le finishing pipe comme heredoc ! pour SIGINT

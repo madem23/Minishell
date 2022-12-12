@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: elpolpa <elpolpa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 13:10:21 by mdemma            #+#    #+#             */
-/*   Updated: 2022/12/08 18:11:53 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/09 16:35:56 by elpolpa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,10 @@ void	test_which_child_and_exec(t_minishell *minishell, unsigned int j,
 {
 	t_tree	*tmp;
 
-	printf("----DEBUT pour j = %d, pid = %d, getpid= %d\n", j, minishell->p_id[j], getpid());
 	if (minishell->p_id[j] == 0 && j == 0)
-	{
-		printf("----dans loop first, pour j = %d, pid = %d, getpid= %d\n", j, minishell->p_id[j], getpid());
 		exec_first_child(minishell, minishell->tree->branch, pipefd);
-	}
 	if (minishell->p_id[j] == 0 && j == minishell->tree->nb_pipes)
 	{
-		printf("----dans loop last, pour j = %d, pid = %d, getpid= %d\n", j, minishell->p_id[j], getpid());
 		tmp = minishell->tree;
 		while (tmp->subtree)
 			tmp = tmp->subtree;

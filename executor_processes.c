@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_processes.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: elpolpa <elpolpa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 12:50:08 by mdemma            #+#    #+#             */
-/*   Updated: 2022/12/08 18:06:25 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/09 16:36:13 by elpolpa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,9 @@ void	exec_first_child(t_minishell *minishell, t_tree *branch, int **pipefd)
 	int	*fd;
 	int	n;
 
-	printf("coucou FIRST chil d\n");
 	fd = check_redir_open_files(branch);
+	if (g_global.ambi_redir == true)
+		exit(EXIT_FAILURE); //LEAKS: rajouter les frees
 	if (fd[0] > 0)
 		dup2(fd[0], STDIN_FILENO);
 	if (fd[1] > 0)
@@ -52,6 +53,8 @@ void	exec_last_child(t_minishell *minishell, t_tree *branch, int **pipefd)
 
 	cmd = branch->exec_args;
 	fd = check_redir_open_files(branch);
+	if (g_global.ambi_redir == true)
+		exit(EXIT_FAILURE); //LEAKS: rajouter les frees
 	if (fd[0] > 0)
 		dup2(fd[0], STDIN_FILENO);
 	else if (branch->piped_input == true)
@@ -79,6 +82,8 @@ void	exec_interim_children(t_minishell *minishell, t_tree *branch,
 	int	n;
 
 	fd = check_redir_open_files(branch);
+	if (g_global.ambi_redir == true)
+		exit(EXIT_FAILURE); //LEAKS: rajouter les frees
 	if (fd[0] > 0)
 		dup2(fd[0], STDIN_FILENO);
 	else if (branch->piped_input == true)
@@ -137,8 +142,7 @@ void	exec_parent(t_minishell *minishell, int **pipefd)
 			g_global.exit_status = 130;
 		else
 		{
-			if (WIFSIGNALED(g_global.exit_status))
-				g_global.exit_status = WEXITSTATUS(g_global.exit_status);
+			g_global.exit_status = WEXITSTATUS(g_global.exit_status);
 		}
 		i++;
 	}

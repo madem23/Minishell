@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_redirections.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: elpolpa <elpolpa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 17:43:31 by antoine           #+#    #+#             */
-/*   Updated: 2022/12/08 17:43:32 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/10 10:24:56 by elpolpa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,9 @@ int	*check_input_redir(t_tree *branch, int *fd, int *i)
 	{
 		if (fd[0] != 0)
 			close(fd[0]);
+		if (branch->infiles[*i]->e_tk_type == TK_DOLLAR)
+			if (!check_ambi_redir(branch->infiles[*i]->value, &fd[0]))
+				break ;
 		fd[0] = open(branch->infiles[*i]->value, O_RDONLY);
 		if (fd[0] == -1)
 		{
@@ -52,6 +55,9 @@ int	*check_output_redir(t_tree *branch, int *fd, int *j, int i)
 	{
 		if (fd[1] > 0)
 			close(fd[1]);
+		if (branch->outfiles[*j]->e_tk_type == TK_DOLLAR)
+			if (!check_ambi_redir(branch->outfiles[*j]->value, &fd[1]))
+				break ;
 		fd[1] = open(branch->outfiles[*j]->value,
 				O_CREAT | O_RDWR | O_TRUNC, 0644);
 		if (fd[1] == -1)
@@ -65,6 +71,23 @@ int	*check_output_redir(t_tree *branch, int *fd, int *j, int i)
 	return (fd);
 }
 
+int	check_output_app_bis(t_tree *branch, int **fd, int k)
+{
+	if (*(fd)[1] > 0)
+		close((*fd)[1]);
+	if (branch->outfiles_app[k]->e_tk_type == TK_DOLLAR)
+		if (!check_ambi_redir(branch->outfiles_app[k]->value, &((*fd)[1])))
+			return (0);
+	(*fd)[1] = open(branch->outfiles_app[k]->value,
+			O_CREAT | O_RDWR | O_APPEND, 0644);
+	if ((*fd)[1] == -1)
+	{
+		perror(branch->outfiles_app[k]->value);
+		return (0);
+	}
+	return (1);
+}
+
 /* Checks for the last output among output redir in append mode
 and amends fd[1] if necessary. */
 int	*check_output_append_redir(t_tree *branch, int *fd, int j, int i)
@@ -74,23 +97,20 @@ int	*check_output_append_redir(t_tree *branch, int *fd, int j, int i)
 
 	k = 0;
 	secu = 0;
-	while (branch->outfiles_append[k]
-		&& ((fd[0] == -1 && branch->outfiles_append[k]->index < branch->infiles[i]->index) || (fd[0] >= 0)))
+	while (branch->outfiles_app[k]
+		&& ((fd[0] == -1 && branch->outfiles_app[k]->index
+				< branch->infiles[i]->index) || (fd[0] >= 0)))
 	{
-		if (fd[1] == 0 || (fd[1] > 0 && branch->outfiles[j]->index < branch->outfiles_append[k]->index))
+		if (fd[1] == 0 || (fd[1] > 0 && branch->outfiles[j]->index
+				< branch->outfiles_app[k]->index))
 		{
-			if (fd[1] > 0)
-				close(fd[1]);
-			fd[1] = open(branch->outfiles_append[k]->value, O_CREAT | O_RDWR | O_APPEND, 0644);
-			if (fd[1] == -1)
-			{
-				perror(branch->outfiles_append[k]->value);
+			if (!check_output_app_bis(branch, &fd, k))
 				break ;
-			}
 		}
 		else
 		{
-			secu = open(branch->outfiles_append[k]->value, O_CREAT | O_RDWR | O_APPEND, 0644);
+			secu = open(branch->outfiles_app[k]->value,
+					O_CREAT | O_RDWR | O_APPEND, 0644);
 			close(secu);
 		}
 		k++;

@@ -24,6 +24,7 @@ SRCS		= 	main.c \
 				./parser/parser_redirections.c \
 				./parser/parser_cmd.c \
 				./parser/parser_here_doc.c \
+				./parser/parser_error.c \
 				./expander/expander_conversion_utils.c \
 				./expander/expander_tree.c \
 				./expander/expander_tree_utils.c \

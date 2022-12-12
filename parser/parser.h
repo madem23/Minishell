@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: elpolpa <elpolpa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 11:43:41 by antoine           #+#    #+#             */
-/*   Updated: 2022/11/26 14:54:21 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/10 10:17:07 by elpolpa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,10 @@ typedef struct s_tree
 
 	int					nb_infiles;
 	int					nb_outfiles;
-	int					nb_outfiles_append;
+	int					nb_outfiles_app;
 	t_token				**infiles;
 	t_token				**outfiles;
-	t_token				**outfiles_append;
+	t_token				**outfiles_app;
 	int					here_doc;
 	bool				piped_input;
 	bool				piped_output;
@@ -70,7 +70,7 @@ typedef struct s_parser
 t_parser		*parser_init(t_lexer *lexer, struct s_minishell *minishell);
 t_tree			*parser_start(t_parser *parser, struct s_minishell *minishell);
 t_parser		*lexing_start(t_parser *parser);
-t_tree			*parsing(t_parser *parser, struct s_minishell *minishell);
+void			parsing(t_parser *parser, struct s_minishell *minishell);
 t_tree			*tree_init(t_parser *parser);
 t_tree			*create_branch(t_token *begin, t_token *end, t_tree *treetop,
 					struct s_minishell *minishell);
@@ -98,5 +98,6 @@ char			*managing_curly_brakets(char *value, int i,
 					struct s_minishell *minishell);
 char			*search_var_list_and_replace(char *value,
 					struct s_minishell *minishell);
+void			error_syntax(char *value);
 
 #endif
