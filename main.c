@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elpolpa <elpolpa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 11:32:55 by anloisea          #+#    #+#             */
-/*   Updated: 2022/12/11 00:05:06 by elpolpa          ###   ########.fr       */
+/*   Updated: 2022/12/15 14:57:38 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ t_minishell	*init_minishell(char *envp[])
 	minishell->envp = NULL;
 	minishell->p_id = NULL;
 	minishell->var_def = var_list_init(envp);
-	minishell->prompt = get_prompt();
+	minishell->prompt = get_prompt(minishell);
 	minishell->cmd_line = NULL;
 	minishell->sa.sa_handler = &handler_sigint_main;
 	minishell->sa.sa_flags = SA_RESTART;
@@ -183,7 +183,7 @@ int main(int argc, char *argv[], char *envp[])
 			g_global.new_cmdline = false;
 		else
 		{
-			minishell->prompt = get_prompt();
+			minishell->prompt = get_prompt(minishell);
 			get_line(minishell);
 		}
 		if (minishell->cmd_line == NULL)

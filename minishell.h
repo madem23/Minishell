@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elpolpa <elpolpa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 12:56:26 by anloisea          #+#    #+#             */
-/*   Updated: 2022/12/10 23:56:50 by elpolpa          ###   ########.fr       */
+/*   Updated: 2022/12/15 14:57:18 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ char	*check_exec_paths(char **paths, char *exec_called);
 
 int		ft_isaccepted(char c);
 int		ft_isaccepted_var_name(char c);
-char	*get_prompt(void);
+char	*get_prompt(t_minishell *minishell);
 char	**ft_tabdup(char **t_str);
 char	**add_str_to_tab(char **tab, const char *str);
 int		locate_char(char *s, char c);

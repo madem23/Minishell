@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 11:23:08 by antoine           #+#    #+#             */
-/*   Updated: 2022/12/08 17:16:53 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/15 16:56:31 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "../minishell.h"
 
-int		pwd(void);
+int		pwd(struct s_minishell *minishell);
 int		env(t_var *list, char **args);
 int		echo(char **args);
 int		cd(char **args, struct s_minishell *minishell);

@@ -6,17 +6,17 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 12:10:57 by antoine           #+#    #+#             */
-/*   Updated: 2022/11/22 17:00:23 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/15 15:35:28 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
-int	pwd(void)
+int	pwd(t_minishell *minishell)
 {
 	char	*buf;
 
-	buf = getcwd(NULL, 0);
+	buf = get_var_value(minishell->var_def, "PWD");
 	if (!buf)
 	{
 		ft_putstr_fd("minishell: ", 2);

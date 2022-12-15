@@ -16,3 +16,5 @@
 - return code apres redir
 
 - MANON : fork le finishing pipe comme heredoc ! pour SIGINT
+
+- Faire marcher CDPATH et nromer CD

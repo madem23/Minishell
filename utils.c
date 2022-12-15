@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elpolpa <elpolpa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 11:15:19 by antoine           #+#    #+#             */
-/*   Updated: 2022/12/09 16:26:02 by elpolpa          ###   ########.fr       */
+/*   Updated: 2022/12/15 17:00:56 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	ft_isaccepted(char c)
 }
 
 /* Create string to use as prompt by readline. */
-char	*get_prompt(void)
+char	*get_prompt(t_minishell * minishell)
 {
 	char	*prompt;
 	char	*current_dir;
@@ -53,6 +53,8 @@ char	*get_prompt(void)
 	char	*tmp;
 
 	current_dir = getcwd(NULL, 0);
+	if (!current_dir)
+		current_dir = get_var_value(minishell->var_def, "PWD");
 	color = ft_strjoin("\033[0;34m", current_dir);
 	free(current_dir);
 	prompt = ft_strjoin("\033[0;32mminishell: ", color);

@@ -1,75 +1,93 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd copy.c                                          :+:      :+:    :+:   */
+/*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/14 14:24:28 by antoine           #+#    #+#             */
-/*   Updated: 2022/12/08 17:09:44 by antoine          ###   ########.fr       */
+/*   Created: 2022/12/15 15:52:28 by antoine           #+#    #+#             */
+/*   Updated: 2022/12/15 18:13:51 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
-char	*error_var_not_set(char *var)
+int	cd(char **args, t_minishell *minishell)
 {
-	ft_putstr_fd("minishell: cd: ", 2);
-	ft_putstr_fd(var, 2);
-	ft_putstr_fd(" not set\n", 2);
-	return (NULL);
-}
+	char	*path;
+	char	*tmp;
+	char	*cwd;
+	// char	*cd_path;
 
-char	*get_path_for_cd(char *path, char **args, t_minishell *minishell)
-{
-	char	*home;
-
-	if (tab_len(args) == 1)
+	if (tab_len(args) > 2)
+	{
+		ft_putstr_fd("minishell: cd: too many arguments\n", 2);
+		return (1);
+	}
+	else if (tab_len(args) == 1)
 	{
 		path = get_var_value(minishell->var_def, "HOME");
 		if (!path)
-			return (error_var_not_set("HOME"));
+		{
+			ft_putstr_fd("minishell: cd: HOME not set\n", 2);
+			return (1);
+		}
 	}
-	else if (args[1][0] == '~')
-	{
-		home = get_var_value(minishell->var_def, "HOME");
-		if (!home)
-			return (error_var_not_set("HOME"));
-		path = ft_strjoin(home, args[1] + 1);
-		free(home);
-	}
-	else if (args[1][0] == '-' && !args[1][1])
+	else if (!ft_strcmp("-", args[1]))
 	{
 		path = get_var_value(minishell->var_def, "OLDPWD");
 		if (!path)
-			return (error_var_not_set("OLDPWD"));
+		{
+			ft_putstr_fd("minishell: cd: OLDPWD not set\n", 2);
+			return (1);
+		}
+		printf("%s\n", path);
+	}
+	else if (args[1][0] == '~')
+	{
+		tmp = get_var_value(minishell->var_def, "HOME");
+		if (!tmp)
+		{
+			ft_putstr_fd("minishell: cd: HOME not set\n", 2);
+			return (1);
+		}
+		path = ft_strjoin(tmp, args[1] + 1);
+		free(tmp);
 	}
 	else
-		path = ft_strdup(args[1]);
-	return (path);
-}
-
-int	cd(char **args, t_minishell *minishell)
-{
-	char	*newpwd;
-	char	*path;
-
-	path = NULL;
-	path = get_path_for_cd(path, args, minishell);
-	if (path == NULL)
-		return (1);
-	if (args[1][0] == '-' && !args[1][1])
-		printf("%s\n", path);
-	newpwd = getcwd(NULL, 0);
-	if (chdir(path) == -1)
+	{
+		// cd_path = get_var_value(minishell->var_def, "CDPATH");
+		// if (cd_path)
+		// {
+		// 	path = ft_strjoin(cd_path, args[1]);
+		// 	free(cd_path);
+		// }
+		// else
+			path = ft_strdup(args[1]);
+	}
+	if(!chdir(path))
+	{
+		change_var_value(minishell->var_def, "OLDPWD", get_var_value(minishell->var_def, "PWD"));
+		cwd = getcwd(NULL, 0);
+		if (!cwd)
+		{
+			ft_putstr_fd("cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n", 2);
+			tmp = (get_var_value(minishell->var_def, "OLDPWD"));
+			change_var_value(minishell->var_def, "PWD", ft_strjoin(tmp, "/.."));
+			free(tmp);
+			free(path);
+			return (0);
+		}
+		else
+			change_var_value(minishell->var_def, "PWD", cwd);
+		free(path);
+	}
+	else
 	{
 		ft_putstr_fd("minishell: cd: ", 2);
 		perror(path);
 		free(path);
-		free(newpwd);
 		return (1);
 	}
-	change_var_value(minishell->var_def, "OLDPWD", newpwd);
-	free(path);
 	return (0);
 }

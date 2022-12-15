@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 11:07:53 by antoine           #+#    #+#             */
-/*   Updated: 2022/11/26 16:36:52 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/15 15:36:08 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	check_for_builtins(t_tree *branch, t_minishell *minishell)
 	if (!ft_strcmp(branch->exec_name, "echo"))
 		return (echo(branch->exec_args));
 	else if (!ft_strcmp(branch->exec_name, "pwd"))
-		return (pwd());
+		return (pwd(minishell));
 	else if (!ft_strcmp(branch->exec_name, "cd"))
 		return (1);
 	else if (!ft_strcmp(branch->exec_name, "env"))

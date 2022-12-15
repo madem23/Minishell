@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 16:23:17 by antoine           #+#    #+#             */
-/*   Updated: 2022/12/08 17:48:47 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/15 14:45:42 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,6 @@ char	*check_exec_paths(char **paths, char *exec_called)
 
 	if (!exec_called)
 		return (NULL);
-	if (access(exec_called, F_OK) == 0)
-		return (ft_strdup(exec_called));
 	i = 0;
 	if (!paths)
 		return (NULL);
@@ -61,5 +59,7 @@ char	*check_exec_paths(char **paths, char *exec_called)
 		free(full_exec_path);
 		i++;
 	}
+	if (access(exec_called, F_OK) == 0)
+		return (ft_strdup(exec_called));
 	return (NULL);
 }
