@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: elpolpa <elpolpa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 13:33:54 by anloisea          #+#    #+#             */
-/*   Updated: 2022/12/01 14:52:09 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/19 10:38:00 by elpolpa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	is_a_variable_declaration(char *value)
 		i++;
 	if (i == 0)
 		return (0);
-	if (value[i] == '=' && (!value[++i] || ft_isaccepted(value[i])))
+	if (value[i] == '=' && (!value[++i] || ft_isaccepted(value[i]) || ft_isspace(value[i])))
 		return (1);
 	else
 		return (0);

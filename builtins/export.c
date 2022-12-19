@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: elpolpa <elpolpa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 10:25:12 by antoine           #+#    #+#             */
-/*   Updated: 2022/12/15 16:56:23 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/19 10:43:09 by elpolpa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ int	export(t_tree *branch, t_minishell *minishell)
 						creating_expander_tree(var_def[1]));
 			if (locate_char(branch->exec_args[i], '=') >= 0)
 			{
+				if (!var_def[1])
+					var_def[1] = ft_strdup("");
 				if (var_def && !change_var_value(minishell->var_def,
 						var_def[0], var_def[1]))
 					var_add_back(&branch->minishell->var_def,
