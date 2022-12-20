@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/26 14:07:41 by antoine           #+#    #+#             */
-/*   Updated: 2022/12/08 11:31:43 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/20 11:59:44 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ void	ft_exit(char **args)
 	}
 	else
 	{
+		if (args[1][0] == '-')
+			i++;
 		while (args[1][i])
 		{
 			if (!ft_isdigit(args[1][i]))

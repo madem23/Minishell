@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 15:52:28 by antoine           #+#    #+#             */
-/*   Updated: 2022/12/15 18:13:51 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/20 11:54:06 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int	cd(char **args, t_minishell *minishell)
 	char	*path;
 	char	*tmp;
 	char	*cwd;
-	// char	*cd_path;
 
 	if (tab_len(args) > 2)
 	{
@@ -55,16 +54,7 @@ int	cd(char **args, t_minishell *minishell)
 		free(tmp);
 	}
 	else
-	{
-		// cd_path = get_var_value(minishell->var_def, "CDPATH");
-		// if (cd_path)
-		// {
-		// 	path = ft_strjoin(cd_path, args[1]);
-		// 	free(cd_path);
-		// }
-		// else
 			path = ft_strdup(args[1]);
-	}
 	if(!chdir(path))
 	{
 		change_var_value(minishell->var_def, "OLDPWD", get_var_value(minishell->var_def, "PWD"));

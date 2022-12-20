@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elpolpa <elpolpa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 10:25:12 by antoine           #+#    #+#             */
-/*   Updated: 2022/12/19 10:43:09 by elpolpa          ###   ########.fr       */
+/*   Updated: 2022/12/20 13:02:26 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,27 @@
 #include "../lexer/token.h"
 
 // A REVOIR POUR LES DECLARATIONS DE VARIABLE DANS EXPORT
+
+int	is_exportable(char *value)
+{
+	int	i;
+
+	i = 0;
+	if (value[0] && !ft_isalpha(value[0]) && value[0] != '_')
+		return (0);
+	while (ft_isaccepted_var_name(value[i]) && value[i] != '=')
+		i++;
+	if (i == 0)
+		return (0);
+	if (!value[++i] || ft_isaccepted(value[i]) || ft_isspace(value[i]))
+		return (1);
+	else
+		return (0);
+}
+
 int	check_for_invalid_identifier(char *exec_arg)
 {
-	if (!is_a_variable_declaration(exec_arg) || ft_isdigit(exec_arg[0]) || !ft_strcmp(exec_arg, ""))
+	if (!is_exportable(exec_arg) || ft_isdigit(exec_arg[0]) || !ft_strcmp(exec_arg, ""))
 	{
 		ft_putstr_fd("minishell: export: \'", 2);
 		ft_putstr_fd(exec_arg, 2);

@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 11:32:55 by anloisea          #+#    #+#             */
-/*   Updated: 2022/12/15 14:57:38 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/20 12:44:54 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,16 +156,16 @@ int main(int argc, char *argv[], char *envp[])
 				parser = parser_init(minishell->lexer, minishell);
 				minishell->parser = lexing_start(parser);
 				minishell->tree = parser_start(minishell->parser, minishell);
-				//DISPLAY LEXER:
-				t_parser *tmp = minishell->parser;
-				while (tmp->first_token)
-				{
-					printf("Created token = '%s', type: %d, index: %d.\n", tmp->first_token->value, tmp->first_token->e_tk_type, tmp->first_token->index);
-					printf("Parsed? %d\n", tmp->first_token->parsed);
-					tmp->first_token = tmp->first_token->next_token;		
-				}
-				//DISPLAY TREE:
-				display_tree(minishell->tree);
+				// //DISPLAY LEXER:
+				// t_parser *tmp = minishell->parser;
+				// while (tmp->first_token)
+				// {
+				// 	printf("Created token = '%s', type: %d, index: %d.\n", tmp->first_token->value, tmp->first_token->e_tk_type, tmp->first_token->index);
+				// 	printf("Parsed? %d\n", tmp->first_token->parsed);
+				// 	tmp->first_token = tmp->first_token->next_token;		
+				// }
+				// //DISPLAY TREE:
+				// display_tree(minishell->tree);
 			}
 			if (g_global.error_parsing == false && check_finishing_pipe(minishell->cmd_line, minishell))
 				g_global.new_cmdline = true;
