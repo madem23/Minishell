@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 11:21:51 by antoine           #+#    #+#             */
-/*   Updated: 2022/12/20 11:13:30 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/20 15:59:02 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,11 @@ int	echo(char **args)
 	i = 1;
 	if (tab_len(args) == 1)
 		printf("\n");
-	while (!ft_strncmp(args[i], "-n", 2))
+	if (!args[i])
+		return (0);
+	while (args[i] && !ft_strncmp(args[i], "-n", 2))
 	{
-		if (look_for_intruder(args[i] + 1, 'n'))
+		if (args[i + 1] && look_for_intruder(args[i] + 1, 'n'))
 			break;
 		i++;
 	}

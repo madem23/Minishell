@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 10:25:12 by antoine           #+#    #+#             */
-/*   Updated: 2022/12/20 13:02:26 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/20 15:42:53 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ int	is_exportable(char *value)
 		i++;
 	if (i == 0)
 		return (0);
+	if (i > 0 && !value[i])
+		return (1);
 	if (!value[++i] || ft_isaccepted(value[i]) || ft_isspace(value[i]))
 		return (1);
 	else
@@ -98,6 +100,9 @@ int	export(t_tree *branch, t_minishell *minishell)
 						var_init(ft_strdup(var_def[0]),
 							ft_strdup(var_def[1]), true));
 			}
+			else
+				create_var_entry_in_env(var_def[0], minishell);
+			free_split_var(var_def);
 		}
 		else
 			exit = 1;

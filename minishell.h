@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 12:56:26 by anloisea          #+#    #+#             */
-/*   Updated: 2022/12/15 14:57:18 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/20 15:42:24 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ void	free_tree(t_tree *treetop);
 void	free_tab(void **tab);
 void	free_end_executor(t_minishell *minishell, int **pipefd);
 void	free_tokens(t_parser *parser);
+void	free_split_var(char **v);
 
 //error:
 void	error_too_many_pipes(t_minishell *minishell);

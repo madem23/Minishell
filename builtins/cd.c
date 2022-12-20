@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 15:52:28 by antoine           #+#    #+#             */
-/*   Updated: 2022/12/20 11:54:06 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/20 15:54:28 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,22 +54,29 @@ int	cd(char **args, t_minishell *minishell)
 		free(tmp);
 	}
 	else
-			path = ft_strdup(args[1]);
+		path = ft_strdup(args[1]);
 	if(!chdir(path))
 	{
-		change_var_value(minishell->var_def, "OLDPWD", get_var_value(minishell->var_def, "PWD"));
+		cwd = get_var_value(minishell->var_def, "PWD");
+		change_var_value(minishell->var_def, "OLDPWD", cwd);
+		free(cwd);
 		cwd = getcwd(NULL, 0);
 		if (!cwd)
 		{
 			ft_putstr_fd("cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n", 2);
 			tmp = (get_var_value(minishell->var_def, "OLDPWD"));
-			change_var_value(minishell->var_def, "PWD", ft_strjoin(tmp, "/.."));
+			cwd = ft_strjoin(tmp, "./..");
 			free(tmp);
+			change_var_value(minishell->var_def, "PWD", cwd);
+			free(cwd);
 			free(path);
 			return (0);
 		}
 		else
+		{
 			change_var_value(minishell->var_def, "PWD", cwd);
+			free(cwd);
+		}
 		free(path);
 	}
 	else

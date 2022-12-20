@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 13:03:33 by mdemma            #+#    #+#             */
-/*   Updated: 2022/12/20 12:44:42 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/20 16:08:54 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*search_var_list_and_replace(char *value, t_minishell *minishell)
 	convertion = false;
 	new_value = NULL;
 	var_tmp = minishell->var_def;
-	printf("value a convertir = %s\n", value);
+	//printf("value a convertir = %s\n", value);
 	while (var_tmp)
 	{
 		if (ft_strcmp(value, var_tmp->name) == 0)

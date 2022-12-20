@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 11:01:37 by antoine           #+#    #+#             */
-/*   Updated: 2022/12/15 17:58:21 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/20 15:43:24 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	change_var_value(t_var *list, char *name, char *value)
 	if (tmp)
 	{
 		free(tmp->value);
-		tmp->value = value;
+		tmp->value = ft_strdup(value);
 		return (1);
 	}
 	return (0);
@@ -43,13 +43,20 @@ int	parsing_var_def(t_tree *branch)
 			if (tmp->e_tk_type == TK_EQUAL)
 			{
 				v = ft_split(tmp->value, '=');
-				v[1] = expander_convert(branch->minishell,
-						creating_expander_tree(v[1]));
+				if (!v[1])
+					v[1] = ft_strdup("");
+				else
+					v[1] = expander_convert(branch->minishell,
+							creating_expander_tree(v[1]));
 				if (change_var_value(branch->minishell->var_def, v[0], v[1]))
+				{
+					free_split_var(v);
 					return (1);
+				}
 				else
 					var_add_back(&branch->minishell->var_def,
 						var_init(ft_strdup(v[0]), ft_strdup(v[1]), false));
+				free_split_var(v);
 			}
 			tmp = tmp->next_token;
 		}

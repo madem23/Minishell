@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 13:06:48 by mdemma            #+#    #+#             */
-/*   Updated: 2022/12/08 17:48:47 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/20 15:42:16 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,11 @@ void	free_exit_final(t_minishell *minishell)
 	free_tab((void **)minishell->envp);
 	free(minishell);
 	exit(EXIT_SUCCESS);
+}
+
+void	free_split_var(char **v)
+{
+	free(v[0]);
+	free(v[1]);
+	free(v);
 }
