@@ -6,13 +6,13 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 15:52:28 by antoine           #+#    #+#             */
-/*   Updated: 2022/12/21 15:34:04 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/21 15:41:09 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
-void	error_retreiving(t_minishell *minishell)
+int	error_retreiving(t_minishell *minishell)
 {
 	char	*cwd;
 	char	*tmp;
@@ -25,6 +25,7 @@ void	error_retreiving(t_minishell *minishell)
 	free(tmp);
 	change_var_value(minishell->var_def, "PWD", cwd);
 	free(cwd);
+	return (0);
 }
 
 int	change_cwd(t_minishell *minishell)
@@ -38,10 +39,7 @@ int	change_cwd(t_minishell *minishell)
 	free(cwd);
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
-	{
-		error_retreiving(minishell);
-		return (0);
-	}
+		return (error_retreiving(minishell));
 	else
 	{
 		if (!change_var_value(minishell->var_def, "PWD", cwd))

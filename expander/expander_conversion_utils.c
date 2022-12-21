@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 13:03:33 by mdemma            #+#    #+#             */
-/*   Updated: 2022/12/21 13:04:48 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/21 16:20:06 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,9 @@
 
 char	*search_var_list_and_replace(char *value, t_minishell *minishell)
 {
-	bool	convertion;
 	char	*new_value;
 	t_var	*var_tmp;
 
-	convertion = false;
 	new_value = NULL;
 	var_tmp = minishell->var_def;
 	while (var_tmp)
@@ -29,11 +27,11 @@ char	*search_var_list_and_replace(char *value, t_minishell *minishell)
 		if (ft_strcmp(value, var_tmp->name) == 0)
 		{
 			new_value = ft_strdup(var_tmp->value);
-			convertion = true;
+			return (new_value);
 		}
 		var_tmp = var_tmp->next;
 	}
-	if (!var_tmp && convertion == false)
+	if (!var_tmp)
 		new_value = ft_strdup("");
 	return (new_value);
 }
