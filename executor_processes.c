@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_processes.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elpolpa <elpolpa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 12:50:08 by mdemma            #+#    #+#             */
-/*   Updated: 2022/12/09 16:36:13 by elpolpa          ###   ########.fr       */
+/*   Updated: 2022/12/21 13:08:13 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	exec_first_child(t_minishell *minishell, t_tree *branch, int **pipefd)
 
 	fd = check_redir_open_files(branch);
 	if (g_global.ambi_redir == true)
-		exit(EXIT_FAILURE); //LEAKS: rajouter les frees
+		exit(EXIT_FAILURE);
 	if (fd[0] > 0)
 		dup2(fd[0], STDIN_FILENO);
 	if (fd[1] > 0)
@@ -54,7 +54,7 @@ void	exec_last_child(t_minishell *minishell, t_tree *branch, int **pipefd)
 	cmd = branch->exec_args;
 	fd = check_redir_open_files(branch);
 	if (g_global.ambi_redir == true)
-		exit(EXIT_FAILURE); //LEAKS: rajouter les frees
+		exit(EXIT_FAILURE);
 	if (fd[0] > 0)
 		dup2(fd[0], STDIN_FILENO);
 	else if (branch->piped_input == true)
@@ -83,7 +83,7 @@ void	exec_interim_children(t_minishell *minishell, t_tree *branch,
 
 	fd = check_redir_open_files(branch);
 	if (g_global.ambi_redir == true)
-		exit(EXIT_FAILURE); //LEAKS: rajouter les frees
+		exit(EXIT_FAILURE);
 	if (fd[0] > 0)
 		dup2(fd[0], STDIN_FILENO);
 	else if (branch->piped_input == true)

@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 12:56:26 by anloisea          #+#    #+#             */
-/*   Updated: 2022/12/21 11:07:43 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/21 13:09:20 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ void	test_which_child_and_exec(t_minishell *minishell,
 int		executor(t_minishell *minishell);
 void	exec_parent(t_minishell *minishell, int **pipefd);
 int		*check_input_redir(t_tree *branch, int *fd, int *i);
-int	*check_output_append_redir(t_tree *branch, int *fd, int j, int i);
+int		*check_output_append_redir(t_tree *branch, int *fd, int j, int i);
 int		*check_output_redir(t_tree *branch, int *fd, int *j, int i);
 int		*check_redir_open_files(t_tree *branch);
 

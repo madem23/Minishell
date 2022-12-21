@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 13:03:01 by mdemma            #+#    #+#             */
-/*   Updated: 2022/12/21 10:18:49 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/21 13:05:50 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ t_expander_tree	*init_exp_subtree(int type, t_expander_tree *treetop,
 {
 	t_expander_tree	*subtree;
 
-	//printf("Creation subtree = %s, of type : %d\n", value, type);
 	subtree = malloc(sizeof(t_expander_tree));
 	if (!subtree)
 		error(1, "Failed to allocate parsing subtree\n");
@@ -49,8 +48,6 @@ void	create_exp_subtree(int *i, int *i_end,
 		type = DQUOTE;
 	if ((*i) - (*i_end) >= 2)
 	{
-		//if (*i_end == -1)
-		//	*i_end = 0;
 		(*cur_nod)->next_subtree = init_exp_subtree(WORD,
 				g_global.cur_exp_tree, ft_substr(g_global.cur_exp_tree->value,
 					*i_end + 1, (*i) - (*i_end) - 1));
@@ -63,7 +60,7 @@ void	create_exp_subtree(int *i, int *i_end,
 				g_global.cur_exp_tree, ft_substr(g_global.cur_exp_tree->value,
 					*i, ++(*i_end) + 1));
 		(*cur_nod) = (*cur_nod)->next_subtree;
-		*i_end += *i; 
+		*i_end += *i;
 		*i = (*i_end);
 	}
 }

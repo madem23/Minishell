@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elpolpa <elpolpa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 17:52:03 by mdemma            #+#    #+#             */
-/*   Updated: 2022/12/11 10:44:06 by elpolpa          ###   ########.fr       */
+/*   Updated: 2022/12/21 13:07:02 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,9 @@ int	count_unparsed_word(t_tree *branch)
 
 void	filling_cmd_tab_bis(t_tree *branch, int *i, t_token	*tmp)
 {
-	char **split;
-	int	j;
-	
+	char	**split;
+	int		j;
+
 	j = 0;
 	tmp->parsed = true;
 	if (tmp->e_tk_type == TK_DOLLAR && !ft_strcmp(tmp->value, ""))

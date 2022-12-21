@@ -6,7 +6,7 @@
 #    By: antoine <antoine@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/02 17:24:39 by anloisea          #+#    #+#              #
-#    Updated: 2022/11/26 14:20:23 by antoine          ###   ########.fr        #
+#    Updated: 2022/12/21 13:12:29 by antoine          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,6 +49,7 @@ SRCS		= 	main.c \
 				free_utils.c\
 				display_tmp.c\
 				envp.c\
+				is_functions.c
 
 				
 OBJS		=	${SRCS:.c=.o}
