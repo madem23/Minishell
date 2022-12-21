@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 10:25:12 by antoine           #+#    #+#             */
-/*   Updated: 2022/12/21 11:07:56 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/21 17:15:52 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 #include "../parser/parser.h"
 #include "../expander/expander.h"
 #include "../lexer/token.h"
-
-// A REVOIR POUR LES DECLARATIONS DE VARIABLE DANS EXPORT
 
 int	is_exportable(char *value)
 {

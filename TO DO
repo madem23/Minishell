@@ -1,4 +1,4 @@
-- verifier le cas du <>
+
 - delete history avant de exit ? (tout est free avant le last exit (parent process))
 - LEAKS: 
 	* rajouter minishell dans ft_exit.c pour pouvoir gerer les leaks a la sortie : (normalement pas besoin de free avant d'exit via le parent process)
@@ -14,12 +14,11 @@
 
 - return code apres redir
 
-- MANON : fork le finishing pipe comme heredoc ! pour SIGINT
-
 var="home = $HOME' --> leaks and result is: "\"home"
 same for var='home = $HOME'
 but var="home is $HOME" works, same with single quotes...
 also when "var=" then echo $var, leaks of 1 bytes due to expander ?
+====> solution: remplacer split par home made
 
 erreur avec only '<' ou '>'
 ==35473== Syscall param openat(filename) points to unaddressable byte(s)
@@ -36,3 +35,4 @@ erreur avec only '<' ou '>'
 Bad address
 
 must display: bash: syntax error near unexpected token `newline'
+
