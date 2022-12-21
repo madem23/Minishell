@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 11:01:37 by antoine           #+#    #+#             */
-/*   Updated: 2022/12/20 15:43:24 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/21 11:07:33 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,28 @@ int	parsing_var_def(t_tree *branch)
 		}
 	}
 	return (0);
+}
+
+void	create_var_entry_in_env(char *var_name, t_minishell *minishell)
+{
+	t_var	*tmp;
+
+	tmp = minishell->var_def;
+	while (tmp)
+	{
+		if (!ft_strcmp(var_name, tmp->name) && tmp->env == false)
+		{
+			tmp->env = true;
+			return ;
+		}
+		else if (!ft_strcmp(var_name, tmp->name) && tmp->env == true)
+			return ;
+		tmp = tmp->next;
+	}
+	if (!tmp)
+	{
+		var_add_back(&minishell->var_def,
+			var_init(ft_strdup(var_name),
+				ft_strdup(""), true));
+	}
 }

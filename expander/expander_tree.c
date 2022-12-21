@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 13:03:01 by mdemma            #+#    #+#             */
-/*   Updated: 2022/12/20 12:44:50 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/21 10:18:49 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_expander_tree	*init_exp_subtree(int type, t_expander_tree *treetop,
 {
 	t_expander_tree	*subtree;
 
-	printf("Creation subtree = %s, of type : %d\n", value, type);
+	//printf("Creation subtree = %s, of type : %d\n", value, type);
 	subtree = malloc(sizeof(t_expander_tree));
 	if (!subtree)
 		error(1, "Failed to allocate parsing subtree\n");

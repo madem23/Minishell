@@ -6,13 +6,13 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 11:21:51 by antoine           #+#    #+#             */
-/*   Updated: 2022/12/20 15:59:02 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/21 10:21:39 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
-int	look_for_intruder(char * str, char c)
+int	look_for_intruder(char *str, char c)
 {
 	int	i;
 
@@ -38,7 +38,7 @@ int	echo(char **args)
 	while (args[i] && !ft_strncmp(args[i], "-n", 2))
 	{
 		if (args[i + 1] && look_for_intruder(args[i] + 1, 'n'))
-			break;
+			break ;
 		i++;
 	}
 	while (args[i])

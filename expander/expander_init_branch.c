@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 17:32:31 by antoine           #+#    #+#             */
-/*   Updated: 2022/12/20 12:44:45 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/21 10:18:40 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_expander_tree	*init_branch(t_expander_tree *subtree, int type,
 {
 	t_expander_tree	*branch;
 
-	printf("Creation branch = %s, of type : %d\n", value, type);
+	//printf("Creation branch = %s, of type : %d\n", value, type);
 	branch = malloc(sizeof(t_expander_tree));
 	if (!branch)
 		error(1, "Failed to allocate branch\n");

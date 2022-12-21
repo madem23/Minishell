@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 12:56:26 by anloisea          #+#    #+#             */
-/*   Updated: 2022/12/20 15:42:24 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/21 11:07:43 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,7 @@ t_var	*var_list_init(char **envp);
 int		change_var_value(t_var *list, char *name, char *value);
 void	update_envp(t_minishell *minishell);
 char	*get_var_value(t_var *var_list, char *name);
+void	create_var_entry_in_env(char *var_name, t_minishell *minishell);
 
 //signals
 void	handler_sigint_child(int sig);
