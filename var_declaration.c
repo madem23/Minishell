@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 11:01:37 by antoine           #+#    #+#             */
-/*   Updated: 2022/12/21 11:07:33 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/21 13:34:50 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,31 @@ int	change_var_value(t_var *list, char *name, char *value)
 	return (0);
 }
 
+int	var_declaration(t_tree *branch, char *token_value)
+{
+	char	**v;
+
+	v = ft_split(token_value, '=');
+	if (!v[1])
+		v[1] = ft_strdup("");
+	else
+		v[1] = expander_convert(branch->minishell,
+				creating_expander_tree(v[1]));
+	if (change_var_value(branch->minishell->var_def, v[0], v[1]))
+	{
+		free_split_var(v);
+		return (0);
+	}
+	else
+		var_add_back(&branch->minishell->var_def,
+			var_init(ft_strdup(v[0]), ft_strdup(v[1]), false));
+	free_split_var(v);
+	return (1);
+}
+
 int	parsing_var_def(t_tree *branch)
 {	
 	t_token	*tmp;
-	char	**v;
 
 	tmp = branch->first_token;
 	if (!branch->exec_name && branch->piped_input == false
@@ -42,21 +63,8 @@ int	parsing_var_def(t_tree *branch)
 		{
 			if (tmp->e_tk_type == TK_EQUAL)
 			{
-				v = ft_split(tmp->value, '=');
-				if (!v[1])
-					v[1] = ft_strdup("");
-				else
-					v[1] = expander_convert(branch->minishell,
-							creating_expander_tree(v[1]));
-				if (change_var_value(branch->minishell->var_def, v[0], v[1]))
-				{
-					free_split_var(v);
+				if (!var_declaration(branch, tmp->value))
 					return (1);
-				}
-				else
-					var_add_back(&branch->minishell->var_def,
-						var_init(ft_strdup(v[0]), ft_strdup(v[1]), false));
-				free_split_var(v);
 			}
 			tmp = tmp->next_token;
 		}

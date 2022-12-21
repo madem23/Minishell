@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 11:21:51 by antoine           #+#    #+#             */
-/*   Updated: 2022/12/21 10:21:39 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/21 14:01:22 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ int	echo(char **args)
 		i++;
 	}
 	if (ft_strncmp(args[1], "-n", 2))
+		printf("\n");
+	if (!ft_strncmp(args[1], "-n", 2) && look_for_intruder(args[1] + 1, 'n'))
 		printf("\n");
 	return (0);
 }
