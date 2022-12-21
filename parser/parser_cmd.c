@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 17:52:03 by mdemma            #+#    #+#             */
-/*   Updated: 2022/12/21 13:07:02 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/21 16:49:45 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,11 @@ void	filling_cmd_tab_bis(t_tree *branch, int *i, t_token	*tmp)
 	j = 0;
 	tmp->parsed = true;
 	if (tmp->e_tk_type == TK_DOLLAR && !ft_strcmp(tmp->value, ""))
+	{
+		if (tmp->value)
+			free (tmp->value);
 		tmp->value = NULL;
+	}
 	else if (tmp->e_tk_type == TK_DOLLAR)
 	{
 		split = ft_split(tmp->value, ' ');
