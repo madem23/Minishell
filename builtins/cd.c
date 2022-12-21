@@ -6,36 +6,47 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 15:52:28 by antoine           #+#    #+#             */
-/*   Updated: 2022/12/21 12:58:05 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/21 15:34:04 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 
-int	change_cwd(t_minishell *minishell)
+void	error_retreiving(t_minishell *minishell)
 {
 	char	*cwd;
 	char	*tmp;
 
+	ft_putstr_fd("cd: error retrieving current directory: ", 2);
+	ft_putstr_fd("getcwd cannot access parent directories: ", 2);
+	ft_putstr_fd("No such file or directory\n", 2);
+	tmp = (get_var_value(minishell->var_def, "OLDPWD"));
+	cwd = ft_strjoin(tmp, "./..");
+	free(tmp);
+	change_var_value(minishell->var_def, "PWD", cwd);
+	free(cwd);
+}
+
+int	change_cwd(t_minishell *minishell)
+{
+	char	*cwd;
+
 	cwd = get_var_value(minishell->var_def, "PWD");
-	change_var_value(minishell->var_def, "OLDPWD", cwd);
+	if (cwd && !change_var_value(minishell->var_def, "OLDPWD", cwd))
+		var_add_back(&minishell->var_def,
+			var_init(ft_strdup("OLDPWD"), ft_strdup(cwd), true));
 	free(cwd);
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
 	{
-		ft_putstr_fd("cd: error retrieving current directory: ", 2);
-		ft_putstr_fd("getcwd cannot access parent directories: ", 2);
-		ft_putstr_fd("No such file or directory\n", 2);
-		tmp = (get_var_value(minishell->var_def, "OLDPWD"));
-		cwd = ft_strjoin(tmp, "./..");
-		free(tmp);
-		change_var_value(minishell->var_def, "PWD", cwd);
-		free(cwd);
+		error_retreiving(minishell);
 		return (0);
 	}
 	else
 	{
-		change_var_value(minishell->var_def, "PWD", cwd);
+		if (!change_var_value(minishell->var_def, "PWD", cwd))
+			var_add_back(&minishell->var_def,
+				var_init(ft_strdup("PWD"), ft_strdup(cwd), true));
 		free(cwd);
 	}
 	return (1);

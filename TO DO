@@ -1,15 +1,14 @@
-- verfier non mise a jour de lhistorique en cas de heredoc
 - verifier le cas du <>
-- delete history avant de exit ?
+- delete history avant de exit ? (tout est free avant le last exit (parent process))
 - LEAKS: 
-	* rajouter minishell dans ft_exit.c pour pouvoir gerer les leaks a la sortie :
+	* rajouter minishell dans ft_exit.c pour pouvoir gerer les leaks a la sortie : (normalement pas besoin de free avant d'exit via le parent process)
 		- check_redir_open_files (executor_processes.c:46), fd a free
 		- main (main.c:91), g_global.u a free
 		- get_prompt (utils.c:96), prompt a free
 		- init_minishell (main.c:62), minishell a free a chaque loop ? Non car variables
 		- minishell->envp
 		
-- voir modif dans ft_exit, rajout de free, verif code de sortie
+- voir modif dans ft_exit, rajout de free, verif code de sortie (<-- OK)
 
 - A NOTER, <> dealed as a <, no syntax error.
 
@@ -17,10 +16,23 @@
 
 - MANON : fork le finishing pipe comme heredoc ! pour SIGINT
 
-- Faire marcher CDPATH et nromer CD
-
-rajout des free en exit de child process ?
-
 var="home = $HOME' --> leaks and result is: "\"home"
 same for var='home = $HOME'
 but var="home is $HOME" works, same with single quotes...
+also when "var=" then echo $var, leaks of 1 bytes due to expander ?
+
+erreur avec only '<' ou '>'
+==35473== Syscall param openat(filename) points to unaddressable byte(s)
+==35473==    at 0x49BBD3B: open (open64.c:48)
+==35473==    by 0x10F4A1: check_input_redir (executor_redirections.c:29)
+==35473==    by 0x10FAAB: check_redir_open_files (executor_redirections.c:133)
+==35473==    by 0x10EB82: exec_first_child (executor_processes.c:23)
+==35473==    by 0x10E82D: test_which_child_and_exec (executor.c:22)
+==35473==    by 0x10E92C: exec_processes (executor.c:43)
+==35473==    by 0x10EB52: executor (executor.c:109)
+==35473==    by 0x109A76: main (main.c:178)
+==35473==  Address 0x0 is not stack'd, malloc'd or (recently) free'd
+==35473== 
+Bad address
+
+must display: bash: syntax error near unexpected token `newline'
