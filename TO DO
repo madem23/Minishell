@@ -20,3 +20,7 @@
 - Faire marcher CDPATH et nromer CD
 
 rajout des free en exit de child process ?
+
+var="home = $HOME' --> leaks and result is: "\"home"
+same for var='home = $HOME'
+but var="home is $HOME" works, same with single quotes...
