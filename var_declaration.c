@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 11:01:37 by antoine           #+#    #+#             */
-/*   Updated: 2022/12/21 13:34:50 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/22 10:03:12 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	var_declaration(t_tree *branch, char *token_value)
 {
 	char	**v;
 
-	v = ft_split(token_value, '=');
+	v = ft_trim_at_char(token_value, '=');
 	if (!v[1])
 		v[1] = ft_strdup("");
 	else

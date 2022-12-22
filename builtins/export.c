@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 10:25:12 by antoine           #+#    #+#             */
-/*   Updated: 2022/12/21 17:15:52 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/22 10:02:42 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	declare_variable(t_tree *branch, t_minishell *minishell, int i)
 {
 	char	**var_def;
 
-	var_def = ft_split(branch->exec_args[i], '=');
+	var_def = ft_trim_at_char(branch->exec_args[i], '=');
 	if (var_def[1])
 		var_def[1] = expander_convert(branch->minishell,
 				creating_expander_tree(var_def[1]));

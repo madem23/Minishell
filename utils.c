@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 11:15:19 by antoine           #+#    #+#             */
-/*   Updated: 2022/12/21 13:12:11 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/22 10:13:14 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,4 +71,32 @@ void	check_malloc(void *p)
 		printf("Error in allocating pointer.\n");
 		exit(EXIT_FAILURE);
 	}
+}
+
+char	**ft_trim_at_char(char *str, char c)
+{
+	char	**trim;
+	int		i;
+	int		j;
+
+	if (ft_strchr(str, c))
+		trim = malloc(sizeof(char *) * 3);
+	else
+		trim = malloc(sizeof(char *) * 2);
+	i = 0;
+	while (str[i] && str[i] != c)
+		i++;
+	trim[0] = ft_substr(str, 0, i);
+	if (!str[i] || (str[i] == '=' && !str[i + 1]))
+		trim[1] = NULL;
+	else
+	{
+		i++;
+		j = i;
+		while (str[i])
+			i++;
+		trim[1] = ft_substr(str, j, i - j);
+		trim[2] = NULL;
+	}
+	return (trim);
 }
