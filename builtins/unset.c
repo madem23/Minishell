@@ -6,37 +6,11 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 12:33:01 by antoine           #+#    #+#             */
-/*   Updated: 2022/12/08 17:48:47 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/22 11:29:56 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
-
-// char	**rmv_str_from_tab(char **envp, char *str)
-// {
-// 	int		i;
-// 	char	**new_env;
-
-// 	i = 0;
-// 	new_env = malloc(tab_len(envp) * sizeof(char *));
-// 	while (envp[i] && ft_strncmp(envp[i], str, ft_strlen(str)))
-// 	{
-// 		new_env[i] = ft_strdup(envp[i]);
-// 		free(envp[i]);
-// 		i++;
-// 	}
-// 	free(envp[i]);
-// 	i++;
-// 	while (envp[i])
-// 	{
-// 		new_env[i - 1] = ft_strdup(envp[i]);
-// 		free(envp[i]);
-// 		i++;
-// 	}
-// 	new_env[i - 1] = NULL;
-// 	free(envp);
-// 	return (new_env);
-// }
 
 void	rmv_var_from_list(t_var	**list, t_var *var)
 {
