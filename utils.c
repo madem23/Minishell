@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 11:15:19 by antoine           #+#    #+#             */
-/*   Updated: 2022/12/22 10:13:14 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/22 10:36:11 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,11 @@ char	*get_prompt(t_minishell *minishell)
 	current_dir = getcwd(NULL, 0);
 	if (!current_dir)
 		current_dir = get_var_value(minishell->var_def, "PWD");
+	if (!current_dir)
+		current_dir = ft_strdup(".");
 	color = ft_strjoin("\033[0;34m", current_dir);
 	free(current_dir);
-	prompt = ft_strjoin("\033[0;32mminishell: ", color);
+	prompt = ft_strjoin("\033[0;32mminishell:", color);
 	free(color);
 	tmp = prompt;
 	prompt = ft_strjoin(tmp, "$ \033[0m");

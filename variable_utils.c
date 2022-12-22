@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 13:02:07 by mdemma            #+#    #+#             */
-/*   Updated: 2022/12/20 12:45:09 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/22 10:44:27 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,11 @@ char	*get_var_value(t_var *var_list, char *name)
 	while (tmp)
 	{
 		if (!ft_strcmp(tmp->name, name))
+		{
+			if (tmp->value == NULL)
+				return (NULL);
 			value = ft_strdup(tmp->value);
+		}
 		tmp = tmp->next;
 	}
 	return (value);
