@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 12:10:57 by antoine           #+#    #+#             */
-/*   Updated: 2022/12/21 15:23:25 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/22 10:50:35 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,7 @@ int	pwd(t_minishell *minishell)
 			var_init(ft_strdup("PWD"), getcwd(NULL, 0), true));
 		buf = get_var_value(minishell->var_def, "PWD");
 		if (!buf)
-		{
-			ft_putstr_fd("minishell: pwd: not such file or directory\n", 2);
-			return (1);
-		}
+			buf = ft_strdup(".");
 	}
 	printf("%s\n", buf);
 	free(buf);

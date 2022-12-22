@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 12:56:26 by anloisea          #+#    #+#             */
-/*   Updated: 2022/12/21 13:09:20 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/22 10:02:28 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ t_tree	*get_branch(t_tree *treetop, unsigned int j);
 int		ft_strchrset(const char *s, char *charset);
 char	*malloc_string(int size);
 void	check_malloc(void *p);
+char	**ft_trim_at_char(char *str, char c);
 
 //free:
 void	free_parser(t_parser *parser);
