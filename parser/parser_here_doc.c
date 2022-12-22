@@ -6,17 +6,17 @@
 /*   By: elpolpa <elpolpa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 13:04:33 by mdemma            #+#    #+#             */
-/*   Updated: 2022/12/09 16:34:36 by elpolpa          ###   ########.fr       */
+/*   Updated: 2022/12/22 10:50:32 by elpolpa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 #include "../minishell.h"
 
-void	heredoc_syntax_error(char *s)
+int	heredoc_syntax_error(char *s)
 {
 	printf("minishell: syntax error near unexpected token '%s'\n", s);
-	exit(EXIT_FAILURE);
+	return (0);
 }
 
 int	find_last_heredoc(t_token *first_token, int end_index)
@@ -83,7 +83,7 @@ void	heredoc_parsing_sigint(t_token *tmp, int index_last)
 	}
 }
 
-int	heredoc_parsing(t_token *begin, int end_index, unsigned int nb)
+int	heredoc_parsing(t_token *begin, int end_index, unsigned int nb, int error_i)
 {
 	int		index_last;
 	t_token	*tmp;
@@ -95,10 +95,9 @@ int	heredoc_parsing(t_token *begin, int end_index, unsigned int nb)
 	index_last = find_last_heredoc(begin, end_index);
 	while (tmp && tmp->index < end_index)
 	{
-		if (tmp->e_tk_type == TK_DLOWER)
+		if (tmp->e_tk_type == TK_DLOWER && ((tmp->index < error_i && error_i > -2)
+				|| error_i == -2))
 		{
-			if (tmp->next_token->redir_token == true)
-				heredoc_syntax_error(tmp->next_token->value);
 			tmp->parsed = true;
 			tmp->next_token->parsed = true;
 			if (tmp->index == index_last)

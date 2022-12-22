@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   var_declaration.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: elpolpa <elpolpa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 11:01:37 by antoine           #+#    #+#             */
-/*   Updated: 2022/12/21 13:34:50 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/22 09:27:02 by elpolpa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,13 @@ int	change_var_value(t_var *list, char *name, char *value)
 int	var_declaration(t_tree *branch, char *token_value)
 {
 	char	**v;
+	int		n;
 
-	v = ft_split(token_value, '=');
+	v = malloc(sizeof(char *) * 3);
+	n = locate_char(token_value, '=');
+	v[0] = ft_substr(token_value, 0, n);
+	v[1] = ft_strdup(token_value + n + 1);
+	v[2] = NULL;
 	if (!v[1])
 		v[1] = ft_strdup("");
 	else

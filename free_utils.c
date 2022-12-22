@@ -6,7 +6,7 @@
 /*   By: elpolpa <elpolpa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 17:44:01 by antoine           #+#    #+#             */
-/*   Updated: 2022/12/10 10:17:07 by elpolpa          ###   ########.fr       */
+/*   Updated: 2022/12/22 10:34:07 by elpolpa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,12 @@ void	free_branch(t_tree *branch)
 		free(branch->exec_path);
 	if (branch->exec_name)
 		free(branch->exec_name);
-	free(branch->infiles);
-	free(branch->outfiles);
-	free(branch->outfiles_app);
+	if (branch->infiles)
+		free(branch->infiles);
+	if (branch->outfiles)
+		free(branch->outfiles);
+	if (branch->outfiles_app)
+		free(branch->outfiles_app);
 	free(branch);
 }
 

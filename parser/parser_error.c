@@ -6,7 +6,7 @@
 /*   By: elpolpa <elpolpa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 16:22:03 by elpolpa           #+#    #+#             */
-/*   Updated: 2022/12/09 16:22:05 by elpolpa          ###   ########.fr       */
+/*   Updated: 2022/12/22 10:06:07 by elpolpa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 
 void	error_syntax(char *value)
 {
+	if (!value)
+		value = "newline";
 	ft_putstr_fd("minishell: syntax error near unexpected token '", 2);
 	ft_putstr_fd(value, 2);
 	ft_putstr_fd("'\n", 2);

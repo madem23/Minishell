@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_tree.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: elpolpa <elpolpa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 15:24:44 by antoine           #+#    #+#             */
-/*   Updated: 2022/11/17 13:09:38 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/22 10:48:44 by elpolpa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ t_tree	*create_branch(t_token *begin, t_token *end, t_tree *treetop,
 	t_minishell *minishell)
 {
 	t_tree	*branch;
+	int		n;
 
 	branch = malloc(sizeof(t_tree));
 	if (!branch)
@@ -49,9 +50,12 @@ t_tree	*create_branch(t_token *begin, t_token *end, t_tree *treetop,
 	branch->envp = NULL;
 	get_pipe_info(branch, begin, end);
 	branch->end_index = end->index;
-	parsing_redir(branch);
+	branch->infiles = NULL;
+	branch->outfiles = NULL;
+	branch->outfiles_app = NULL;
+	n = parsing_redir(branch);
 	branch->here_doc = heredoc_parsing(begin, end->index,
-			count_tk(begin, end->index, TK_DLOWER));
+			count_tk(begin, end->index, TK_DLOWER), n);
 	parsing_cmd(branch);
 	parsing_var_def(branch);
 	return (branch);

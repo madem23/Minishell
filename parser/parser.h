@@ -6,7 +6,7 @@
 /*   By: elpolpa <elpolpa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 11:43:41 by antoine           #+#    #+#             */
-/*   Updated: 2022/12/10 10:17:07 by elpolpa          ###   ########.fr       */
+/*   Updated: 2022/12/22 10:44:37 by elpolpa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,10 +79,10 @@ unsigned int	count_tk(t_token *first_token, int end_index,
 					unsigned int type);
 void			parsing_cmd(t_tree *branch);
 int				count_unparsed_word(t_tree *branch);
-void			parsing_redir(t_tree *branch);
+int				parsing_redir(t_tree *branch);
 t_token			**filling_redir_files_tab(t_tree *branch, int size,
 					unsigned int type);
-int				heredoc_parsing(t_token *begin, int end_index, unsigned int nb);
+int				heredoc_parsing(t_token *begin, int end_index, unsigned int nb, int error_i);
 char			*remove_closed_quotes(char **tk_value, int *save,
 					int *i, char *s);
 char			*check_and_manage_closed_quotes(char **tk_value, int *save,

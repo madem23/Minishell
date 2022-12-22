@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: elpolpa <elpolpa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 11:32:55 by anloisea          #+#    #+#             */
-/*   Updated: 2022/12/20 12:44:54 by antoine          ###   ########.fr       */
+/*   Updated: 2022/12/22 10:31:32 by elpolpa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,10 +95,14 @@ int	check_finishing_pipe(char *s, t_minishell *minishell)
 		}
 		rest = readline("> ");
 		while (rest && !ft_strcmp(rest, ""))
+		{
+			free(rest);
 			rest = readline("> ");
+		}
 		if (!rest)
 		{
 			ft_putstr_fd("bash: syntax error: unexpected end of file\nexit\n", 2);
+			free(rest);
 			exit(2);
 		}
 		minishell->cmd_line = strcut_endl(minishell->cmd_line);
@@ -156,23 +160,30 @@ int main(int argc, char *argv[], char *envp[])
 				parser = parser_init(minishell->lexer, minishell);
 				minishell->parser = lexing_start(parser);
 				minishell->tree = parser_start(minishell->parser, minishell);
-				// //DISPLAY LEXER:
-				// t_parser *tmp = minishell->parser;
-				// while (tmp->first_token)
-				// {
-				// 	printf("Created token = '%s', type: %d, index: %d.\n", tmp->first_token->value, tmp->first_token->e_tk_type, tmp->first_token->index);
-				// 	printf("Parsed? %d\n", tmp->first_token->parsed);
-				// 	tmp->first_token = tmp->first_token->next_token;		
-				// }
-				// //DISPLAY TREE:
-				// display_tree(minishell->tree);
+					// //DISPLAY LEXER:
+					// t_parser *tmp = minishell->parser;
+					// while (tmp->first_token)
+					// {
+					// 	printf("Created token = '%s', type: %d, index: %d.\n", tmp->first_token->value, tmp->first_token->e_tk_type, tmp->first_token->index);
+					// 	printf("Parsed? %d\n", tmp->first_token->parsed);
+					// 	tmp->first_token = tmp->first_token->next_token;		
+					// }
+					// //DISPLAY TREE:
+					// display_tree(minishell->tree);
 			}
 			if (g_global.error_parsing == false && check_finishing_pipe(minishell->cmd_line, minishell))
+			{	
+				free_tree(parser->treetop);
+				free_parser(parser);
+				free(g_global.u);
 				g_global.new_cmdline = true;
+			}
 			else if (g_global.error_parsing == true)
 			{
-				//mettre les free
 				g_global.error_parsing = false;
+				free_tree(parser->treetop);
+				free_parser(parser);
+				free(g_global.u);
 			}
 			else
 				executor(minishell);
