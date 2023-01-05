@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: anloisea <anloisea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 15:52:28 by antoine           #+#    #+#             */
-/*   Updated: 2022/12/21 15:41:09 by antoine          ###   ########.fr       */
+/*   Updated: 2023/01/05 12:52:17 by anloisea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ int	cd(char **args, t_minishell *minishell)
 	char	*path;
 	int		exit;
 
+	exit = 0;
 	if (tab_len(args) > 2)
 	{
 		ft_putstr_fd("minishell: cd: too many arguments\n", 2);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_redirections.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elpolpa <elpolpa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: anloisea <anloisea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 17:52:25 by mdemma            #+#    #+#             */
-/*   Updated: 2022/12/22 10:37:39 by elpolpa          ###   ########.fr       */
+/*   Updated: 2023/01/05 14:32:30 by anloisea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,6 @@ t_token	**filling_redir_files_tab(t_tree *branch, int size, unsigned int type)
 		{
 			tmp->parsed = true;
 			tmp = tmp->next_token;
-			// if (tmp->e_tk_type == TK_LOWER || tmp->e_tk_type == TK_GREATER
-			// 	|| tmp->e_tk_type == TK_DGREATER || tmp->e_tk_type == TK_PIPE
-			// 	|| tmp->e_tk_type == TK_EOC)
-			// 	error_syntax(tmp->value);
 			tmp->parsed = true;
 			tab[i++] = tmp;
 		}
@@ -49,7 +45,7 @@ t_token	**filling_redir_files_tab(t_tree *branch, int size, unsigned int type)
 int	check_error_redir(t_tree *branch)
 {
 	t_token	*tmp;
-	
+
 	tmp = branch->first_token;
 	while (tmp && tmp->index <= branch->end_index)
 	{
@@ -70,15 +66,20 @@ int	check_error_redir(t_tree *branch)
 	return (-2);
 }
 
+void	init_branch_redir(t_tree *branch)
+{
+	branch->nb_infiles = 0;
+	branch->nb_outfiles = 0;
+	branch->nb_outfiles_app = 0;
+}
+
 int	parsing_redir(t_tree *branch)
 {
 	t_token	*tmp;
 	int		n;
 
 	tmp = branch->first_token;
-	branch->nb_infiles = 0;
-	branch->nb_outfiles = 0;
-	branch->nb_outfiles_app = 0;
+	init_branch_redir(branch);
 	while (tmp && tmp->index <= branch->end_index)
 	{
 		if (tmp->e_tk_type == TK_LOWER)

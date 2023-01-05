@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: antoine <antoine@student.42.fr>            +#+  +:+       +#+         #
+#    By: anloisea <anloisea@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/02 17:24:39 by anloisea          #+#    #+#              #
-#    Updated: 2022/12/21 13:12:29 by antoine          ###   ########.fr        #
+#    Updated: 2023/01/05 14:55:28 by anloisea         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,13 +49,15 @@ SRCS		= 	main.c \
 				free_utils.c\
 				display_tmp.c\
 				envp.c\
-				is_functions.c
+				is_functions.c \
+				signals.c \
+				check_pipe.c
 
 				
 OBJS		=	${SRCS:.c=.o}
 
-CFLAGS		= -Wall -Wextra -Werror -I/Users/mdemma/.brew/Cellar/readline/8.2.1/include
-IFLAGS		= -L/Users/mdemma/.brew/Cellar/readline/8.2.1/lib -lreadline
+CFLAGS		= -Wall -Wextra -Werror -I/Users/$(USER)/.brew/Cellar/readline/8.2.1/include
+IFLAGS		= -L/Users/$(USER)/.brew/Cellar/readline/8.2.1/lib -lreadline
 CC			= 	gcc			
 LIB			= 	libft/libft.a
 

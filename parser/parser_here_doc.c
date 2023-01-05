@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_here_doc.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elpolpa <elpolpa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: anloisea <anloisea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 13:04:33 by mdemma            #+#    #+#             */
-/*   Updated: 2022/12/22 10:50:32 by elpolpa          ###   ########.fr       */
+/*   Updated: 2023/01/05 14:27:55 by anloisea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,8 @@ void	heredoc_parsing_sigint(t_token *tmp, int index_last)
 	}
 }
 
-int	heredoc_parsing(t_token *begin, int end_index, unsigned int nb, int error_i)
+int	heredoc_parsing(t_token *begin, int end_index, \
+					unsigned int nb, int error_i)
 {
 	int		index_last;
 	t_token	*tmp;
@@ -95,7 +96,8 @@ int	heredoc_parsing(t_token *begin, int end_index, unsigned int nb, int error_i)
 	index_last = find_last_heredoc(begin, end_index);
 	while (tmp && tmp->index < end_index)
 	{
-		if (tmp->e_tk_type == TK_DLOWER && ((tmp->index < error_i && error_i > -2)
+		if (tmp->e_tk_type == TK_DLOWER && \
+			((tmp->index < error_i && error_i > -2)
 				|| error_i == -2))
 		{
 			tmp->parsed = true;

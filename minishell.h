@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: anloisea <anloisea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 12:56:26 by anloisea          #+#    #+#             */
-/*   Updated: 2022/12/22 10:02:28 by antoine          ###   ########.fr       */
+/*   Updated: 2023/01/05 15:18:29 by anloisea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ void	free_tab(void **tab);
 void	free_end_executor(t_minishell *minishell, int **pipefd);
 void	free_tokens(t_parser *parser);
 void	free_split_var(char **v);
+void	free_tree_and_parser(t_parser *parser);
 
 //error:
 void	error_too_many_pipes(t_minishell *minishell);
@@ -145,5 +146,9 @@ void	create_var_entry_in_env(char *var_name, t_minishell *minishell);
 void	handler_sigint_child(int sig);
 void	handler_sigint_main(int sig);
 void	handler_sigint_heredoc(int sig);
+
+//pipes
+int		check_beginning_pipe(char *s);
+int		check_finishing_pipe(char *s, t_minishell *minishell);
 
 #endif

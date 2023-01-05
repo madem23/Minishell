@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: anloisea <anloisea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 13:06:48 by mdemma            #+#    #+#             */
-/*   Updated: 2022/12/21 14:03:11 by antoine          ###   ########.fr       */
+/*   Updated: 2023/01/05 15:17:01 by anloisea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,11 @@ void	free_split_var(char **v)
 	free(v[0]);
 	free(v[1]);
 	free(v);
+}
+
+void	free_tree_and_parser(t_parser *parser)
+{
+	free_tree(parser->treetop);
+	free_parser(parser);
+	free(g_global.u);
 }
