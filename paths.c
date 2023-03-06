@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   paths.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: elpolpa <elpolpa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 16:23:17 by antoine           #+#    #+#             */
-/*   Updated: 2022/12/15 14:45:42 by antoine          ###   ########.fr       */
+/*   Updated: 2023/03/06 17:31:03 by elpolpa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ char	*check_exec_paths(char **paths, char *exec_called)
 	int		i;
 	char	*full_exec_path;
 
+	if (access(exec_called, F_OK) == 0)
+		return (ft_strdup(exec_called));
 	if (!exec_called)
 		return (NULL);
 	i = 0;

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: anloisea <anloisea@student.42.fr>          +#+  +:+       +#+         #
+#    By: elpolpa <elpolpa@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/02 17:24:39 by anloisea          #+#    #+#              #
-#    Updated: 2023/01/05 14:55:28 by anloisea         ###   ########.fr        #
+#    Updated: 2023/03/06 17:26:49 by elpolpa          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,17 +52,16 @@ SRCS		= 	main.c \
 				is_functions.c \
 				signals.c \
 				check_pipe.c
-
 				
 OBJS		=	${SRCS:.c=.o}
 
-CFLAGS		= -Wall -Wextra -Werror -I/Users/$(USER)/.brew/Cellar/readline/8.2.1/include
-IFLAGS		= -L/Users/$(USER)/.brew/Cellar/readline/8.2.1/lib -lreadline
+CFLAGS		= -Wall -Wextra -Werror -I/Users/mdemma/.brew/Cellar/readline/8.2.1/include
+IFLAGS		= -L/Users/mdemma/.brew/Cellar/readline/8.2.1/lib -lreadline
 CC			= 	gcc			
 LIB			= 	libft/libft.a
 
 .c.o:
-	${CC} ${CFLAGS} -c $< -o ${<:.c=.o} -g 
+	@${CC} ${CFLAGS} -c $< -o ${<:.c=.o} -g 
 
 all:		${LIB} ${NAME}
 
@@ -70,16 +69,16 @@ ${LIB}:
 			@make all -sC ./libft
 
 ${NAME}:	${LIB}	${OBJS}
-			${CC} ${CFLAGS} ${OBJS} -L./libft -lft -o ${NAME} ${IFLAGS}
-			@echo "\033[92mminishell compiled successfully\033[0m"
+			@${CC} ${CFLAGS} ${OBJS} -L./libft -lft -o ${NAME} ${IFLAGS}
+			@echo "\033[92m$(NAME) compiled successfully\033[0m"
 
 clean:
 			@make clean -sC ./libft
-			rm -rf ${OBJS}
+			@rm -rf ${OBJS}
 
 fclean:		clean
 			@make fclean -sC ./libft
-			rm -rf ${NAME} ${LIB}
+			@rm -rf ${NAME} ${LIB}
 
 re:			fclean all
 

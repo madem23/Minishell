@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: antoine <antoine@student.42.fr>            +#+  +:+       +#+         #
+#    By: elpolpa <elpolpa@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/01 17:42:34 by anloisea          #+#    #+#              #
-#    Updated: 2022/11/17 11:59:18 by antoine          ###   ########.fr        #
+#    Updated: 2023/03/06 17:25:47 by elpolpa          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,8 +21,6 @@ SRCS 	= ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c ft_isprint.c ft_strl
 		  ft_lstsize_bonus.c ft_lstlast_bonus.c ft_lstadd_back_bonus.c ft_lstdelone_bonus.c ft_lstclear_bonus.c ft_lstiter_bonus.c \
 		  get_next_line.c get_next_line_utils.c ft_display_tab.c tab_len.c cut_endl.c ft_isspace.c ft_strcmp.c ft_strcat.c\
 		  locate_char.c ft_strchrset.c ft_tabdup.c strcut_endl.c\
-
-BOBJS = ${BONUS:.c=.o}
 
 OBJS 	= ${SRCS:.c=.o}
 
